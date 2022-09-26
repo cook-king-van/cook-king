@@ -1,10 +1,17 @@
 import './App.css';
-import Button from '@mui/material/Button';
+import { Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
-function App() {
+const App = () => {
   return (
-    <Button variant='contained'>Hello</Button>
+    <Routes>
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route path='/' element={<LandingPage />} />
+    </Routes>
   );
-}
+};
 
 export default App;
