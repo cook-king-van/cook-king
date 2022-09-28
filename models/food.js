@@ -2,13 +2,13 @@ import mongoose, { Schema } from 'mongoose';
 var Cooking = new Schema({
   order: {
     type: Number,
-    default: 0
+    default: 0,
   },
   description: {
     type: String,
-    default: '',
+    default: "",
   },
-  image: {
+  cookingImage: {
     type: Buffer,
   },
   create_at: {
@@ -18,46 +18,51 @@ var Cooking = new Schema({
   },
   update_at: {
     type: Date,
-    requried: true,
+    required: true,
     default: () => Date.now(),
   },
 });
 var Food = new Schema({
-  user_id: {
+  userId: {
     type: Schema.type.ObjectId,
-    ref: 'User'
+    ref: "User",
   },
-  categories_id: {
+  categoriesId: {
     type: [Schema.type.ObjectId],
-    ref: 'Categories'
+    ref: "Categories",
   }, //N:M relation
-  food_name: {
+  foodName: {
     type: String,
-    requried: true
+    required: true,
   },
   tag: {
-    type: [String], unique: true,
-    default: undefined
+    type: [String],
+    unique: true,
+    default: undefined,
   },
   size: {
     type: Number,
-    requried: ture
+    required: true,
   },
   time: {
     type: Number,
-    requried: ture
+    required: true,
   },
   ingredient: {
     type: [String],
-    unique: true, default: undefined
+    unique: true,
+    default: undefined,
   },
-  food_media: { type: [String] },
+  foodMedia: {
+    type: [String],
+  },
   option: {
     type: String,
-    ref: 'Option', default: 'none'
+    ref: "Option",
+    default: "none",
   },
-  image: {
-    type: Buffer
+  foodImage: {
+    type: Buffer,
   },
   steps: {
     type: [Cooking],
@@ -66,12 +71,12 @@ var Food = new Schema({
   create_at: {
     type: Date,
     required: true,
-    default: () => Date.now()
+    default: () => Date.now(),
   },
   update_at: {
     type: Date,
-    requried: true,
-    default: () => Date.now()
+    required: true,
+    default: () => Date.now(),
   },
 });
-module.exports = mongoose.model('Food', Food);
+module.exports = mongoose.model("Food", Food);
