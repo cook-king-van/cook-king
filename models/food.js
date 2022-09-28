@@ -6,17 +6,17 @@ var Cooking = new Schema({
   },
   description: {
     type: String,
-    default: "",
+    default: '',
   },
   cookingImage: {
     type: Buffer,
   },
-  create_at: {
+  createdAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
   },
-  update_at: {
+  updatedAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
@@ -25,11 +25,11 @@ var Cooking = new Schema({
 var Food = new Schema({
   userId: {
     type: Schema.type.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   categoriesId: {
     type: [Schema.type.ObjectId],
-    ref: "Categories",
+    ref: 'Categories',
   }, //N:M relation
   foodName: {
     type: String,
@@ -58,8 +58,8 @@ var Food = new Schema({
   },
   option: {
     type: String,
-    ref: "Option",
-    default: "none",
+    ref: 'Option',
+    default: 'none',
   },
   foodImage: {
     type: Buffer,
@@ -68,15 +68,15 @@ var Food = new Schema({
     type: [Cooking],
     default: undefined,
   },
-  create_at: {
+  createdAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
   },
-  update_at: {
+  updatedAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
   },
 });
-module.exports = mongoose.model("Food", Food);
+module.exports = mongoose.model('Food', Food);

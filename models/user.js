@@ -17,17 +17,17 @@ var User = new Schema({
   },
   description: {
     type: String,
-    default: "",
+    default: '',
   },
   likeFood: {
     type: [Schema.type.ObjectId],
-    ref: "Food",
+    ref: 'Food',
     default: undefined,
   }, //1:N relation
-  create_at: {
+  createdAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
   },
 });
-module.exports = mongoose.model("User", User);
+module.exports = mongoose.model('User', User);
