@@ -7,11 +7,26 @@
   display: flex;
   width: 100%;
   align-items: center;
+  border-bottom: 1px solid black;
 }
 
-.logo {
-  position: relative;
+.pencil {
+  max-width: 50px;
+  justify-content: center;
+  align-items: center;
 }
+
+.pencil:hover, .user:hover, .search_image:hover  {
+  cursor: pointer;
+}
+
+.user {
+  max-height: 65px;
+  justify-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
 .search_bar {
   display: flex;
   flex-direction: row;
@@ -31,4 +46,15 @@ input.bar {
   width: 100px;
   padding: 15px;
   font-size: medium;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.interface {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30px;
 }
