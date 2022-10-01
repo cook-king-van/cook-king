@@ -7,9 +7,9 @@ const RegisterPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        <img src={logo} alt='Logo' className={styles.logo} />
-        <p className={styles.authTitle}>REGISTER</p>
-        <form>
+        <div className={styles.authForm}>
+          <img src={logo} alt='Logo' className={styles.logo} />
+          <p className={styles.authTitle}>REGISTER</p>
           <label className={styles.email} htmlFor='email'>
             EMAIL
           </label>
@@ -33,10 +33,10 @@ const RegisterPage = () => {
           <button type='submit' className={styles.authButton}>
             REGISTER
           </button>
-        </form>
-        <a className={styles.accountMsg} href='/login'>
-          Already have an account ? <u>Sign In</u>
-        </a>
+          <a className={styles.accountMsg} href='/login'>
+            Already have an account ? <u>Sign In</u>
+          </a>
+        </div>
       </div>
     </div>
   );
