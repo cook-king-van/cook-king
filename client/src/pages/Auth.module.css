@@ -20,7 +20,6 @@
   justify-content: center;
   text-align: center;
   height: 100%;
-  overflow-y: scroll;
 }
 
 .logo {
@@ -31,11 +30,11 @@
 .authTitle {
   color: var(--primaryColor);
   font-style: normal;
-  font-size: 35px;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 25px;
   line-height: 61px;
   margin: 10px 25px;
-  letter-spacing: 15px;
+  letter-spacing: 9px;
 }
 
 .authForm {
@@ -74,7 +73,7 @@
   align-self: flex-start;
   color: var(--primaryColor);
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
   line-height: 36px;
   margin: 20px 10px 10px 5px;
@@ -107,4 +106,38 @@
 
 .pwdForgotMsg {
   padding: 15px 0;
+}
+
+.recoveryBtn {
+  background: var(--primaryColor);
+  color: #fff;
+  padding: 3px 60px;
+  margin: 30px 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  align-self: flex-end;
+  line-height: 36px;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.recoveryBtn:hover {
+  background: var(--secondaryColor);
+}
+
+.recoveryBottom {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.recoveryMsg {
+  padding: 3px;
+  margin-top: 40px;
+  letter-spacing: 0.9px;
+  font-weight: 500;
 }

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import AuthButton from '../components/AuthButton';
+import AuthInputs from '../components/AuthInputs';
+
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
 
@@ -9,22 +12,9 @@ const LoginPage = () => {
       <div className={styles.container}>
         <div className={styles.authForm}>
           <img src={logo} alt='Logo' className={styles.logo} />
-          <p className={styles.authTitle}>LOGIN</p>
-          <label className={styles.email} htmlFor='email'>
-            EMAIL
-          </label>
-          <input type='email' name='email' className={styles.authInputs} />
-          <label className={styles.password} htmlFor='password'>
-            PASSWORD
-          </label>
-          <input
-            type='password'
-            name='passwordcheck'
-            className={styles.authInputs}
-          />
-          <button type='submit' className={styles.authButton}>
-            LOGIN
-          </button>
+          <AuthInputs title='email' />
+          <AuthInputs title='password' />
+          <AuthButton title='LOGIN' />
           <a className={styles.accountMsg} href='/register'>
             Don't have an account ? <u>Sign Up</u>
           </a>
