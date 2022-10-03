@@ -1,9 +1,8 @@
-import React from 'react';
-
 import styles from '../pages/Auth.module.css';
 
 const AuthInputs = (props) => {
-  const { title, type } = props;
+  const { title, type, value, onChange } = props;
+
   return (
     <>
       <label className={styles.email} htmlFor={title}>
@@ -12,6 +11,8 @@ const AuthInputs = (props) => {
       <input
         type={type ? type : title}
         name={title}
+        value={value}
+        onChange={onChange}
         className={styles.authInputs}
       />
     </>
