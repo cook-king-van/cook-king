@@ -43,7 +43,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: auto;
+  height: 100vh;
   padding: 20px;
   margin: 20px;
 }
@@ -52,7 +52,8 @@
   background: var(--primaryColor);
   color: #fff;
   padding: 3px 150px;
-  margin: 30px 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
   font-style: normal;
   font-weight: 700;
   font-size: 17px;
@@ -90,7 +91,7 @@
   font-size: 20px;
   text-indent: 7px;
   border: none;
-  color: var(--primaryDarkColor);
+  color: var(--brownColor);
 }
 
 .authInputs:focus {
@@ -102,10 +103,6 @@
   color: var(--brownColor);
   cursor: pointer;
   text-decoration: none;
-}
-
-.pwdForgotMsg {
-  padding: 15px 0;
 }
 
 .recoveryBtn {
@@ -140,4 +137,80 @@
   margin-top: 40px;
   letter-spacing: 0.9px;
   font-weight: 500;
+}
+
+.staySignIn {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px 0 10px 5px;
+  color: var(--brownColor);
+}
+
+.checkboxLabel {
+  display: block;
+  position: relative;
+  margin-left: -5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.checkboxLabel input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  margin-right: 8px;
+  border: solid var(--primaryColor);
+  border-radius: 5px;
+}
+
+.checkboxLabel {
+  display: flex;
+}
+
+.checkboxLabel:hover input ~ .checkmark {
+  background-color: #ccc;
+  margin-right: 8px;
+}
+
+.checkboxLabel input:checked ~ .checkmark {
+  background-color: var(--brownBackgroundColor);
+  border: 1px solid var(--brownColor);
+  margin-right: 8px;
+}
+
+.checkmark:after {
+  content: "";
+  position: relative;
+  display: none;
+  margin-right: 8px;
+}
+
+.checkboxLabel input:checked ~ .checkmark:after {
+  display: block;
+  margin-right: 8px;
+}
+
+.checkboxLabel .checkmark:after {
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-right: 8px;
 }

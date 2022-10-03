@@ -14,14 +14,21 @@ const LoginPage = () => {
           <img src={logo} alt='Logo' className={styles.logo} />
           <AuthInputs title='email' />
           <AuthInputs title='password' />
+          <div className={styles.staySignIn}>
+            <label className={styles.checkboxLabel}>
+              <input type='checkbox' className={styles.checkbox} />
+              <span className={styles.checkmark}></span>
+              <p>Remember me</p>
+            </label>
+            <a
+              className={`${styles.pwdForgotMsg} ${styles.accountMsg}`}
+              href='/login-recovery'>
+              Forgot password ?
+            </a>
+          </div>
           <AuthButton title='LOGIN' />
           <a className={styles.accountMsg} href='/register'>
             Don't have an account ? <u>Sign Up</u>
-          </a>
-          <a
-            className={`${styles.pwdForgotMsg} ${styles.accountMsg}`}
-            href='/login-recovery'>
-            <u>Forgot Your Password ?</u>
           </a>
         </div>
       </div>

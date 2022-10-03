@@ -13,7 +13,7 @@ const RegisterPage = () => {
           <img src={logo} alt='Logo' className={styles.logo} />
           <AuthInputs title='email' />
           <AuthInputs title='password' />
-          <AuthInputs title='confirm password' />
+          <AuthInputs title='confirm password' type='password' />
           <AuthButton title='REGISTER' />
           <a className={styles.accountMsg} href='/login'>
             Already have an account ? <u>Sign In</u>

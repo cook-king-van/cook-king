@@ -3,13 +3,17 @@ import React from 'react';
 import styles from '../pages/Auth.module.css';
 
 const AuthInputs = (props) => {
-  const { title } = props;
+  const { title, type } = props;
   return (
     <>
       <label className={styles.email} htmlFor={title}>
         {title.toUpperCase()}
       </label>
-      <input type='email' name={title} className={styles.authInputs} />
+      <input
+        type={type ? type : title}
+        name={title}
+        className={styles.authInputs}
+      />
     </>
   );
 };
