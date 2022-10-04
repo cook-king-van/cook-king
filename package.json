@@ -21,8 +21,6 @@
   },
   "homepage": "https://github.com/cook-king-van/cook-king#readme",
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "colors": "^1.4.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
