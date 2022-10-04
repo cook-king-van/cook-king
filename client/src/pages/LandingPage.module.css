@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -16,12 +17,28 @@
   height: 120px;
   margin: 0 30px;
 }
+
+.logo:hover {
+  cursor: pointer;
+}
+
 .searchBar {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   margin: 0 30px;
+}
+
+.imageWrapper {
+    background-image: url("../images//Google\ Web\ Search.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.searchBth:hover {
+  cursor: pointer;
+  opacity: 0;
 }
 
 input.bar {
@@ -31,8 +48,21 @@ input.bar {
   line-height:150%;
 }
 
-.primaryBth {
+/* main color #759688 */
+.categoryBth {
+  background-color: #ffff;
+  border: none;
+  border-radius: 30px;
   width: 100px;
   padding: 15px;
   font-size: medium;
+  color: #6C5D53;
+}
+
+.categoryBth:hover {
+  cursor: pointer;
+}
+
+.interface {
+  margin: 0 50px;
 }
