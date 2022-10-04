@@ -92,6 +92,7 @@
   text-indent: 7px;
   border: none;
   color: var(--brownColor);
+  -webkit-text-fill-color: var(--brownColor);
 }
 
 .authInputs:focus {
@@ -213,4 +214,19 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
   margin-right: 8px;
+}
+
+.authMsg {
+  color: var(--buttonRedColor);
+  position: inline-block;
+}
+
+.authErrMsg {
+  position: absolute;
+  left: -20;
+  top: 40px;
+  text-align: center;
+  color: var(--dangerColor);
+  border: 1px solid var(--dangerColor);
+  background-color: rgba(212,120,120, 0.6) !important;
 }
