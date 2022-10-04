@@ -4,9 +4,9 @@ import axios from 'axios';
 
 import AuthButton from '../components/AuthButton';
 import AuthInputs from '../components/AuthInputs';
-
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
+import { Alert } from '@mui/material';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState();
+  const [error, setError] = useState('');
   const [isRemember, setIsRemember] = useState(false);
 
   useEffect(() => {
@@ -28,15 +29,35 @@ const LoginPage = () => {
     e.preventDefault();
     // send the username and password to the server
     const user = { email, password };
-    const response = await axios.post('http://{ourURL}/api/login', user);
+    axios.post('http://{ourURL}/api/login', user).then(
+      (res) => {
+        setUser(res.data);
+        // store the user in localStorage if checkbox is ticked
+        if (isRemember) localStorage.setItem('user', res.data);
+        else sessionStorage.setItem('user', res.data);
 
-    setUser(response.data);
-    // store the user in localStorage if checkbox is ticked
-    if (isRemember) localStorage.setItem('user', response.data);
-    else sessionStorage.setItem('user', response.data);
-
-    navigate('/');
+        navigate('/');
+      },
+      (err) => {
+        console.log('error! => ', err);
+        setError('Incorrect Email or Password.');
+      }
+    );
   };
+
+  const showAlert = (
+    <Alert
+      //uncomment if you don't want icon in your alert
+      // icon={false}
+      variant='outlined'
+      severity='error'
+      className={styles.authErrMsg}
+      onClose={() => {
+        setError('');
+      }}>
+      {error}
+    </Alert>
+  );
 
   //if user is already logged in , redirect to the main page
   if (user) {
@@ -46,6 +67,7 @@ const LoginPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
+        {error ? showAlert : ''}
         <form className={styles.authForm} onSubmit={handleSubmit}>
           <img src={logo} alt='Logo' className={styles.logo} />
           <AuthInputs
