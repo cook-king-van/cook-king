@@ -6,7 +6,7 @@ var User = new Schema({
   //   unique: true,
   //   required: true,
   // },
-  id: {
+  email: {
     type: String,
     unique: true,
     required: true,
@@ -20,7 +20,7 @@ var User = new Schema({
     default: '',
   },
   likeFood: {
-    type: [Schema.type.ObjectId],
+    type: [Schema.Types.ObjectId],
     ref: 'Food',
     default: undefined,
   }, //1:N relation
