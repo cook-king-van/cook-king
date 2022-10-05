@@ -1,0 +1,232 @@
+.screen {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.2) 100%,
+      rgba(255, 255, 255, 0.2) 100%
+    ),
+    url('../images/login_register.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100vh;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.logo {
+  width: 300px;
+  height: 110px;
+}
+
+.authTitle {
+  color: var(--primaryColor);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 61px;
+  margin: 10px 25px;
+  letter-spacing: 9px;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  padding: 20px;
+  margin: 20px;
+}
+
+.authButton {
+  background: var(--primaryColor);
+  color: #fff;
+  padding: 3px 150px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  text-align: center;
+  line-height: 36px;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.authButton:hover {
+  background: var(--secondaryColor);
+}
+
+.email,
+.password {
+  align-self: flex-start;
+  color: var(--primaryColor);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 36px;
+  margin: 20px 10px 10px 5px;
+  letter-spacing: 5px;
+  /* use this only when using <form></form> and delete align-self: flex start and add display: block */
+  /* text-align: start; */ 
+}
+
+.authInputs {
+  background: #f3f3f3;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 20px;
+  text-indent: 7px;
+  border: none;
+  color: var(--brownColor);
+  -webkit-text-fill-color: var(--brownColor);
+}
+
+.authInputs:focus {
+  outline: none;
+}
+
+.accountMsg {
+  display: block;
+  color: var(--brownColor);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.recoveryBtn {
+  background: var(--primaryColor);
+  color: #fff;
+  padding: 3px 60px;
+  margin: 30px 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  align-self: flex-end;
+  line-height: 36px;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.recoveryBtn:hover {
+  background: var(--secondaryColor);
+}
+
+.recoveryBottom {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.recoveryMsg {
+  padding: 3px;
+  margin-top: 40px;
+  letter-spacing: 0.9px;
+  font-weight: 500;
+}
+
+.staySignIn {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px 0 10px 5px;
+  color: var(--brownColor);
+}
+
+.checkboxLabel {
+  display: block;
+  position: relative;
+  margin-left: -5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.checkboxLabel input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  margin-right: 8px;
+  border: solid var(--primaryColor);
+  border-radius: 5px;
+}
+
+.checkboxLabel {
+  display: flex;
+}
+
+.checkboxLabel:hover input ~ .checkmark {
+  background-color: #ccc;
+  margin-right: 8px;
+}
+
+.checkboxLabel input:checked ~ .checkmark {
+  background-color: var(--brownBackgroundColor);
+  border: 1px solid var(--brownColor);
+  margin-right: 8px;
+}
+
+.checkmark:after {
+  content: "";
+  position: relative;
+  display: none;
+  margin-right: 8px;
+}
+
+.checkboxLabel input:checked ~ .checkmark:after {
+  display: block;
+  margin-right: 8px;
+}
+
+.checkboxLabel .checkmark:after {
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-right: 8px;
+}
+
+.authMsg {
+  color: var(--buttonRedColor);
+  position: inline-block;
+}
+
+.authErrMsg {
+  position: absolute;
+  left: -20;
+  top: 40px;
+  text-align: center;
+  color: var(--dangerColor);
+  border: 1px solid var(--dangerColor);
+  background-color: rgba(212,120,120, 0.6) !important;
+}
