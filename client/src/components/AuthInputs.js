@@ -9,7 +9,7 @@ const AuthInputs = (props) => {
         {title.toUpperCase()}
       </label>
       <input
-        type={type ? type : title}
+        type= {type ?? title}
         name={title}
         value={value}
         onChange={onChange}

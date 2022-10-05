@@ -54,7 +54,8 @@ const LoginPage = () => {
       className={styles.authErrMsg}
       onClose={() => {
         setError('');
-      }}>
+      }}
+    >
       {error}
     </Alert>
   );
@@ -67,7 +68,7 @@ const LoginPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {error ? showAlert : ''}
+        {error && showAlert}
         <form className={styles.authForm} onSubmit={handleSubmit}>
           <img src={logo} alt='Logo' className={styles.logo} />
           <AuthInputs
@@ -93,7 +94,8 @@ const LoginPage = () => {
             </label>
             <a
               className={`${styles.pwdForgotMsg} ${styles.accountMsg}`}
-              href='/login-recovery'>
+              href='/login-recovery'
+            >
               Forgot password ?
             </a>
           </div>
