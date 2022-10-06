@@ -49,7 +49,7 @@ input.bar {
 }
 
 /* main color #759688 */
-.categoryBth {
+/* .categoryBth {
   background-color: #ffff;
   border: none;
   border-radius: 30px;
@@ -57,11 +57,11 @@ input.bar {
   padding: 15px;
   font-size: medium;
   color: #6C5D53;
-}
+} */
 
-.categoryBth:hover {
+/* .categoryBth:hover {
   cursor: pointer;
-}
+} */
 
 .interface {
   margin: 0 50px;
