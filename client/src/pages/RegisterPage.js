@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
@@ -16,6 +17,8 @@ import {
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.users.loading);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,6 +89,61 @@ const RegisterPage = () => {
     </Alert>
   );
 
+  const loadingScreen = (
+    <>
+      <div className={styles.spinnerBeanEater}>
+        <div className={styles.innerSpinner}>
+          <div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <p>Loading . . .</p>
+    </>
+  );
+
+  const registerScreen = (
+    <form className={styles.authForm} onSubmit={handleSubmit}>
+      <img src={logo} alt='Logo' className={styles.logo} />
+      <AuthInputs
+        title='email'
+        value={email}
+        msg={errorMsg.email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      />
+      <AuthInputs
+        title='password'
+        value={password}
+        msg={errorMsg.password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
+      <AuthInputs
+        title='confirm password'
+        type='password'
+        value={passwordCheck}
+        msg={errorMsg.passwordCheck}
+        onChange={(e) => {
+          setPasswordCheck(e.target.value);
+        }}
+      />
+      <AuthButton title='REGISTER' />
+      <a className={styles.accountMsg} href='/login'>
+        Already have an account ? <u>Sign In</u>
+      </a>
+    </form>
+  );
+
   //if user is already logged in , redirect to the main page
   if (user) {
     <Navigate replace to='/' />;
@@ -99,38 +157,7 @@ const RegisterPage = () => {
           (errorMsg.passwordCheck &&
             showAlert('passwordCheck', errorMsg.passwordCheck)) ||
           ''}
-        <form className={styles.authForm} onSubmit={handleSubmit}>
-          <img src={logo} alt='Logo' className={styles.logo} />
-          <AuthInputs
-            title='email'
-            value={email}
-            msg={errorMsg.email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <AuthInputs
-            title='password'
-            value={password}
-            msg={errorMsg.password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <AuthInputs
-            title='confirm password'
-            type='password'
-            value={passwordCheck}
-            msg={errorMsg.passwordCheck}
-            onChange={(e) => {
-              setPasswordCheck(e.target.value);
-            }}
-          />
-          <AuthButton title='REGISTER' />
-          <a className={styles.accountMsg} href='/login'>
-            Already have an account ? <u>Sign In</u>
-          </a>
-        </form>
+        {loading ? loadingScreen : registerScreen}
       </div>
     </div>
   );
