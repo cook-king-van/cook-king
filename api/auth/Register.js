@@ -14,7 +14,7 @@ function Hash(data) {
     .createHash('sha256')
     .update(String(data) + process.env.HASH)
     .digest('hex');
-    return ret;
+  return ret;
 }
 
 const Register = async (req, res) => {
@@ -33,17 +33,18 @@ const Register = async (req, res) => {
     if (req.body.passwordconfirm !== req.body.password) {
       return res.status(402).json({
         status: 402,
-        message: `Password is not same as PasswordConfirm`,
+        message: `Passwords don't match`,
       });
     }
-      const User = require('../../models/user');
+    const User = require('../../models/user');
     const findUser = await User.findOne({
       email: req.body.email,
     });
-    if (findUser) {//If User already has signed up return error
+    if (findUser) {
+      //If User already has signed up return error
       return res.status(401).json({
         status: 401,
-        message: `User has existed`,
+        message: `User already exists`,
       });
     }
     await new User({
@@ -60,11 +61,10 @@ const Register = async (req, res) => {
     if (e.status === 403) {
       console.log(`Email Invalid`);
     } else if (e.status === 402) {
-      console.log(`Password is not same as PasswordConfirm`);
+      console.log(`Passwords don't match`);
+    } else if (e.status === 401) {
+      console.log(`User already exists`);
     }
-    else if (e.status === 401) {
-        console.log(`User has existed`);
-      }
   }
 };
 
