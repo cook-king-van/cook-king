@@ -49,7 +49,7 @@ input.bar {
 }
 
 /* main color #759688 */
-.categoryBth {
+.categoryButton {
   background-color: #ffff;
   border: none;
   border-radius: 30px;
@@ -59,7 +59,7 @@ input.bar {
   color: #6C5D53;
 }
 
-.categoryBth:hover {
+.categoryButton:hover {
   cursor: pointer;
 }
 

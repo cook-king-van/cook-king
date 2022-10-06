@@ -1,15 +1,15 @@
-import React from "react";
-import logo from "../images/logo.png";
-import search from "../images/Google Web Search (darker).png";
-import styles from "./LandingPage.module.css";
-import pencil from "../images/pencil.png";
-import maleUser from "../images/Male User.png";
+import React from 'react';
+import logo from '../images/logo.png';
+import search from '../images/Google Web Search (darker).png';
+import styles from './LandingPage.module.css';
+import pencil from '../images/pencil.png';
+import maleUser from '../images/Male User.png';
 
 const LandingPage = () => {
   return (
     <section className={styles.headerContainer}>
       <img src={logo} alt="logo" draggable="false" className={styles.logo} />
-      <button className={styles.categoryBth}>Category</button>
+      <button className={styles.categoryButton}>Category</button>
 
       <form action="submit" className={styles.searchBar}>
         <input type="text" placeholder="Search bar" className={styles.bar} />
