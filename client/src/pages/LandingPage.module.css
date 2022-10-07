@@ -1,0 +1,68 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.headerContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.logo {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  margin: 0 30px;
+}
+
+.logo:hover {
+  cursor: pointer;
+}
+
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0 30px;
+}
+
+.imageWrapper {
+    background-image: url("../images//Google\ Web\ Search.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.searchBth:hover {
+  cursor: pointer;
+  opacity: 0;
+}
+
+input.bar {
+  width: 40vw;
+  display:inline-block;
+  padding:15px 10px;
+  line-height:150%;
+}
+
+/* main color #759688 */
+.categoryButton {
+  background-color: #ffff;
+  border: none;
+  border-radius: 30px;
+  width: 100px;
+  padding: 15px;
+  font-size: medium;
+  color: #6C5D53;
+}
+
+.categoryButton:hover {
+  cursor: pointer;
+}
+
+.interface {
+  margin: 0 50px;
+}
