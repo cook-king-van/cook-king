@@ -1,4 +1,5 @@
 import { setValue, Token } from '../../config/redis';
+const User = require('../../models/user');
 function Hash(data) {
   const crypto = require('crypto');
   const ret = crypto
@@ -9,7 +10,6 @@ function Hash(data) {
 }
 const Login = async (req, res) => {
   try {
-    const User = require('../../models/user');
     var user = await User.findOne({
       email: req.body.email,
     });
@@ -19,6 +19,7 @@ const Login = async (req, res) => {
         message: `User does not exist`,
       });
     }
+    user = user.toObject();
     if (Hash(req.body.password) !== user.password) {
       //Hashing
       return res.status(402).json({
@@ -26,7 +27,7 @@ const Login = async (req, res) => {
         message: `Passwords don't match`,
       });
     }
-    delete user.password//except user password
+    delete user.password; //except user password
     const access = Token().Access(user);
     const refresh = Token().Refresh(user);
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
@@ -38,8 +39,7 @@ const Login = async (req, res) => {
   } catch (e) {
     if (e.status === 403) {
       console.log(`User does not exist`);
-    }
-    else if (e.status === 402) {
+    } else if (e.status === 402) {
       console.log(`Passwords don't match`);
     }
     console.log(e);
