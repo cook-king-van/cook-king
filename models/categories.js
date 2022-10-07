@@ -5,14 +5,14 @@ var Categories = new Schema({
     type: String,
   },
   foodList: {
-    type: [Schema.type.ObjectId],
+    type: [Schema.Types.ObjectId],
     ref: 'Food',
   },
 });
 
 var Option = new Schema({
   foodId: {
-    type: Schema.type.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Food',
   },
   type: String,
