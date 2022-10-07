@@ -8,14 +8,18 @@ const initialState = {
     : sessionStorage.getItem('user')
     ? JSON.parse(sessionStorage.getItem('user'))
     : null,
-  error: null,
+  error: '',
   bio: {},
+  isRemember: false,
 };
 
 const usersSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    updateIsRemember(state, action) {
+      state.isRemember = action.payload;
+    },
     userLoginLoading(state, action) {
       state.loading = true;
     },
@@ -31,6 +35,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.userInfo = null;
       state.error = null;
+      state.isRemember = false;
       state.bio = {};
     },
     userRegisterLoading(state, action) {
@@ -59,6 +64,17 @@ const usersSlice = createSlice({
       state.loading = false;
       state.bio = {};
     },
+    userUpdateLoading(state, action) {
+      state.loading = true;
+    },
+    userUpdateSuccess(state, action) {
+      state.loading = false;
+      state.bio = action.payload;
+    },
+    userUpdateFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -74,6 +90,10 @@ export const {
   userDetailsSuccess,
   userDetailsFailure,
   userDetailsReset,
+  userUpdateLoading,
+  userUpdateSuccess,
+  userUpdateFailure,
+  updateIsRemember,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -98,8 +118,13 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     dispatch(userLoginSuccess(data));
 
     // store the user in localStorage if checkbox is ticked
-    if (isRemember) localStorage.setItem('user', data);
-    else sessionStorage.setItem('user', data);
+    if (isRemember) {
+      dispatch(updateIsRemember(true));
+      localStorage.setItem('user', data);
+    } else {
+      dispatch(updateIsRemember(false));
+      sessionStorage.setItem('user', data);
+    }
   } catch (error) {
     dispatch(
       userLoginFailure(
@@ -113,47 +138,53 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('user');
+  sessionStorage.removeItem('user');
   dispatch(userLogout());
+  dispatch(updateIsRemember(false));
   document.location.href = '/login';
 };
 
-export const registerUser = (email, password) => async (dispatch) => {
-  try {
-    dispatch(userRegisterLoading());
+export function registerUser(email, password) {
+  return async function saveNewUserThunk(dispatch, getState) {
+    try {
+      dispatch(userRegisterLoading());
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
 
-    const { data } = await axios.post(
-      '/api/auth/register',
-      { email, password },
-      config
-    );
+      const { data } = await axios.post(
+        '/api/auth/register',
+        { email, password },
+        config
+      );
 
-    dispatch(userRegisterSuccess(data));
-    dispatch(userLoginSuccess(data));
+      dispatch(userRegisterSuccess(data));
+      dispatch(userLoginSuccess(data));
+      dispatch(updateIsRemember(false));
 
-    sessionStorage.setItem('user', JSON.stringify(data));
-  } catch (error) {
-    dispatch(
-      userRegisterFailure(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    );
-  }
-};
+      localStorage.removeItem('user');
+      sessionStorage.setItem('user', JSON.stringify(data));
+    } catch (error) {
+      dispatch(
+        userRegisterFailure(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+}
 
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch(userDetailsLoading());
 
     const {
-      userLogin: { userInfo },
+      users: { userInfo },
     } = getState();
 
     const config = {
@@ -162,7 +193,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/auth/users/${id}`, config);
+    const { data } = await axios.get(`/api/users/${id}`, config);
 
     dispatch(userDetailsSuccess(data));
   } catch (error) {
@@ -174,5 +205,41 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       dispatch(logout());
     }
     dispatch(userDetailsFailure(message));
+  }
+};
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch(userUpdateLoading());
+
+    const {
+      users: { userInfo, isRemember },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/users/${user.id}`, user, config);
+
+    dispatch(userUpdateSuccess(data));
+    dispatch(userLoginSuccess(data));
+    if (isRemember) {
+      localStorage.setItem('user', JSON.stringify(data));
+    } else {
+      sessionStorage.setItem('user', JSON.stringify(data));
+    }
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch(userUpdateFailure(message));
   }
 };

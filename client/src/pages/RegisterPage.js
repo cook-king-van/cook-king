@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Auth.module.css';
@@ -14,11 +13,15 @@ import {
   validatePassword,
   validatePasswordCheck,
 } from '../lib/authValidationUtils';
+import { registerUser } from '../features/users/userSlice';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.users.loading);
+  const currentError = useSelector((state) => state.users.error);
+  const currentUser = useSelector((state) => state.users.user);
+  const currentUserInfo = useSelector((state) => state.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +31,16 @@ const RegisterPage = () => {
     password: '',
     passwordCheck: '',
   });
+  const [errorFromBack, setErrorFromBack] = useState('');
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
+    const loggedInUserRemember = localStorage.getItem('user');
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUserRemember) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
@@ -65,14 +74,11 @@ const RegisterPage = () => {
     if (emailMsg !== '' || pwdMsg !== '' || pwdCheckMsg !== '') {
       return;
     }
-    // send the username and password for a new user to the server
-    const user = { email, password };
-    const response = await axios.post('http://{ourURL}/api/login', user);
-
-    setUser(response.data);
-    sessionStorage.setItem('user', response.data);
-
-    navigate('/');
+    dispatch(registerUser(email, password));
+    if (currentUserInfo) {
+      setUser(currentUser);
+    }
+    setErrorFromBack(currentError);
   };
 
   const showAlert = (type, msg) => (
@@ -83,7 +89,7 @@ const RegisterPage = () => {
       severity='error'
       className={styles.authErrMsg}
       onClose={() => {
-        setErrorMsg({ ...errorMsg, [type]: '' });
+        type ? setErrorMsg({ ...errorMsg, [type]: '' }) : setErrorFromBack(msg);
       }}>
       {msg}
     </Alert>
@@ -110,7 +116,7 @@ const RegisterPage = () => {
   );
 
   const registerScreen = (
-    <form className={styles.authForm} onSubmit={handleSubmit}>
+    <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className={styles.logo} />
       <AuthInputs
         title='email'
@@ -157,6 +163,7 @@ const RegisterPage = () => {
           (errorMsg.passwordCheck &&
             showAlert('passwordCheck', errorMsg.passwordCheck)) ||
           ''}
+        {errorFromBack ? showAlert(errorFromBack) : ''}
         {loading ? loadingScreen : registerScreen}
       </div>
     </div>

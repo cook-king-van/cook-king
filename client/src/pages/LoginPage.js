@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AuthButton from '../components/AuthButton';
@@ -8,14 +7,18 @@ import AuthInputs from '../components/AuthInputs';
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
 import { Alert } from '@mui/material';
+import { loginUser } from '../features/users/userSlice';
 
-import { registerUser } from '../actions/userActions';
+import { validateEmail, validatePassword } from '../lib/authValidationUtils';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.users.loading);
+  const currentError = useSelector((state) => state.users.error);
+  const currentUser = useSelector((state) => state.users.user);
+  const currentUserInfo = useSelector((state) => state.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,27 +27,46 @@ const LoginPage = () => {
   const [isRemember, setIsRemember] = useState(false);
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
+    const loggedInUserRemember = localStorage.getItem('user');
+    const loggedInUser = sessionStorage.getItem('user');
+    if (loggedInUserRemember) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
     }
   }, []);
 
+  const validationHandler = (key, value) => {
+    switch (key) {
+      case 'email':
+        return validateEmail(value);
+      case 'password':
+        return validatePassword(email, value);
+      default:
+        break;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // send the username and password to the server
-    dispatch(registerUser(email, password, isRemember));
-
-    axios.post('http://{ourURL}/api/login', user).then(
-      (res) => {
-        navigate('/');
-      },
-      (err) => {
-        console.log('error! => ', err);
-        setError('Incorrect Email or Password.');
-      }
-    );
+    const emailMsg = validationHandler('email', email);
+    setError(emailMsg);
+    if (emailMsg !== '') {
+      return;
+    }
+    const pwdMsg = validationHandler('password', password);
+    setError(pwdMsg);
+    if (pwdMsg !== '') {
+      return;
+    }
+    dispatch(loginUser(email, password, isRemember));
+    if (currentUserInfo) {
+      setUser(currentUser);
+    }
+    setError(currentError);
   };
 
   const showAlert = (
@@ -82,7 +104,7 @@ const LoginPage = () => {
   );
 
   const loginScreen = (
-    <form className={styles.authForm} onSubmit={handleSubmit}>
+    <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className={styles.logo} />
       <AuthInputs
         title='email'
