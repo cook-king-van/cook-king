@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
 import AuthButton from '../components/AuthButton';
 import AuthInputs from '../components/AuthInputs';
+import Spinner from '../components/Spinner';
 import { Alert } from '@mui/material';
 
 import {
@@ -16,7 +17,6 @@ import {
 import { registerUser } from '../features/users/userSlice';
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
@@ -95,26 +95,6 @@ const RegisterPage = () => {
     </Alert>
   );
 
-  const loadingScreen = (
-    <>
-      <div className={styles.spinnerBeanEater}>
-        <div className={styles.innerSpinner}>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-      <p>Loading . . .</p>
-    </>
-  );
-
   const registerScreen = (
     <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className={styles.logo} />
@@ -164,7 +144,7 @@ const RegisterPage = () => {
             showAlert('passwordCheck', errorMsg.passwordCheck)) ||
           ''}
         {errorFromBack ? showAlert(errorFromBack) : ''}
-        {loading ? loadingScreen : registerScreen}
+        {loading ? <Spinner /> : registerScreen}
       </div>
     </div>
   );

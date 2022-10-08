@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AuthButton from '../components/AuthButton';
 import AuthInputs from '../components/AuthInputs';
+import Spinner from '../components/Spinner';
 import styles from './Auth.module.css';
 import logo from '../images/logo.png';
 import { Alert } from '@mui/material';
@@ -12,7 +13,6 @@ import { loginUser } from '../features/users/userSlice';
 import { validateEmail, validatePassword } from '../lib/authValidationUtils';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.users.loading);
@@ -83,26 +83,6 @@ const LoginPage = () => {
     </Alert>
   );
 
-  const loadingScreen = (
-    <>
-      <div className={styles.spinnerBeanEater}>
-        <div className={styles.innerSpinner}>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-      <p>Loading . . .</p>
-    </>
-  );
-
   const loginScreen = (
     <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className={styles.logo} />
@@ -149,7 +129,7 @@ const LoginPage = () => {
     <div className={styles.screen}>
       <div className={styles.container}>
         {error && showAlert}
-        {loading ? loadingScreen : loginScreen}
+        {loading ? <Spinner /> : loginScreen}
       </div>
     </div>
   );
