@@ -144,7 +144,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login';
 };
 
-export function registerUser(email, password) {
+export function registerUser(email, password, passwordconfirm) {
   return async function saveNewUserThunk(dispatch, getState) {
     try {
       dispatch(userRegisterLoading());
@@ -157,7 +157,7 @@ export function registerUser(email, password) {
 
       const { data } = await axios.post(
         '/api/auth/register',
-        { email, password },
+        { email, password, passwordconfirm },
         config
       );
 
