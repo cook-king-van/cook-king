@@ -56,18 +56,20 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailMsg = validationHandler('email', email);
-    const pwdMsg = validationHandler('password', password);
-    const pwdCheckMsg = validationHandler('passwordcheck', passwordCheck);
     if (emailMsg !== '') {
       setErrorMsg(emailMsg);
       return;
     }
+
+    const pwdMsg = validationHandler('password', password);
     if (pwdMsg !== '') {
       setErrorMsg(pwdMsg);
       return;
     }
+
+    const pwdCheckMsg = validationHandler('passwordcheck', passwordCheck);
     if (pwdCheckMsg !== '') {
-      setErrorMsg(pwdMsg);
+      setErrorMsg(pwdCheckMsg);
       return;
     }
     dispatch(registerUser(email, password, passwordCheck));
