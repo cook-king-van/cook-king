@@ -29,12 +29,7 @@ const LoginPage = () => {
   useEffect(() => {
     const loggedInUserRemember = localStorage.getItem('user');
     const loggedInUser = sessionStorage.getItem('user');
-    if (loggedInUserRemember) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-      navigate('/');
-    }
-    if (loggedInUser) {
+    if (loggedInUserRemember || loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
       navigate('/');
