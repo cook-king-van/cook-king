@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Auth.module.css';
@@ -18,6 +18,7 @@ import { registerUser } from '../features/users/userSlice';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
   const currentUser = useSelector((state) => state.users.user);
@@ -26,13 +27,10 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [errorMsg, setErrorMsg] = useState({
-    email: '',
-    password: '',
-    passwordCheck: '',
-  });
-  const [errorFromBack, setErrorFromBack] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [user, setUser] = useState();
+
+  console.log('user', user);
 
   useEffect(() => {
     const loggedInUserRemember = localStorage.getItem('user');
@@ -40,12 +38,14 @@ const RegisterPage = () => {
     if (loggedInUserRemember) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
+      navigate('/');
     }
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
+      navigate('/');
     }
-  }, []);
+  }, [navigate, currentUser]);
 
   const validationHandler = (key, value) => {
     switch (key) {
@@ -65,33 +65,36 @@ const RegisterPage = () => {
     const emailMsg = validationHandler('email', email);
     const pwdMsg = validationHandler('password', password);
     const pwdCheckMsg = validationHandler('passwordcheck', passwordCheck);
-    setErrorMsg({
-      ...errorMsg,
-      email: emailMsg,
-      password: pwdMsg,
-      passwordCheck: pwdCheckMsg,
-    });
-    if (emailMsg !== '' || pwdMsg !== '' || pwdCheckMsg !== '') {
+    if (emailMsg !== '') {
+      setErrorMsg(emailMsg);
       return;
     }
-    dispatch(registerUser(email, password));
+    if (pwdMsg !== '') {
+      setErrorMsg(pwdMsg);
+      return;
+    }
+    if (pwdCheckMsg !== '') {
+      setErrorMsg(pwdMsg);
+      return;
+    }
+    dispatch(registerUser(email, password, passwordCheck));
     if (currentUserInfo) {
       setUser(currentUser);
+      setErrorMsg('');
+    } else {
+      setErrorMsg(currentError);
     }
-    setErrorFromBack(currentError);
   };
 
-  const showAlert = (type, msg) => (
+  const showAlert = () => (
     <Alert
       //uncomment if you don't want icon in your alert
       // icon={false}
       variant='outlined'
       severity='error'
       className={styles.authErrMsg}
-      onClose={() => {
-        type ? setErrorMsg({ ...errorMsg, [type]: '' }) : setErrorFromBack(msg);
-      }}>
-      {msg}
+      onClose={() => setErrorMsg('')}>
+      {errorMsg}
     </Alert>
   );
 
@@ -138,12 +141,7 @@ const RegisterPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {(errorMsg.email && showAlert('email', errorMsg.email)) ||
-          (errorMsg.password && showAlert('password', errorMsg.password)) ||
-          (errorMsg.passwordCheck &&
-            showAlert('passwordCheck', errorMsg.passwordCheck)) ||
-          ''}
-        {errorFromBack ? showAlert(errorFromBack) : ''}
+        {errorMsg && showAlert}
         {loading ? <Spinner /> : registerScreen}
       </div>
     </div>

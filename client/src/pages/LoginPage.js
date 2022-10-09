@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AuthButton from '../components/AuthButton';
@@ -14,11 +14,11 @@ import { validateEmail, validatePassword } from '../lib/authValidationUtils';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
-  const currentUser = useSelector((state) => state.users.user);
-  const currentUserInfo = useSelector((state) => state.userInfo);
+  const currentUser = useSelector((state) => state.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,12 +32,15 @@ const LoginPage = () => {
     if (loggedInUserRemember) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
+      navigate('/');
     }
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
+      navigate('/');
     }
-  }, []);
+    setError(currentError);
+  }, [navigate, currentError, currentUser]);
 
   const validationHandler = (key, value) => {
     switch (key) {
@@ -63,7 +66,7 @@ const LoginPage = () => {
       return;
     }
     dispatch(loginUser(email, password, isRemember));
-    if (currentUserInfo) {
+    if (currentUser) {
       setUser(currentUser);
     }
     setError(currentError);
