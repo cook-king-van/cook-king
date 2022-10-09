@@ -1,6 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { useReducer, userLoginReducer } from "./reducers/userReducers";
+import { configureStore } from '@reduxjs/toolkit';
+import usersReducer from './features/users/userSlice';
 
-const reducer = combineReducers({
-  userLogin: userLoginReducer,
+export const store = configureStore({
+  reducer: {
+    users: usersReducer,
+  },
 });
+
+export default store;
