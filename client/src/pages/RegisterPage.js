@@ -39,9 +39,6 @@ const RegisterPage = () => {
     }
   }, [navigate, currentUserInfo, currentError, error]);
 
-  console.log('current error', currentError);
-  console.log('error', error);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailMsg = validateEmail(email);
