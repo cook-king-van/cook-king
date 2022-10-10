@@ -37,12 +37,7 @@ const Login = async (req, res) => {
       message: `${user.email} signed in successfully`,
     });
   } catch (e) {
-    if (e.status === 403) {
-      console.log(`User does not exist`);
-    } else if (e.status === 402) {
-      console.log(`Passwords don't match`);
-    }
-    console.log(e);
+    return res.status(500).send(e.message);
   }
 };
 
