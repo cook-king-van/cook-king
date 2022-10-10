@@ -7,9 +7,9 @@ const jwt = require('jsonwebtoken');
 const client = redis.createClient({
   socket: {
     host: process.env.REDIS_URL,
-    port: 10767,
+    port: process.env.REDIS_PORT,
   },
-  password: 'cook123123',
+  password: process.env.REDIS_PASSWORD,
 });
 const RedisConnect = async () => {
   await client.connect();
@@ -18,22 +18,20 @@ const RedisConnect = async () => {
 // Connect Database
 RedisConnect();
 
-
-
 export const Token = () => {
   return {
     Access(payload) {
-      return jwt.sign({payload}, process.env.ACCESSTOKEN, {
-        expiresIn:process.env.ACCESSLIFE,
+      return jwt.sign({ payload }, process.env.ACCESSTOKEN, {
+        expiresIn: process.env.ACCESSLIFE,
       });
     },
     Refresh(payload) {
-      return jwt.sign({payload}, process.env.REFRESHTOKEN, {
-        expiresIn:process.env.REFRESHLIFE,
-      })
+      return jwt.sign({ payload }, process.env.REFRESHTOKEN, {
+        expiresIn: process.env.REFRESHLIFE,
+      });
     },
     AccessVerify(token) {
-      let data=null;
+      let data = null;
       jwt.verify(
         String(token),
         String(process.env.ACCESSTOKEN),
@@ -46,28 +44,31 @@ export const Token = () => {
       return data;
     },
     RefreshVerify(token) {
-      let data=null;
+      let data = null;
       jwt.verify(
         String(token),
         String(process.env.REFRESHTOKEN),
-        function (err,usr) {
-          if (!err) {//If there is no error
-            data = usr;  
+        function (err, usr) {
+          if (!err) {
+            //If there is no error
+            data = usr;
           }
         }
       );
       return data;
-    }
-  }
-}
+    },
+  };
+};
 
 const setValue = async (key, value) => {
   const onehourExpire = 60 * 60;
-  await client.set(key, value, {//O(1)
+  await client.set(key, value, {
+    //O(1)
     EX: onehourExpire,
   });
 };
-const getValue = async (key) => {//O(1)
+const getValue = async (key) => {
+  //O(1)
   return client.get(key);
 };
 
