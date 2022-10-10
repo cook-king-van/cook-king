@@ -144,8 +144,8 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login';
 };
 
-export function registerUser(email, password, passwordconfirm) {
-  return async function saveNewUserThunk(dispatch, getState) {
+export const registerUser =
+  (email, password, passwordconfirm) => async (dispatch, getState) => {
     try {
       dispatch(userRegisterLoading());
 
@@ -177,7 +177,6 @@ export function registerUser(email, password, passwordconfirm) {
       );
     }
   };
-}
 
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {

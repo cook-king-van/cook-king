@@ -21,13 +21,12 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
-  const currentUser = useSelector((state) => state.users.user);
-  const currentUserInfo = useSelector((state) => state.userInfo);
+  const currentUserInfo = useSelector((state) => state.users.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [error, setError] = useState('');
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -38,58 +37,47 @@ const RegisterPage = () => {
       setUser(foundUser);
       navigate('/');
     }
-  }, [navigate, currentUser]);
+  }, [navigate, currentUserInfo, currentError, error]);
 
-  const validationHandler = (key, value) => {
-    switch (key) {
-      case 'email':
-        return validateEmail(value);
-      case 'password':
-        return validatePassword(email, value);
-      case 'passwordcheck':
-        return validatePasswordCheck(password, value);
-      default:
-        break;
-    }
-  };
+  console.log('current error', currentError);
+  console.log('error', error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailMsg = validationHandler('email', email);
+    const emailMsg = validateEmail(email);
     if (emailMsg !== '') {
-      setErrorMsg(emailMsg);
+      setError(emailMsg);
       return;
     }
 
-    const pwdMsg = validationHandler('password', password);
+    const pwdMsg = validatePassword(email, password);
     if (pwdMsg !== '') {
-      setErrorMsg(pwdMsg);
+      setError(pwdMsg);
       return;
     }
 
-    const pwdCheckMsg = validationHandler('passwordcheck', passwordCheck);
+    const pwdCheckMsg = validatePasswordCheck(password, passwordCheck);
     if (pwdCheckMsg !== '') {
-      setErrorMsg(pwdCheckMsg);
+      setError(pwdCheckMsg);
       return;
     }
-    dispatch(registerUser(email, password, passwordCheck));
-    if (currentUserInfo) {
-      setUser(currentUser);
-      setErrorMsg('');
-    } else {
-      setErrorMsg(currentError);
+    await dispatch(registerUser(email, password, passwordCheck));
+    if (!loading && currentUserInfo) {
+      setUser(currentUserInfo);
+      setError('');
+      return;
     }
   };
 
-  const showAlert = () => (
+  const showAlert = (
     <Alert
       //uncomment if you don't want icon in your alert
       // icon={false}
       variant='outlined'
       severity='error'
       className={styles.authErrMsg}
-      onClose={() => setErrorMsg('')}>
-      {errorMsg}
+      onClose={() => setError('')}>
+      {error ? error : currentError}
     </Alert>
   );
 
@@ -99,7 +87,7 @@ const RegisterPage = () => {
       <AuthInputs
         title='email'
         value={email}
-        msg={errorMsg.email}
+        msg={error.email}
         onChange={(e) => {
           setEmail(e.target.value);
         }}
@@ -107,7 +95,7 @@ const RegisterPage = () => {
       <AuthInputs
         title='password'
         value={password}
-        msg={errorMsg.password}
+        msg={error.password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
@@ -116,7 +104,7 @@ const RegisterPage = () => {
         title='confirm password'
         type='password'
         value={passwordCheck}
-        msg={errorMsg.passwordCheck}
+        msg={error.passwordCheck}
         onChange={(e) => {
           setPasswordCheck(e.target.value);
         }}
@@ -136,7 +124,8 @@ const RegisterPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {errorMsg && showAlert}
+        {error && showAlert}
+        {currentError && showAlert}
         {loading ? <Spinner /> : registerScreen}
       </div>
     </div>

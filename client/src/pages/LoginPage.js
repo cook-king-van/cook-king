@@ -37,25 +37,14 @@ const LoginPage = () => {
     setError(currentError);
   }, [navigate, currentError, currentUser]);
 
-  const validationHandler = (key, value) => {
-    switch (key) {
-      case 'email':
-        return validateEmail(value);
-      case 'password':
-        return validatePassword(email, value);
-      default:
-        break;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailMsg = validationHandler('email', email);
+    const emailMsg = validateEmail(email);
     setError(emailMsg);
     if (emailMsg !== '') {
       return;
     }
-    const pwdMsg = validationHandler('password', password);
+    const pwdMsg = validatePassword(email, password);
     setError(pwdMsg);
     if (pwdMsg !== '') {
       return;
