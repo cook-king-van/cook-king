@@ -1,4 +1,4 @@
-import crpyto from 'crypto'
+import crpyto from 'crypto';
 import User from '../../models/user';
 function EmailValid(data) {
   const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
@@ -15,7 +15,7 @@ function Hash(data) {
     .createHash('sha256')
     .update(String(data) + process.env.HASH)
     .digest('hex');
-    return ret;
+  return ret;
 }
 
 const Register = async (req, res) => {
@@ -40,7 +40,8 @@ const Register = async (req, res) => {
     const findUser = await User.findOne({
       email: req.body.email,
     });
-    if (findUser) {//If User already has signed up return error
+    if (findUser) {
+      //If User already has signed up return error
       return res.status(401).json({
         status: 401,
         message: `User has existed`,
@@ -61,10 +62,9 @@ const Register = async (req, res) => {
       console.log(`Email Invalid`);
     } else if (e.status === 402) {
       console.log(`Password is not same as PasswordConfirm`);
+    } else if (e.status === 401) {
+      console.log(`User has existed`);
     }
-    else if (e.status === 401) {
-        console.log(`User has existed`);
-      }
   }
 };
 

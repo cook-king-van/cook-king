@@ -10,7 +10,7 @@ function Hash(data) {
 }
 const Login = async (req, res) => {
   try {
-    const user = await User.findOne({
+    let user = await User.findOne({
       email: req.body.email,
     });
     if (!user) {
