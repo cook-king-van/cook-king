@@ -1,7 +1,7 @@
 import { setValue, Token } from '../../config/redis';
-const User = require('../../models/user');
+import User from '../../models/user';
+import crypto from 'crypto';
 function Hash(data) {
-  const crypto = require('crypto');
   const ret = crypto
     .createHash('sha256')
     .update(String(data) + process.env.HASH)
@@ -10,7 +10,7 @@ function Hash(data) {
 }
 const Login = async (req, res) => {
   try {
-    var user = await User.findOne({
+    const user = await User.findOne({
       email: req.body.email,
     });
     if (!user) {

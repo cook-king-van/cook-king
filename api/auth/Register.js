@@ -1,15 +1,16 @@
+import crpyto from 'crypto'
+import User from '../../models/user';
 function EmailValid(data) {
-  var RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
+  const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
   return RegExp.test(data);
 }
 
 function PasswordValid(data) {
-  var RegExp = /\w{4,20}$/; //Length 4 ~ 20
+  const RegExp = /\w{4,20}$/; //Length 4 ~ 20
   return RegExp.test(data);
 }
 
 function Hash(data) {
-  const crypto = require('crypto');
   const ret = crypto
     .createHash('sha256')
     .update(String(data) + process.env.HASH)
@@ -36,7 +37,6 @@ const Register = async (req, res) => {
         message: `Password is not same as PasswordConfirm`,
       });
     }
-      const User = require('../../models/user');
     const findUser = await User.findOne({
       email: req.body.email,
     });
