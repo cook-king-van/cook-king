@@ -144,8 +144,8 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login';
 };
 
-export function registerUser(email, password) {
-  return async function saveNewUserThunk(dispatch, getState) {
+export const registerUser =
+  (email, password, passwordconfirm) => async (dispatch, getState) => {
     try {
       dispatch(userRegisterLoading());
 
@@ -157,7 +157,7 @@ export function registerUser(email, password) {
 
       const { data } = await axios.post(
         '/api/auth/register',
-        { email, password },
+        { email, password, passwordconfirm },
         config
       );
 
@@ -177,7 +177,6 @@ export function registerUser(email, password) {
       );
     }
   };
-}
 
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {

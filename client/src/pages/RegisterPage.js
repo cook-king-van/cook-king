@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Auth.module.css';
@@ -18,80 +18,63 @@ import { registerUser } from '../features/users/userSlice';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
-  const currentUser = useSelector((state) => state.users.user);
-  const currentUserInfo = useSelector((state) => state.userInfo);
+  const currentUserInfo = useSelector((state) => state.users.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [errorMsg, setErrorMsg] = useState({
-    email: '',
-    password: '',
-    passwordCheck: '',
-  });
-  const [errorFromBack, setErrorFromBack] = useState('');
+  const [error, setError] = useState('');
   const [user, setUser] = useState();
 
   useEffect(() => {
     const loggedInUserRemember = localStorage.getItem('user');
     const loggedInUser = sessionStorage.getItem('user');
-    if (loggedInUserRemember) {
+    if (loggedInUserRemember || loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
+      navigate('/');
     }
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-    }
-  }, []);
-
-  const validationHandler = (key, value) => {
-    switch (key) {
-      case 'email':
-        return validateEmail(value);
-      case 'password':
-        return validatePassword(email, value);
-      case 'passwordcheck':
-        return validatePasswordCheck(password, value);
-      default:
-        break;
-    }
-  };
+  }, [navigate, currentUserInfo, currentError, error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailMsg = validationHandler('email', email);
-    const pwdMsg = validationHandler('password', password);
-    const pwdCheckMsg = validationHandler('passwordcheck', passwordCheck);
-    setErrorMsg({
-      ...errorMsg,
-      email: emailMsg,
-      password: pwdMsg,
-      passwordCheck: pwdCheckMsg,
-    });
-    if (emailMsg !== '' || pwdMsg !== '' || pwdCheckMsg !== '') {
+    const emailMsg = validateEmail(email);
+    if (emailMsg !== '') {
+      setError(emailMsg);
       return;
     }
-    dispatch(registerUser(email, password));
-    if (currentUserInfo) {
-      setUser(currentUser);
+
+    const pwdMsg = validatePassword(email, password);
+    if (pwdMsg !== '') {
+      setError(pwdMsg);
+      return;
     }
-    setErrorFromBack(currentError);
+
+    const pwdCheckMsg = validatePasswordCheck(password, passwordCheck);
+    if (pwdCheckMsg !== '') {
+      setError(pwdCheckMsg);
+      return;
+    }
+    await dispatch(registerUser(email, password, passwordCheck));
+    if (!loading && currentUserInfo) {
+      setUser(currentUserInfo);
+      setError('');
+      return;
+    }
   };
 
-  const showAlert = (type, msg) => (
+  const showAlert = (
     <Alert
       //uncomment if you don't want icon in your alert
       // icon={false}
       variant='outlined'
       severity='error'
       className={styles.authErrMsg}
-      onClose={() => {
-        type ? setErrorMsg({ ...errorMsg, [type]: '' }) : setErrorFromBack(msg);
-      }}>
-      {msg}
+      onClose={() => setError('')}>
+      {error ? error : currentError}
     </Alert>
   );
 
@@ -101,7 +84,7 @@ const RegisterPage = () => {
       <AuthInputs
         title='email'
         value={email}
-        msg={errorMsg.email}
+        msg={error.email}
         onChange={(e) => {
           setEmail(e.target.value);
         }}
@@ -109,7 +92,7 @@ const RegisterPage = () => {
       <AuthInputs
         title='password'
         value={password}
-        msg={errorMsg.password}
+        msg={error.password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
@@ -118,7 +101,7 @@ const RegisterPage = () => {
         title='confirm password'
         type='password'
         value={passwordCheck}
-        msg={errorMsg.passwordCheck}
+        msg={error.passwordCheck}
         onChange={(e) => {
           setPasswordCheck(e.target.value);
         }}
@@ -138,12 +121,8 @@ const RegisterPage = () => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {(errorMsg.email && showAlert('email', errorMsg.email)) ||
-          (errorMsg.password && showAlert('password', errorMsg.password)) ||
-          (errorMsg.passwordCheck &&
-            showAlert('passwordCheck', errorMsg.passwordCheck)) ||
-          ''}
-        {errorFromBack ? showAlert(errorFromBack) : ''}
+        {error && showAlert}
+        {currentError && showAlert}
         {loading ? <Spinner /> : registerScreen}
       </div>
     </div>
