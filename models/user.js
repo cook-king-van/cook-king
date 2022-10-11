@@ -14,11 +14,10 @@ var User = new Schema({
     type: String,
     default: '',
   },
-  likeFood: {
-    type: [Schema.Types.ObjectId],
+  likeFood: [{
+    type: Schema.Types.ObjectId,
     ref: 'Food',
-    default: undefined,
-  }, //1:N relation
+  }], //1:N relation
   createdAt: {
     type: Date,
     required: true,

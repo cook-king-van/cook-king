@@ -18,7 +18,6 @@ var Option = new Schema({
   type: String,
   enum: {
     value: ['best', 'brunch', 'snack', 'none'],
-    message: '{Value} is not Categories',
   },
 });
 module.exports = mongoose.model('Categories', Categories);
