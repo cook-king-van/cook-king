@@ -22,9 +22,12 @@
   "homepage": "https://github.com/cook-king-van/cook-king#readme",
   "dependencies": {
     "colors": "^1.4.0",
+    "connect-redis": "^6.1.3",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
-    "mongoose": "6.6.1"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "6.6.1",
+    "redis": "^4.0.6"
   },
   "devDependencies": {
     "concurrently": "7.4.0",

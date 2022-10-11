@@ -24,11 +24,11 @@ var Cooking = new Schema({
 });
 var Food = new Schema({
   userId: {
-    type: Schema.type.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
   },
   categoriesId: {
-    type: [Schema.type.ObjectId],
+    type: [Schema.Types.ObjectId],
     ref: 'Categories',
   }, //N:M relation
   foodName: {
