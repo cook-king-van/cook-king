@@ -10,7 +10,7 @@ connectDB();
 connectRedis();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json())
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('hello');
