@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node -r esm server.js",
-    "server": "nodemon -r esm server.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -31,7 +32,6 @@
   },
   "devDependencies": {
     "concurrently": "7.4.0",
-    "esm": "3.2.25",
     "nodemon": "^2.0.20"
   }
 }
