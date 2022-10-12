@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-var User = new Schema({
+const user = new Schema({
   email: {
     type: String,
     unique: true,
@@ -25,4 +25,6 @@ var User = new Schema({
     default: () => Date.now(),
   },
 });
-module.exports = mongoose.model('User', User);
+
+const User = mongoose.model('User', user);
+export default User;
