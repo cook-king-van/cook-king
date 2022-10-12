@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-var Categories = new Schema({
+const categories = new Schema({
   categoriesName: {
     type: String,
   },
@@ -10,7 +10,7 @@ var Categories = new Schema({
   },
 });
 
-var Option = new Schema({
+const option = new Schema({
   foodId: {
     type: Schema.Types.ObjectId,
     ref: 'Food',
@@ -21,5 +21,8 @@ var Option = new Schema({
     message: '{Value} is not Categories',
   },
 });
-module.exports = mongoose.model('Categories', Categories);
-module.exports = mongoose.model('Option', Option);
+
+const Categories = mongoose.model('Categories', categories);
+const Option = mongoose.model('Option', option);
+
+export default { Categories, Option };
