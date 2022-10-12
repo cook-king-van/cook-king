@@ -1,10 +1,8 @@
 import dotenv from 'dotenv';
+import { createClient } from 'redis'; //redis version 4.0.6
+import jwt from 'jsonwebtoken';
 dotenv.config();
-
-const redis = require('redis'); //redis version 4.0.6
-const jwt = require('jsonwebtoken');
-
-const client = redis.createClient({
+const client = createClient({
   socket: {
     host: process.env.REDIS_URL,
     port: process.env.REDIS_PORT,
@@ -12,12 +10,14 @@ const client = redis.createClient({
   password: process.env.REDIS_PASSWORD,
 });
 const RedisConnect = async () => {
-  await client.connect();
-  console.log(`Redis Connected: ${process.env.REDIS_URL}`.cyan.underline);
+  try {
+    // Connect Database
+    await client.connect();
+    console.log(`Redis Connected: ${process.env.REDIS_URL}`.cyan.underline);
+  } catch (e) {
+    console.error(e);
+  }
 };
-// Connect Database
-RedisConnect();
-
 export const Token = () => {
   return {
     Access(payload) {
@@ -60,16 +60,16 @@ export const Token = () => {
   };
 };
 
-const setValue = async (key, value) => {
+export const setValue = async (key, value) => {
   const onehourExpire = 60 * 60;
   await client.set(key, value, {
     //O(1)
     EX: onehourExpire,
   });
 };
-const getValue = async (key) => {
+export const getValue = async (key) => {
   //O(1)
   return client.get(key);
 };
 
-export { setValue, getValue };
+export default RedisConnect;

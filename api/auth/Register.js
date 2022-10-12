@@ -1,17 +1,17 @@
+import User from '../../models/user';
+import { createHash } from 'crypto';
 function EmailValid(data) {
-  var RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
+  const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
   return RegExp.test(data);
 }
 
 function PasswordValid(data) {
-  var RegExp = /\w{4,20}$/; //Length 4 ~ 20
+  const RegExp = /\w{4,20}$/; //Length 4 ~ 20
   return RegExp.test(data);
 }
 
 function Hash(data) {
-  const crypto = require('crypto');
-  const ret = crypto
-    .createHash('sha256')
+  const ret = createHash('sha256')
     .update(String(data) + process.env.HASH)
     .digest('hex');
   return ret;
@@ -36,7 +36,6 @@ const Register = async (req, res) => {
         message: `Passwords don't match`,
       });
     }
-    const User = require('../../models/user');
     const findUser = await User.findOne({
       email: req.body.email,
     });
@@ -57,14 +56,8 @@ const Register = async (req, res) => {
       message: `${req.body.email} has signed successfully`,
     });
   } catch (e) {
-    console.error(e);
-    if (e.status === 403) {
-      console.log(`Email Invalid`);
-    } else if (e.status === 402) {
-      console.log(`Passwords don't match`);
-    } else if (e.status === 401) {
-      console.log(`User already exists`);
-    }
+    console.error(`Exception Error`);
+    return res.status(500).send(e.message);
   }
 };
 
