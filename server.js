@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import connectDB from './config/db';
 import APIrouter from './router/index';
+import connectRedis from './config/redis';
 dotenv.config();
 // Connect Database
 connectDB();
+connectRedis();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
