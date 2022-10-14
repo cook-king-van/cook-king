@@ -8,8 +8,8 @@
   display: flex;
   width: 100%;
   align-items: center;
-  margin: 0 70px;
-  padding-top: 30px
+  /* margin: 0 70px; */
+  padding-top: 20px
 }
 
 .logo {
