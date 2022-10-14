@@ -128,8 +128,6 @@ const UserProfile = () => {
               onChange={editProfilePicHandler}
               className={styles.uploadBtn}
             />
-            {/* <i
-                className={`fa-sharp fa-solid fa-pencil fa-lg ${styles.editIcon}`}></i> */}
             <EditPencilButton
               styleName={styles.editBtn}
               onClick={handleEditPicBtn}
