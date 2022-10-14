@@ -11,7 +11,12 @@ const Login = async (req, res) => {
   try {
     let user = await User.findOne({
       email: req.body.email,
-    });
+    })
+      .select('-description')
+      .select('-email')
+      .select('-likeFood')
+      .select('-FoodLists')
+      .select('-createdAt');
     if (!user) {
       return res.status(403).json({
         status: 403,
@@ -27,7 +32,6 @@ const Login = async (req, res) => {
       });
     }
     delete user.password; //except user password
-    delete user.createdAt; //except user Creat Date
     const access = Token().Access(user);
     const refresh = Token().Refresh(user);
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
