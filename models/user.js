@@ -1,6 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 
 const user = new Schema({
+  name: {
+    type: String,
+    unique: true,
+    requried: true,
+  },
+  FoodLists: [{
+    type: [Schema.Types.ObjectId],
+    ref: 'Food',
+  }],
   email: {
     type: String,
     unique: true,
