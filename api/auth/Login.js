@@ -39,7 +39,7 @@ const Login = async (req, res) => {
       status: 200,
       token: access,
       user:user,
-      message: `${user.email} signed in successfully`,
+      message: `${user.name} signed in successfully`,
     });
   } catch (e) {
     console.error(`Exception Error`);
