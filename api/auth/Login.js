@@ -33,7 +33,8 @@ const Login = async (req, res) => {
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
       status: 200,
-      access: access,
+      token: access,
+      user:user,
       message: `${user.email} signed in successfully`,
     });
   } catch (e) {
