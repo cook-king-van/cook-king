@@ -1,4 +1,186 @@
 .container {
   background-color: rgb(223, 211, 195, 0.3);
   margin: 100px;
+  margin-bottom: 20px;
+  width: 85vw;
+  border-radius: 5px;
+  display: flex;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.topContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.middleContainer, .bottomContainer {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.bottomContainer {
+  margin-top: 20px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(223,211,195, 0.37);
+  border-bottom: 1px solid var(--brownColor);
+  border-radius: 10px;
+  width: 340px;
+  height: 300px;
+  margin: 30px 15px 30px 0;
+  padding: 0 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardContainer:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.myItemsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.userIcon {
+  margin-top: -55px;
+  margin-left: 70px;
+}
+
+.userName {
+  font-size: 30px;
+  font-weight: 500;
+  margin-left: 20px;
+  margin-top: 15px;
+  border: none;
+  padding: 0;
+  height: 50px;
+  outline: none;
+}
+
+.userName:disabled {
+  color: black;
+}
+
+.editIcon {
+  color: #fff;
+}
+
+.editBtn {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 40px 0 30px -35px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.uploadBtn {
+  display: none;
+}
+
+.editBtn:hover,
+.nameEditBtn:hover,
+.introEditButton:hover {
+  background-color: var(--secondaryColor);
+}
+
+.nameEditBtn {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 18px 0 30px 10px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.introEditButton {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 0 0 13px 10px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.introTitle, .cookingListTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.5rem;
+}
+
+.introTextArea {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  border:none;
+  outline: none;
+  font-size: 20px;
+  resize: none;
+  padding: 20px;
+  color: var(--brownColor);
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1rem;
+}
+
+.introTextArea:disabled {
+  background-color: #fff;
+  color: var(--brownColor);
+  border: none;
+}
+
+.food {
+  width: 280px; 
+  height: 180px;
+  border-radius: 5px;
+}
+
+.cardTextContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.foodTitle {
+  letter-spacing: 1px;
+  color: var(--brownColor);
+}
+
+.likesText {
+  display: flex;
+  flex-direction: row;
+  margin-top: 3px;
+}
+
+.likes {
+  margin-top: -3px;
+  margin-left: 3px;
+  font-size: 15px;
+  color: var(--brownColor);
+}
+
+.heartIcon {
+  color: var(--lightColor);
+}
+
+.likesDate {
+  font-size: 15px;
+  color: var(--brownColor);
 }
