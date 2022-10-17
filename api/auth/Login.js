@@ -11,8 +11,7 @@ const Login = async (req, res) => {
   try {
     let user = await User.findOne({
       email: req.body.email,
-    })
-      .select('-createdAt');
+    }).select('-createdAt');
     if (!user) {
       return res.status(403).json({
         status: 403,
