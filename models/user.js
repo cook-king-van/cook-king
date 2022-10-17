@@ -6,10 +6,10 @@ const user = new Schema({
     unique: true,
     requried: true,
   },
-  FoodLists: [{
+  FoodLists: {
     type: [Schema.Types.ObjectId],
     ref: 'Food',
-  }],
+  },
   email: {
     type: String,
     unique: true,
@@ -26,7 +26,6 @@ const user = new Schema({
   likeFood: {
     type: [Schema.Types.ObjectId],
     ref: 'Food',
-    default: undefined,
   }, //1:N relation
   createdAt: {
     type: Date,
