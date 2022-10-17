@@ -50,7 +50,7 @@ const Register = async (req, res) => {
     await new User({
       email: req.body.email,
       password: Hash(req.body.password),
-      name: name,
+      name,
     }).save();
 
     return res.status(200).json({
