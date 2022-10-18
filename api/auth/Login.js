@@ -11,7 +11,7 @@ const Login = async (req, res) => {
   try {
     let user = await User.findOne({
       email: req.body.email,
-    });
+    }).select('-createdAt');
     if (!user) {
       return res.status(403).json({
         status: 403,
@@ -26,15 +26,19 @@ const Login = async (req, res) => {
         message: `Passwords don't match`,
       });
     }
-    delete user.password; //except user password
-    delete user.createdAt; //except user Creat Date
-    const access = Token().Access(user);
-    const refresh = Token().Refresh(user);
+    delete user.password;
+    const tokenUser = {...user};
+    delete tokenUser.email;
+    delete tokenUser.likeFood;
+    delete tokenUser.FoodLists;
+    const access = Token().Access(tokenUser);
+    const refresh = Token().Refresh(tokenUser);
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
       status: 200,
-      access: access,
-      message: `${user.email} signed in successfully`,
+      token: access,
+      user,
+      message: `${user.name} signed in successfully`,
     });
   } catch (e) {
     console.error(`Exception Error`);

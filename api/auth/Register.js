@@ -1,21 +1,21 @@
 import User from '../../models/user';
 import { createHash } from 'crypto';
-function EmailValid(data) {
+const EmailValid = (data) => {
   const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
   return RegExp.test(data);
-}
+};
 
-function PasswordValid(data) {
+const PasswordValid = (data) => {
   const RegExp = /\w{4,20}$/; //Length 4 ~ 20
   return RegExp.test(data);
-}
+};
 
-function Hash(data) {
+const Hash = (data) => {
   const ret = createHash('sha256')
     .update(String(data) + process.env.HASH)
     .digest('hex');
   return ret;
-}
+};
 
 const Register = async (req, res) => {
   //     BodyData : email , password , passwordconfirm
@@ -46,9 +46,11 @@ const Register = async (req, res) => {
         message: `User already exists`,
       });
     }
+    const name = req.body.email.split('@')[0];
     await new User({
       email: req.body.email,
       password: Hash(req.body.password),
+      name,
     }).save();
 
     return res.status(200).json({

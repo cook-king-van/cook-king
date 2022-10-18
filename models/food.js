@@ -27,10 +27,12 @@ const food = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  categoriesId: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Categories',
-  }, //N:M relation
+  categoriesId: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Categories',
+    },
+  ], //N:M relation
   foodName: {
     type: String,
     required: true,
@@ -38,7 +40,6 @@ const food = new Schema({
   tag: {
     type: [String],
     unique: true,
-    default: undefined,
   },
   size: {
     type: Number,
@@ -51,22 +52,19 @@ const food = new Schema({
   ingredient: {
     type: [String],
     unique: true,
-    default: undefined,
   },
   foodMedia: {
     type: [String],
   },
   option: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'Option',
-    default: 'none',
   },
   foodImage: {
     type: Buffer,
   },
   steps: {
     type: [Cooking],
-    default: undefined,
   },
   createdAt: {
     type: Date,
