@@ -1,0 +1,188 @@
+.UserProfile-container {
+  background-color: rgb(223, 211, 195, 0.3);
+  margin: 100px;
+  margin-bottom: 20px;
+  width: 85vw;
+  border-radius: 5px;
+  display: flex;
+}
+
+.UserProfile-innerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.UserProfile-topContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.UserProfile-middleContainer,
+.UserProfile-bottomContainer {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.UserProfile-bottomContainer {
+  margin-top: 20px;
+}
+
+.UserProfile-cardContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(223, 211, 195, 0.37);
+  border-bottom: 1px solid var(--brownColor);
+  border-radius: 10px;
+  width: 340px;
+  height: 300px;
+  margin: 30px 15px 30px 0;
+  padding: 0 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.UserProfile-cardContainer:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.UserProfile-myItemsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.UserProfile-userIcon {
+  margin-top: -55px;
+  margin-left: 70px;
+}
+
+.UserProfile-userName {
+  font-size: 30px;
+  font-weight: 500;
+  margin-left: 20px;
+  margin-top: 15px;
+  border: none;
+  padding: 0;
+  height: 50px;
+  outline: none;
+}
+
+.UserProfile-userName:disabled {
+  color: black;
+}
+
+.UserProfile-editIcon {
+  color: #fff;
+}
+
+.UserProfile-editBtn {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 40px 0 30px -35px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.UserProfile-uploadBtn {
+  display: none;
+}
+
+.UserProfile-editBtn:hover,
+.UserProfile-nameEditBtn:hover,
+.UserProfile-introEditButton:hover {
+  background-color: var(--secondaryColor);
+}
+
+.UserProfile-nameEditBtn {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 18px 0 30px 10px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.UserProfile-introEditButton {
+  background-color: var(--lightColor);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 0 0 13px 10px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.UserProfile-introTitle,
+.UserProfile-cookingListTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.5rem;
+}
+
+.UserProfile-introTextArea {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  resize: none;
+  padding: 20px;
+  color: var(--brownColor);
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1rem;
+}
+
+.UserProfile-introTextArea:disabled {
+  background-color: #fff;
+  color: var(--brownColor);
+  border: none;
+}
+
+.UserProfile-food {
+  width: 280px;
+  height: 180px;
+  border-radius: 5px;
+}
+
+.UserProfile-cardTextContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.UserProfile-foodTitle {
+  letter-spacing: 1px;
+  color: var(--brownColor);
+}
+
+.UserProfile-likesText {
+  display: flex;
+  flex-direction: row;
+  margin-top: 3px;
+}
+
+.UserProfile-likes {
+  margin-top: -3px;
+  margin-left: 3px;
+  font-size: 15px;
+  color: var(--brownColor);
+}
+
+.UserProfile-heartIcon {
+  color: var(--lightColor);
+}
+
+.UserProfile-likesDate {
+  font-size: 15px;
+  color: var(--brownColor);
+}
