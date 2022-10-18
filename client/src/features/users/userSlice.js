@@ -120,10 +120,10 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     // store the user in localStorage if checkbox is ticked
     if (isRemember) {
       dispatch(updateIsRemember(true));
-      localStorage.setItem('user', data);
+      localStorage.setItem('user', JSON.stringify(data.token));
     } else {
       dispatch(updateIsRemember(false));
-      sessionStorage.setItem('user', data);
+      sessionStorage.setItem('user', JSON.stringify(data.token));
     }
   } catch (error) {
     dispatch(
@@ -166,7 +166,7 @@ export const registerUser =
       dispatch(updateIsRemember(false));
 
       localStorage.removeItem('user');
-      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('user', JSON.stringify(data.token));
     } catch (error) {
       dispatch(
         userRegisterFailure(
@@ -227,9 +227,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
     if (isRemember) {
-      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(data.token));
     } else {
-      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('user', JSON.stringify(data.token));
     }
   } catch (error) {
     const message =
