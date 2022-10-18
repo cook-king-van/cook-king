@@ -1,12 +1,12 @@
 import React from 'react';
 
-import styles from '../pages/Auth.module.css';
+import '../pages/Auth.css';
 
 const AuthButton = (props) => {
   const { title, onClick } = props;
   return (
     <>
-      <button type='submit' className={styles.authButton} onClick={onClick}>
+      <button type='submit' className='Auth-authButton' onClick={onClick}>
         {title}
       </button>
     </>
