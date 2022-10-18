@@ -1,13 +1,12 @@
 import React from 'react';
-import styles from '../pages/UserProfile.module.css';
+import '../pages/UserProfile.css';
 
 const EditPencilButton = (props) => {
   const { onClick, styleName } = props;
   return (
     <>
       <button className={styleName} onClick={onClick}>
-        <i
-          className={`fa-sharp fa-solid fa-pencil fa-lg ${styles.editIcon}`}></i>
+        <i className='fa-sharp fa-solid fa-pencil fa-lg UserProfile-editIcon'></i>
       </button>
     </>
   );

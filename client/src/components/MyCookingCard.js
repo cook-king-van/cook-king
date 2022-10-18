@@ -1,21 +1,21 @@
 import React from 'react';
-import styles from '../pages/UserProfile.module.css';
+import '../pages/UserProfile.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
 
 const MyCookingCard = () => {
   return (
-    <div className={styles.cardContainer}>
-      <img src={cheesecake} alt='cheese cake' className={styles.food} />
-      <div className={styles.cardTextContainer}>
-        <p className={styles.foodTitle}>Chocolate Cheesecake</p>
+    <div className='UserProfile-cardContainer'>
+      <img src={cheesecake} alt='cheese cake' className='UserProfile-food' />
+      <div className='UserProfile-cardTextContainer'>
+        <p className='UserProfile-foodTitle'>Chocolate Cheesecake</p>
         <p> </p>
       </div>
-      <div className={styles.cardTextContainer}>
-        <div className={styles.likesText}>
-          <i className={`fa-solid fa-heart ${styles.heartIcon}`}></i>
-          <p className={styles.likes}>13,250</p>
+      <div className='UserProfile-cardTextContainer'>
+        <div className='UserProfile-likesText'>
+          <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
+          <p className='UserProfile-likes'>13,250</p>
         </div>
-        <p className={styles.likesDate}>2022.06.23</p>
+        <p className='UserProfile-likesDate'>2022.06.23</p>
       </div>
     </div>
   );

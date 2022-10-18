@@ -1,7 +1,7 @@
 import React, { createRef, useState, useEffect } from 'react';
 
 import mainStyles from './LandingPage.module.css';
-import styles from './UserProfile.module.css';
+import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
 import pencil from '../images/pencil.png';
@@ -103,14 +103,14 @@ const UserProfile = () => {
         <img src={pencil} className={mainStyles.interface} alt='pencil' />
         <img src={maleUser} className={mainStyles.interface} alt='maleUser' />
       </header>
-      <section className={styles.container}>
-        <div className={styles.innerContainer}>
-          <div className={styles.topContainer}>
+      <section className='UserProfile-container'>
+        <div className='UserProfile-innerContainer'>
+          <div className='UserProfile-topContainer'>
             <Avatar
               alt={userName ? userName : 'Cookking'}
               src={selectedFile || userImage}
               sx={{ width: 140, height: 140 }}
-              className={styles.userIcon}
+              className='UserProfile-userIcon'
             />
             <input
               accept='image/*'
@@ -118,10 +118,10 @@ const UserProfile = () => {
               type='file'
               ref={hiddenFileInput}
               onChange={editProfilePicHandler}
-              className={styles.uploadBtn}
+              className='UserProfile-uploadBtn'
             />
             <EditPencilButton
-              styleName={styles.editBtn}
+              styleName='UserProfile-editBtn'
               onClick={handleEditPicBtn}
             />
             <input
@@ -131,24 +131,24 @@ const UserProfile = () => {
               onBlur={() => {
                 setEditProfileName('disabled');
               }}
-              className={styles.userName}
+              className='UserProfile-userName'
               style={{ width: nameFieldWidth + 'ch' }}
               value={userName}
               onChange={nameChangeHandler}
             />
             <EditPencilButton
-              styleName={styles.nameEditBtn}
+              styleName='UserProfile-nameEditBtn'
               onClick={editProfileNameHandler}
             />
           </div>
-          <div className={styles.middleContainer}>
-            <label className={styles.introTitle}>About Me...</label>
+          <div className='UserProfile-middleContainer'>
+            <label className='UserProfile-introTitle'>About Me...</label>
             <EditPencilButton
-              styleName={styles.introEditButton}
+              styleName='UserProfile-introEditButton'
               onClick={editIntroHandler}
             />
             <textarea
-              className={styles.introTextArea}
+              className='UserProfile-introTextArea'
               ref={editIntroRef}
               disabled={isEditIntro}
               onBlur={() => {
@@ -159,9 +159,11 @@ const UserProfile = () => {
               onChange={introChangeHandler}
             />
           </div>
-          <div className={styles.bottomContainer}>
-            <label className={styles.cookingListTitle}>My Cooking List</label>
-            <div className={styles.myItemsContainer}>
+          <div className='UserProfile-bottomContainer'>
+            <label className='UserProfile-cookingListTitle'>
+              My Cooking List
+            </label>
+            <div className='UserProfile-myItemsContainer'>
               <MyCookingCard />
               <MyCookingCard />
               <MyCookingCard />
@@ -170,12 +172,12 @@ const UserProfile = () => {
               <MyCookingCard />
             </div>
           </div>
-          <div className={styles.bottomContainer}>
-            <label className={styles.cookingListTitle}>
+          <div className='UserProfile-bottomContainer'>
+            <label className='UserProfile-cookingListTitle'>
               My Likes
-              <i className={`fa-solid fa-heart ${styles.heartIcon}`}></i>
+              <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
             </label>
-            <div className={styles.myItemsContainer}>
+            <div className='UserProfile-myItemsContainer'>
               <MyCookingCard />
               <MyCookingCard />
               <MyCookingCard />

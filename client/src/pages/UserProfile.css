@@ -1,4 +1,4 @@
-.container {
+.UserProfile-container {
   background-color: rgb(223, 211, 195, 0.3);
   margin: 100px;
   margin-bottom: 20px;
@@ -7,27 +7,27 @@
   display: flex;
 }
 
-.innerContainer {
+.UserProfile-innerContainer {
   display: flex;
   flex-direction: column;
 }
 
-.topContainer {
+.UserProfile-topContainer {
   display: flex;
   flex-direction: row;
 }
 
-.middleContainer,
-.bottomContainer {
+.UserProfile-middleContainer,
+.UserProfile-bottomContainer {
   margin-left: 40px;
   margin-right: 40px;
 }
 
-.bottomContainer {
+.UserProfile-bottomContainer {
   margin-top: 20px;
 }
 
-.cardContainer {
+.UserProfile-cardContainer {
   display: flex;
   flex-direction: column;
   background-color: rgba(223, 211, 195, 0.37);
@@ -41,23 +41,23 @@
   justify-content: center;
 }
 
-.cardContainer:hover {
+.UserProfile-cardContainer:hover {
   opacity: 0.7;
   cursor: pointer;
 }
 
-.myItemsContainer {
+.UserProfile-myItemsContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.userIcon {
+.UserProfile-userIcon {
   margin-top: -55px;
   margin-left: 70px;
 }
 
-.userName {
+.UserProfile-userName {
   font-size: 30px;
   font-weight: 500;
   margin-left: 20px;
@@ -68,15 +68,15 @@
   outline: none;
 }
 
-.userName:disabled {
+.UserProfile-userName:disabled {
   color: black;
 }
 
-.editIcon {
+.UserProfile-editIcon {
   color: #fff;
 }
 
-.editBtn {
+.UserProfile-editBtn {
   background-color: var(--lightColor);
   border-radius: 50%;
   width: 40px;
@@ -87,17 +87,17 @@
   cursor: pointer;
 }
 
-.uploadBtn {
+.UserProfile-uploadBtn {
   display: none;
 }
 
-.editBtn:hover,
-.nameEditBtn:hover,
-.introEditButton:hover {
+.UserProfile-editBtn:hover,
+.UserProfile-nameEditBtn:hover,
+.UserProfile-introEditButton:hover {
   background-color: var(--secondaryColor);
 }
 
-.nameEditBtn {
+.UserProfile-nameEditBtn {
   background-color: var(--lightColor);
   border-radius: 50%;
   width: 40px;
@@ -108,7 +108,7 @@
   cursor: pointer;
 }
 
-.introEditButton {
+.UserProfile-introEditButton {
   background-color: var(--lightColor);
   border-radius: 50%;
   width: 40px;
@@ -119,14 +119,14 @@
   cursor: pointer;
 }
 
-.introTitle,
-.cookingListTitle {
+.UserProfile-introTitle,
+.UserProfile-cookingListTitle {
   font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 0.5rem;
 }
 
-.introTextArea {
+.UserProfile-introTextArea {
   display: block;
   width: 100%;
   border-radius: 5px;
@@ -140,19 +140,19 @@
   letter-spacing: 0.1rem;
 }
 
-.introTextArea:disabled {
+.UserProfile-introTextArea:disabled {
   background-color: #fff;
   color: var(--brownColor);
   border: none;
 }
 
-.food {
+.UserProfile-food {
   width: 280px;
   height: 180px;
   border-radius: 5px;
 }
 
-.cardTextContainer {
+.UserProfile-cardTextContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -160,29 +160,29 @@
   margin-top: 5px;
 }
 
-.foodTitle {
+.UserProfile-foodTitle {
   letter-spacing: 1px;
   color: var(--brownColor);
 }
 
-.likesText {
+.UserProfile-likesText {
   display: flex;
   flex-direction: row;
   margin-top: 3px;
 }
 
-.likes {
+.UserProfile-likes {
   margin-top: -3px;
   margin-left: 3px;
   font-size: 15px;
   color: var(--brownColor);
 }
 
-.heartIcon {
+.UserProfile-heartIcon {
   color: var(--lightColor);
 }
 
-.likesDate {
+.UserProfile-likesDate {
   font-size: 15px;
   color: var(--brownColor);
 }

@@ -133,7 +133,7 @@
   justify-content: space-between;
 }
 
-.recoveryMsg {
+.Auth-recoveryMsg {
   padding: 3px;
   margin-top: 40px;
   letter-spacing: 0.9px;
@@ -181,12 +181,12 @@
   display: flex;
 }
 
-.Auth-checkboxLabel:hover input ~ .checkmark {
+.Auth-checkboxLabel:hover input ~ .Auth-checkmark {
   background-color: #ccc;
   margin-right: 8px;
 }
 
-.Auth-checkboxLabel input:checked ~ .checkmark {
+.Auth-checkboxLabel input:checked ~ .Auth-checkmark {
   background-color: var(--brownBackgroundColor);
   border: 1px solid var(--brownColor);
   margin-right: 8px;
