@@ -4,21 +4,27 @@ const categories = new Schema({
   categoriesName: {
     type: String,
   },
-  foodList: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Food',
-  },
+  foodList: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Food',
+    },
+  ],
 });
 
 const option = new Schema({
-  foodId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Food',
-  },
-  type: String,
-  enum: {
-    value: ['best', 'brunch', 'snack', 'none'],
-    message: '{Value} is not Categories',
+  foodId: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Food',
+    },
+  ],
+  sort: {
+    type: String,
+    enum: {
+      values: ['best', 'brunch', 'snack', 'none'],
+    },
+    default: 'none',
   },
 });
 
