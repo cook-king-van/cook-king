@@ -32,12 +32,6 @@
   margin: 0 30px;
 }
 
-/* .imageWrapper {
-    background-image: url("../images//Google\ Web\ Search.png");
-    background-size: contain;
-    background-repeat: no-repeat
-} */
-
 .searchBth:hover {
   cursor: pointer;
   opacity: 0.7;

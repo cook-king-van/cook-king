@@ -55,24 +55,17 @@ const UserProfile = () => {
   };
 
   const editProfilePicHandler = async (e) => {
-    console.log('hello');
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = function (e) {
-      console.log('result', e.target.result);
-    };
     const url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       setSelectedFile(reader.result);
-      console.log('resultsss', reader.result);
     };
     console.log('url', url);
 
     setSelectedFile(e.target.files[0].toString());
   };
-
-  console.log('file', selectedFile);
 
   const editProfileNameHandler = () => {
     setEditProfileName('');
@@ -83,7 +76,6 @@ const UserProfile = () => {
   };
 
   const nameChangeHandler = (e) => {
-    console.log('length', e.target.value.length);
     setNameFieldWidth(e.target.value.length);
     setUserName(e.target.value);
   };
@@ -116,7 +108,7 @@ const UserProfile = () => {
           <div className={styles.topContainer}>
             <Avatar
               alt={userName ? userName : 'Cookking'}
-              src={selectedFile ? selectedFile : userImage}
+              src={selectedFile || userImage}
               sx={{ width: 140, height: 140 }}
               className={styles.userIcon}
             />

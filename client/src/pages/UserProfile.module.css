@@ -17,7 +17,8 @@
   flex-direction: row;
 }
 
-.middleContainer, .bottomContainer {
+.middleContainer,
+.bottomContainer {
   margin-left: 40px;
   margin-right: 40px;
 }
@@ -29,7 +30,7 @@
 .cardContainer {
   display: flex;
   flex-direction: column;
-  background-color: rgba(223,211,195, 0.37);
+  background-color: rgba(223, 211, 195, 0.37);
   border-bottom: 1px solid var(--brownColor);
   border-radius: 10px;
   width: 340px;
@@ -118,7 +119,8 @@
   cursor: pointer;
 }
 
-.introTitle, .cookingListTitle {
+.introTitle,
+.cookingListTitle {
   font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 0.5rem;
@@ -128,7 +130,7 @@
   display: block;
   width: 100%;
   border-radius: 5px;
-  border:none;
+  border: none;
   outline: none;
   font-size: 20px;
   resize: none;
@@ -145,7 +147,7 @@
 }
 
 .food {
-  width: 280px; 
+  width: 280px;
   height: 180px;
   border-radius: 5px;
 }
