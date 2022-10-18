@@ -120,10 +120,10 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     // store the user in localStorage if checkbox is ticked
     if (isRemember) {
       dispatch(updateIsRemember(true));
-      localStorage.setItem('user', data);
+      localStorage.setItem('user', JSON.stringify(data));
     } else {
       dispatch(updateIsRemember(false));
-      sessionStorage.setItem('user', data);
+      sessionStorage.setItem('user', JSON.stringify(data));
     }
   } catch (error) {
     dispatch(
