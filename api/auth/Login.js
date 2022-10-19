@@ -27,6 +27,7 @@ const Login = async (req, res) => {
       });
     }
     delete user.password;
+    const { _id, name, email, description, FoodLists, likeFood } = user;
     const tokenUser = { ...user };
     delete tokenUser.email;
     delete tokenUser.likeFood;
@@ -36,12 +37,12 @@ const Login = async (req, res) => {
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
       token: access,
-      _id: user._id,
-      userName: user.name,
-      email: user.email,
-      description: user.description,
-      foodLists: user.FoodLists,
-      likeFood: user.likeFood,
+      _id,
+      userName: name,
+      email,
+      description,
+      foodLists: FoodLists,
+      likeFood,
     });
   } catch (e) {
     console.error(`Exception Error`);

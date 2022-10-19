@@ -58,14 +58,15 @@ const Register = async (req, res) => {
     });
 
     if (user) {
+      const { _id, name, email, description, FoodLists, likeFood } = user;
       return res.status(200).json({
         token: access,
-        _id: user._id,
-        userName: user.name,
-        email: user.email,
-        description: user.description,
-        foodLists: user.FoodLists,
-        likeFood: user.likeFood,
+        _id,
+        userName: name,
+        email,
+        description,
+        foodLists: FoodLists,
+        likeFood,
       });
     } else {
       res.status(400);
