@@ -18,7 +18,7 @@ const LoginPage = () => {
 
   const loading = useSelector((state) => state.users.loading);
   const currentError = useSelector((state) => state.users.error);
-  const currentUser = useSelector((state) => state.userInfo);
+  const currentUser = useSelector((state) => state.users.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

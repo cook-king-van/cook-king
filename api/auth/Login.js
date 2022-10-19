@@ -27,7 +27,8 @@ const Login = async (req, res) => {
       });
     }
     delete user.password;
-    const tokenUser = {...user};
+    const { _id, name, email, description, FoodLists, likeFood } = user;
+    const tokenUser = { ...user };
     delete tokenUser.email;
     delete tokenUser.likeFood;
     delete tokenUser.FoodLists;
@@ -35,10 +36,13 @@ const Login = async (req, res) => {
     const refresh = Token().Refresh(tokenUser);
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
-      status: 200,
       token: access,
-      user,
-      message: `${user.name} signed in successfully`,
+      _id,
+      userName: name,
+      email,
+      description,
+      foodLists: FoodLists,
+      likeFood,
     });
   } catch (e) {
     console.error(`Exception Error`);
