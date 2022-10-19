@@ -1,4 +1,5 @@
 import React, { createRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import mainStyles from './LandingPage.module.css';
 import './UserProfile.css';
@@ -12,23 +13,15 @@ import MyCookingCard from '../components/MyCookingCard';
 import { Avatar } from '@mui/material';
 
 const UserProfile = () => {
-  const currentUser = {
-    loading: false,
-    userInfo: {
-      username: 'Jayhan1109',
-      email: 'jungho1109@gmail.com',
-      userImageUrl: '',
-      description:
-        'Hi everyone :) I am Jay Han and I love going Mooyaho~~. I am a challenger in Leauge of Legends so If you need a carry, just let me know ;)',
-      likeFood: {},
-    },
-    error: '',
-    bio: {},
-  };
+  const currentUser = useSelector((state) => state.user);
   const userImage = currentUser?.userInfo?.userImageUrl;
 
-  const [userName, setUserName] = useState(currentUser?.userInfo?.username);
-  const [intro, setIntro] = useState(currentUser?.userInfo?.description);
+  const [userName, setUserName] = useState(
+    currentUser?.userInfo?.userName || 'a user'
+  );
+  const [intro, setIntro] = useState(
+    currentUser?.userInfo?.description || `Hello! I am ${userName}`
+  );
   const [nameFieldWidth, setNameFieldWidth] = useState(userName.length);
   const [isEditProfileName, setEditProfileName] = useState('disabled');
   const [isEditIntro, setEditIntro] = useState('disabled');
@@ -46,7 +39,13 @@ const UserProfile = () => {
       editIntroRef.current.selectionEnd = editIntroRef.current.value.length;
       editIntroRef.current.focus();
     }
-  }, [editProfileNameRef, isEditProfileName, editIntroRef, isEditIntro]);
+  }, [
+    editProfileNameRef,
+    isEditProfileName,
+    editIntroRef,
+    isEditIntro,
+    currentUser,
+  ]);
 
   const hiddenFileInput = React.useRef(null);
 

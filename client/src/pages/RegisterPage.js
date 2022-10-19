@@ -19,9 +19,9 @@ import { registerUser } from '../features/users/userSlice';
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useSelector((state) => state.users.loading);
-  const currentError = useSelector((state) => state.users.error);
-  const currentUserInfo = useSelector((state) => state.users.userInfo);
+  const loading = useSelector((state) => state.user.loading);
+  const currentError = useSelector((state) => state.user.error);
+  const currentUserInfo = useSelector((state) => state.user.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
