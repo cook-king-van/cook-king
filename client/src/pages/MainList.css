@@ -49,10 +49,9 @@ h3 {
 }
 .reactMultiCarouselList{
   position: unset !important;
-}
-.react-multiple-carousel__arrow--right {
+}.react-multiple-carousel__arrow--right {
   right: calc(4% - 30px) !important;
 }
-.react-multiple-carousel__arrow--left {
+.react-multi-carousel-list > button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
   left: calc(4% - 30px) !important;
 }

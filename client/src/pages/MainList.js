@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './MainList.module.css';
+import './MainList.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from "semantic-ui-react";
@@ -66,15 +66,15 @@ const MainList = () => {
     //each of the slide card
     const SlideCard = (props) => {
       return (
-        <div className={css.image_item}>
+        <div className="image_item">
          <Image
             draggable={false}
             style={{ width: "100%", height: "80%" }}
             src={props.image.url}
             key={props.image.caption}
           />
-          <h3 className={css.h3}>{props.description}</h3>
-          <div className={css.cardInfo}>
+          <h3 className="h3">{props.description}</h3>
+          <div className="cardInfo">
             <p>{props.heart}</p>
             <p>{props.user}</p>
           </div>
@@ -92,7 +92,7 @@ const MainList = () => {
       responsive={responsive}
       arrows={true}
       infinite
-      className={css.reactMultiCarouselList}
+      className="reactMultiCarouselList"
     >
       {slideImages.slice(0, slideImages.length).map(image => {
         return (
@@ -113,11 +113,11 @@ const MainList = () => {
   return (
     <>
       <div>
-        <h1 className={css.h1}>Today's Best</h1>
+        <h1 className="h1">Today's Best</h1>
       </div>
 
-      <div className={css.slideShow}>
-        <div className={css.slideContainer}>
+      <div className="slideShow">
+        <div className="slideContainer">
           <SlideCreator />
         </div>
       </div>
