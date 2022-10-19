@@ -224,7 +224,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user.id}`, user, config);
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
 
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
