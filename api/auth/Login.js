@@ -27,10 +27,11 @@ const Login = async (req, res) => {
       });
     }
     delete user.password;
-    const tokenUser = {...user};
+    const tokenUser = { ...user };
     delete tokenUser.email;
     delete tokenUser.likeFood;
     delete tokenUser.FoodLists;
+    delete tokenUser.description;
     const access = Token().Access(tokenUser);
     const refresh = Token().Refresh(tokenUser);
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
