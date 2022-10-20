@@ -34,17 +34,17 @@ const CreateRecipe = async (req, res) => {
     }).save();
     await Categories.Option.findByIdAndUpdate(option._id, {
       $push: {
-        RecipeId: recipe._id,
+        recipeId: recipe._id,
       },
     });
     await Categories.Categories.findByIdAndUpdate(categories._id, {
       $push: {
-        RecipeList: recipe._id,
+        recipeList: recipe._id,
       },
     });
     await User.findByIdAndUpdate(user._id, {
       $push: {
-        Recipes: recipe._id,
+        recipes: recipe._id,
       },
     });
     return res.status(200).json({

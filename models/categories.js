@@ -4,7 +4,7 @@ const categories = new Schema({
   categoriesName: {
     type: String,
   },
-  RecipeList: [
+  recipeList: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Recipes',
@@ -13,7 +13,7 @@ const categories = new Schema({
 });
 
 const option = new Schema({
-  RecipeId: [
+  recipeId: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Recipes',

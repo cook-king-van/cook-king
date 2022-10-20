@@ -57,7 +57,7 @@ const recipes = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Option',
   },
-  RecipeImage: {
+  recipeImage: {
     type: String,
   },
   steps: {
