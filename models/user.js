@@ -6,7 +6,7 @@ const user = new Schema({
     unique: true,
     requried: true,
   },
-  Recipes: [
+  recipes: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Recipes',
