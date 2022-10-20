@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-const Cooking = new Schema({
+const Step = new Schema({
   order: {
     type: Number,
     default: 0,
@@ -8,8 +8,8 @@ const Cooking = new Schema({
     type: String,
     default: '',
   },
-  cookingImage: {
-    type: Buffer,
+  stepImage: {
+    type: String,
   },
   createdAt: {
     type: Date,
@@ -22,7 +22,7 @@ const Cooking = new Schema({
     default: () => Date.now(),
   },
 });
-const food = new Schema({
+const recipes = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -33,7 +33,7 @@ const food = new Schema({
       ref: 'Categories',
     },
   ], //N:M relation
-  foodName: {
+  recipeName: {
     type: String,
     required: true,
   },
@@ -53,18 +53,15 @@ const food = new Schema({
     type: [String],
     unique: true,
   },
-  foodMedia: {
-    type: [String],
-  },
   option: {
     type: Schema.Types.ObjectId,
     ref: 'Option',
   },
-  foodImage: {
-    type: Buffer,
+  RecipeImage: {
+    type: String,
   },
   steps: {
-    type: [Cooking],
+    type: [Step],
   },
   createdAt: {
     type: Date,
@@ -78,5 +75,5 @@ const food = new Schema({
   },
 });
 
-const Food = mongoose.model('Food', food);
-export default Food;
+const Recipe = mongoose.model('Recipes', recipes);
+export default Recipe;

@@ -4,19 +4,19 @@ const categories = new Schema({
   categoriesName: {
     type: String,
   },
-  foodList: [
+  RecipeList: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Food',
+      ref: 'Recipes',
     },
   ],
 });
 
 const option = new Schema({
-  foodId: [
+  RecipeId: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Food',
+      ref: 'Recipes',
     },
   ],
   sort: {
