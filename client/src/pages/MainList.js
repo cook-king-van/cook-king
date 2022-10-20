@@ -48,7 +48,7 @@ const MainList = () => {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3,
+      items: 4,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -73,8 +73,8 @@ const MainList = () => {
             src={props.image.url}
             key={props.image.caption}
           />
-          <h3 className="h3">{props.description}</h3>
-          <div className="cardInfo">
+          <h3 className="MainList-h3">{props.description}</h3>
+          <div className="MainList-cardInfo">
             <p>{props.heart}</p>
             <p>{props.user}</p>
           </div>
@@ -88,11 +88,11 @@ const MainList = () => {
    <Carousel
       ssr
       partialVisbile
-      itemClass="image-item"
+      itemClass="MainList-image_item"
       responsive={responsive}
       arrows={true}
       infinite
-      className="reactMultiCarouselList"
+      className="MainList-reactMultiCarouselList"
     >
       {slideImages.slice(0, slideImages.length).map(image => {
         return (
@@ -113,11 +113,11 @@ const MainList = () => {
   return (
     <>
       <div>
-        <h1 className="h1">Today's Best</h1>
+        <h1 className="MainList-h1">Today's Best</h1>
       </div>
 
-      <div className="slideShow">
-        <div className="slideContainer">
+      <div className="MainList-slideShow">
+        <div className="MainList-slideContainer">
           <SlideCreator />
         </div>
       </div>

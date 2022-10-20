@@ -29,7 +29,7 @@ export const NavBar = () => {
         </form>
       </div>
 
-      <div className="interface">
+      <div className="NabVar-interface">
         <button className="NavBar-buttonIcon" onClick={() => {
               alert('creating');
             }}>
