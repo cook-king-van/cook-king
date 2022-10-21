@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-var Cooking = new Schema({
+const Cooking = new Schema({
   order: {
     type: Number,
     default: 0,
@@ -22,15 +22,17 @@ var Cooking = new Schema({
     default: () => Date.now(),
   },
 });
-var Food = new Schema({
+const food = new Schema({
   userId: {
-    type: Schema.type.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  categoriesId: {
-    type: [Schema.type.ObjectId],
-    ref: 'Categories',
-  }, //N:M relation
+  categoriesId: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Categories',
+    },
+  ], //N:M relation
   foodName: {
     type: String,
     required: true,
@@ -38,7 +40,6 @@ var Food = new Schema({
   tag: {
     type: [String],
     unique: true,
-    default: undefined,
   },
   size: {
     type: Number,
@@ -51,22 +52,19 @@ var Food = new Schema({
   ingredient: {
     type: [String],
     unique: true,
-    default: undefined,
   },
   foodMedia: {
     type: [String],
   },
   option: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'Option',
-    default: 'none',
   },
   foodImage: {
     type: Buffer,
   },
   steps: {
     type: [Cooking],
-    default: undefined,
   },
   createdAt: {
     type: Date,
@@ -79,4 +77,6 @@ var Food = new Schema({
     default: () => Date.now(),
   },
 });
-module.exports = mongoose.model('Food', Food);
+
+const Food = mongoose.model('Food', food);
+export default Food;
