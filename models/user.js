@@ -1,12 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 
-var User = new Schema({
+const user = new Schema({
   name: {
     type: String,
     unique: true,
-    required: true,
+    requried: true,
   },
-  id: {
+  FoodLists: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Food',
+  }],
+  email: {
     type: String,
     unique: true,
     required: true,
@@ -19,15 +23,16 @@ var User = new Schema({
     type: String,
     default: '',
   },
-  likeFood: {
-    type: [Schema.type.ObjectId],
+  likeFood: [{
+    type: Schema.Types.ObjectId,
     ref: 'Food',
-    default: undefined,
-  }, //1:N relation
+  }], //1:N relation
   createdAt: {
     type: Date,
     required: true,
     default: () => Date.now(),
   },
 });
-module.exports = mongoose.model('User', User);
+
+const User = mongoose.model('User', user);
+export default User;
