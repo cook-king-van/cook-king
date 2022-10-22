@@ -53,10 +53,25 @@ const Register = async (req, res) => {
       name,
     }).save();
 
-    return res.status(200).json({
-      status: 200,
-      message: `${req.body.email} has signed successfully`,
+    const user = await User.findOne({
+      email: req.body.email,
     });
+
+    if (user) {
+      const { _id, name, email, description, FoodLists, likeFood } = user;
+      return res.status(200).json({
+        token: access,
+        _id,
+        userName: name,
+        email,
+        description,
+        foodLists: FoodLists,
+        likeFood,
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid user data');
+    }
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
