@@ -20,24 +20,25 @@ const Hash = (data) => {
 const Register = async (req, res) => {
   //     BodyData : email , password , passwordconfirm
   try {
+    const { email, description, password, passwordconfirm } = req.body;
     if (
-      !EmailValid(req.body.email) ||
-      !PasswordValid(req.body.password) ||
-      !PasswordValid(req.body.passwordconfirm)
+      !EmailValid(email) ||
+      !PasswordValid(password) ||
+      !PasswordValid(passwordconfirm)
     ) {
       return res.status(403).json({
         status: 403,
         message: `Email or Password Invalid`,
       });
     }
-    if (req.body.passwordconfirm !== req.body.password) {
+    if (passwordconfirm !== password) {
       return res.status(402).json({
         status: 402,
         message: `Passwords don't match`,
       });
     }
     const findUser = await User.findOne({
-      email: req.body.email,
+      email,
     });
     if (findUser) {
       //If User already has signed up return error
@@ -46,32 +47,17 @@ const Register = async (req, res) => {
         message: `User already exists`,
       });
     }
-    const name = req.body.email.split('@')[0];
+    const userName = email.split('@')[0];
     await new User({
-      email: req.body.email,
-      password: Hash(req.body.password),
+      email,
+      password: Hash(password),
+      description,
       name,
     }).save();
-
-    const user = await User.findOne({
-      email: req.body.email,
+    return res.status(200).json({
+      status: 200,
+      message: `${userName} register`,
     });
-
-    if (user) {
-      const { _id, name, email, description, FoodLists, likeFood } = user;
-      return res.status(200).json({
-        token: access,
-        _id,
-        userName: name,
-        email,
-        description,
-        foodLists: FoodLists,
-        likeFood,
-      });
-    } else {
-      res.status(400);
-      throw new Error('Invalid user data');
-    }
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
