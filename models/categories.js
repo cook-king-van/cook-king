@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const categories = new Schema({
   categoriesName: {
     type: String,
+    unique: true,
   },
   recipeList: [
     {

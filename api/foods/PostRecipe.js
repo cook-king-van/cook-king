@@ -3,16 +3,25 @@ import Categories from '../../models/categories';
 import User from '../../models/user';
 const CreateRecipe = async (req, res) => {
   try {
-    const user = req.user;
-    const categories = await new Categories.Categories({
-      categoriesName: req.body.categoriesName,
-    }).save();
-
-    if (!req.body.option) req.body.option = 'none';
-    const option = await Categories.Option.findOne({
-      sort: req.body.option,
+    const userId = req.user._id;
+    let { recipeName, ingredient, tag, time, option, categoriesName, size } =
+      req.body;
+    option = option ?? 'none';
+    const categories = await Categories.Categories.findOneAndUpdate(
+      {
+        categoriesName: categoriesName,
+      },
+      {
+        categoreisName: categoriesName,
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+    const findOption = await Categories.Option.findOne({
+      sort: option,
     });
-
     let steps = [];
     req.body.step.forEach((e, index) => {
       //Json Parse
@@ -20,19 +29,18 @@ const CreateRecipe = async (req, res) => {
       json.order = index + 1; //order
       steps.push(json);
     });
-
     const recipe = await new Recipe({
-      userId: user._id,
-      categoriesId: categories,
-      recipeName: req.body.recipeName,
-      ingredient: req.body.ingredient,
-      tag: req.body.tag,
-      size: req.body.size,
-      time: req.body.time,
-      option: option._id,
+      userId,
+      categoriesId: categories._id,
+      recipeName,
+      ingredient,
+      tag,
+      size,
+      time,
+      option: findOption._id,
       steps,
     }).save();
-    await Categories.Option.findByIdAndUpdate(option._id, {
+    await Categories.Option.findByIdAndUpdate(findOption._id, {
       $push: {
         recipeId: recipe._id,
       },
@@ -42,7 +50,7 @@ const CreateRecipe = async (req, res) => {
         recipeList: recipe._id,
       },
     });
-    await User.findByIdAndUpdate(user._id, {
+    await User.findByIdAndUpdate(userId, {
       $push: {
         recipes: recipe._id,
       },
