@@ -53,9 +53,9 @@ const Register = async (req, res) => {
       email,
       password: Hash(password),
       description,
-      name,
+      name: userName,
     }).save();
-    
+
     const user = await User.findOne({
       email: req.body.email,
     });
