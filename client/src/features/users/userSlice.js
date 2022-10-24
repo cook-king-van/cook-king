@@ -117,13 +117,15 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
 
     dispatch(userLoginSuccess(data));
 
+    const parsedData = JSON.stringify(data.token);
+
     // store the user in localStorage if checkbox is ticked
     if (isRemember) {
       dispatch(updateIsRemember(true));
-      localStorage.setItem('user', data);
+      localStorage.setItem('user', parsedData);
     } else {
       dispatch(updateIsRemember(false));
-      sessionStorage.setItem('user', data);
+      sessionStorage.setItem('user', parsedData);
     }
   } catch (error) {
     dispatch(
@@ -166,7 +168,7 @@ export const registerUser =
       dispatch(updateIsRemember(false));
 
       localStorage.removeItem('user');
-      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('user', JSON.stringify(data.token));
     } catch (error) {
       dispatch(
         userRegisterFailure(
@@ -222,14 +224,15 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user.id}`, user, config);
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
 
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
+    const parsedData = JSON.stringify(data.token);
     if (isRemember) {
-      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(parsedData));
     } else {
-      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('user', JSON.stringify(parsedData));
     }
   } catch (error) {
     const message =

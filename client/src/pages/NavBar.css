@@ -1,0 +1,109 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.NavBar-headerContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #5C6E56;
+}
+
+.NavBar-logo {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 75px;
+  width: 160px;
+  margin: 0 30px;
+}
+
+.NavBar-logo:hover {
+  cursor: pointer;
+}
+
+.NavBar-navMid {
+  display: flex;
+  justify-self: center;
+}
+
+
+.NavBar-searchBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0 30px;
+}
+
+.NavBar-imageWrapper {
+  margin: 0px 5px;
+}
+
+/* .fa-solid {
+  background-color: green;
+} */
+
+.NavBar-fa-white {
+  color: #fff;
+}
+
+.NavBar-searchBth:hover {
+  cursor: pointer;
+  opacity: 0;
+}
+
+
+.NavBar-button {
+  height: 55px;
+  width: 55px;
+  background-color: #5C6E56;
+  border: none;
+  border-radius: 20%;
+
+}
+.NavBar-button:hover {
+  cursor: pointer;
+  background-color: aquamarine;
+}
+
+.NavBar-buttonIcon {
+  height: 50px;
+  width: 50px;
+  background-color: #5C6E56;
+  border-radius: 50%;
+  border: none;
+  margin: 0 20px;
+}
+
+.NavBar-buttonIcon:hover {
+  cursor: pointer;
+  background-color: aquamarine;
+}
+
+
+input.NavBar-bar {
+  width: 40vw;
+  display:inline-block;
+  padding:15px 10px;
+  line-height:150%;
+  border: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+  background-color: rgba(223, 211, 195, 0.1);
+}
+
+input.NavBar-bar:focus {
+background-color: #fff;
+}
+
+
+.NavBar-interface {
+  margin: 0 50px;
+  display: flex;
+  justify-content: flex-end;
+}

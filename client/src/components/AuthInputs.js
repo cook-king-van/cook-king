@@ -1,11 +1,11 @@
-import styles from '../pages/Auth.module.css';
+import '../pages/Auth.css';
 
 const AuthInputs = (props) => {
   const { title, type, value, onChange } = props;
 
   return (
     <>
-      <label className={styles.email} htmlFor={title}>
+      <label className='Auth-email' htmlFor={title}>
         {title.toUpperCase()}
       </label>
       <input
@@ -13,7 +13,7 @@ const AuthInputs = (props) => {
         name={title}
         value={value}
         onChange={onChange}
-        className={styles.authInputs}
+        className='Auth-authInputs'
       />
     </>
   );

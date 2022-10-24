@@ -22,7 +22,7 @@ const CreateRecipe = async (req, res) => {
     const findOption = await Categories.Option.findOne({
       sort: option,
     });
-    let steps = [];
+    const steps = [];
     req.body.step.forEach((e, index) => {
       //Json Parse
       const json = JSON.parse(e);

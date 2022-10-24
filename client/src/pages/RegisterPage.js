@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from './Auth.module.css';
+import './Auth.css';
 import logo from '../images/logo.png';
 import AuthButton from '../components/AuthButton';
 import AuthInputs from '../components/AuthInputs';
@@ -19,9 +19,9 @@ import { registerUser } from '../features/users/userSlice';
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useSelector((state) => state.users.loading);
-  const currentError = useSelector((state) => state.users.error);
-  const currentUserInfo = useSelector((state) => state.users.userInfo);
+  const loading = useSelector((state) => state.user.loading);
+  const currentError = useSelector((state) => state.user.error);
+  const currentUserInfo = useSelector((state) => state.user.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,15 +72,15 @@ const RegisterPage = () => {
       // icon={false}
       variant='outlined'
       severity='error'
-      className={styles.authErrMsg}
+      className='Auth-authErrMsg'
       onClose={() => setError('')}>
       {error ? error : currentError}
     </Alert>
   );
 
   const registerScreen = (
-    <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
-      <img src={logo} alt='Logo' className={styles.logo} />
+    <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
+      <img src={logo} alt='Logo' className='Auth-logo' />
       <AuthInputs
         title='email'
         value={email}
@@ -107,7 +107,7 @@ const RegisterPage = () => {
         }}
       />
       <AuthButton title='REGISTER' />
-      <a className={styles.accountMsg} href='/login'>
+      <a className='Auth-accountMsg' href='/login'>
         Already have an account ? <u>Sign In</u>
       </a>
     </form>
@@ -119,8 +119,8 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.container}>
+    <div className='Auth-screen'>
+      <div className='Auth-container'>
         {error && showAlert}
         {currentError && showAlert}
         {loading ? <Spinner /> : registerScreen}
