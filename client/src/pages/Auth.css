@@ -1,4 +1,4 @@
-.screen {
+.Auth-screen {
   background: linear-gradient(
       rgba(255, 255, 255, 0.2) 100%,
       rgba(255, 255, 255, 0.2) 100%
@@ -13,7 +13,7 @@
   position: relative;
 }
 
-.container {
+.Auth-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,12 +22,12 @@
   height: 100%;
 }
 
-.logo {
+.Auth-logo {
   width: 300px;
   height: 110px;
 }
 
-.authTitle {
+.Auth-authTitle {
   color: var(--primaryColor);
   font-style: normal;
   font-weight: 500;
@@ -37,7 +37,7 @@
   letter-spacing: 9px;
 }
 
-.authForm {
+.Auth-authForm {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@
   margin: 20px;
 }
 
-.authButton {
+.Auth-authButton {
   background: var(--primaryColor);
   color: #fff;
   padding: 3px 150px;
@@ -65,12 +65,12 @@
   cursor: pointer;
 }
 
-.authButton:hover {
+.Auth-authButton:hover {
   background: var(--secondaryColor);
 }
 
-.email,
-.password {
+.Auth-email,
+.Auth-password {
   align-self: flex-start;
   color: var(--primaryColor);
   font-style: normal;
@@ -83,7 +83,7 @@
   /* text-align: start; */ 
 }
 
-.authInputs {
+.Auth-authInputs {
   background: #f3f3f3;
   width: 100%;
   height: 40px;
@@ -95,18 +95,18 @@
   -webkit-text-fill-color: var(--brownColor);
 }
 
-.authInputs:focus {
+.Auth-authInputs:focus {
   outline: none;
 }
 
-.accountMsg {
+.Auth-accountMsg {
   display: block;
   color: var(--brownColor);
   cursor: pointer;
   text-decoration: none;
 }
 
-.recoveryBtn {
+.Auth-recoveryBtn {
   background: var(--primaryColor);
   color: #fff;
   padding: 3px 60px;
@@ -122,25 +122,25 @@
   cursor: pointer;
 }
 
-.recoveryBtn:hover {
+.Auth-recoveryBtn:hover {
   background: var(--secondaryColor);
 }
 
-.recoveryBottom {
+.Auth-recoveryBottom {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
 }
 
-.recoveryMsg {
+.Auth-recoveryMsg {
   padding: 3px;
   margin-top: 40px;
   letter-spacing: 0.9px;
   font-weight: 500;
 }
 
-.staySignIn {
+.Auth-staySignIn {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -148,7 +148,7 @@
   color: var(--brownColor);
 }
 
-.checkboxLabel {
+.Auth-checkboxLabel {
   display: block;
   position: relative;
   margin-left: -5px;
@@ -159,7 +159,7 @@
   user-select: none;
 }
 
-.checkboxLabel input {
+.Auth-checkboxLabel input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -167,44 +167,44 @@
   width: 0;
 }
 
-.checkmark {
+.Auth-checkmark {
   display: inline-block;
   height: 20px;
   width: 20px;
   background-color: #eee;
   margin-right: 8px;
-  border: solid var(--primaryColor);
+  border: 1px solid var(--primaryColor);
   border-radius: 5px;
 }
 
-.checkboxLabel {
+.Auth-checkboxLabel {
   display: flex;
 }
 
-.checkboxLabel:hover input ~ .checkmark {
+.Auth-checkboxLabel:hover input ~ .Auth-checkmark {
   background-color: #ccc;
   margin-right: 8px;
 }
 
-.checkboxLabel input:checked ~ .checkmark {
+.Auth-checkboxLabel input:checked ~ .Auth-checkmark {
   background-color: var(--brownBackgroundColor);
   border: 1px solid var(--brownColor);
   margin-right: 8px;
 }
 
-.checkmark:after {
+.Auth-checkmark:after {
   content: "";
   position: relative;
   display: none;
   margin-right: 8px;
 }
 
-.checkboxLabel input:checked ~ .checkmark:after {
+.Auth-checkboxLabel input:checked ~ .Auth-checkmark:after {
   display: block;
   margin-right: 8px;
 }
 
-.checkboxLabel .checkmark:after {
+.Auth-checkboxLabel .Auth-checkmark:after {
   left: 5px;
   width: 5px;
   height: 10px;
@@ -216,12 +216,12 @@
   margin-right: 8px;
 }
 
-.authMsg {
+.Auth-authMsg {
   color: var(--buttonRedColor);
   position: inline-block;
 }
 
-.authErrMsg {
+.Auth-authErrMsg {
   position: absolute;
   left: -20;
   top: 40px;

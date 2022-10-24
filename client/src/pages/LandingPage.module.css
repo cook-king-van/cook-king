@@ -8,6 +8,8 @@
   display: flex;
   width: 100%;
   align-items: center;
+  /* margin: 0 70px; */
+  padding-top: 20px
 }
 
 .logo {
@@ -30,22 +32,24 @@
   margin: 0 30px;
 }
 
-.imageWrapper {
-    background-image: url("../images//Google\ Web\ Search.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
 .searchBth:hover {
   cursor: pointer;
-  opacity: 0;
+  opacity: 0.7;
 }
 
 input.bar {
   width: 40vw;
   display:inline-block;
-  padding:15px 10px;
+  padding:15px 15px;
   line-height:150%;
+  border: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+  background-color: rgba(223, 211, 195, 0.1);
+}
+
+input.bar:focus {
+background-color: #fff;
 }
 
 /* main color #759688 */
@@ -55,12 +59,14 @@ input.bar {
   border-radius: 30px;
   width: 100px;
   padding: 15px;
-  font-size: medium;
+  font-size: 1.5rem;
   color: #6C5D53;
+  margin-right: 30px;
 }
 
 .categoryButton:hover {
   cursor: pointer;
+  opacity: 0.7;
 }
 
 .interface {

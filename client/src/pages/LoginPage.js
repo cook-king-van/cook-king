@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthButton from '../components/AuthButton';
 import AuthInputs from '../components/AuthInputs';
 import Spinner from '../components/Spinner';
-import styles from './Auth.module.css';
+import './Auth.css';
 import logo from '../images/logo.png';
 import { Alert } from '@mui/material';
 import { loginUser } from '../features/users/userSlice';
@@ -16,9 +16,9 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loading = useSelector((state) => state.users.loading);
-  const currentError = useSelector((state) => state.users.error);
-  const currentUser = useSelector((state) => state.userInfo);
+  const loading = useSelector((state) => state.user.loading);
+  const currentError = useSelector((state) => state.user.error);
+  const currentUser = useSelector((state) => state.user.userInfo);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,7 +62,7 @@ const LoginPage = () => {
       // icon={false}
       variant='outlined'
       severity='error'
-      className={styles.authErrMsg}
+      className='Auth-authErrMsg'
       onClose={() => {
         setError('');
       }}>
@@ -71,8 +71,8 @@ const LoginPage = () => {
   );
 
   const loginScreen = (
-    <form className={styles.authForm} onSubmit={handleSubmit} noValidate={true}>
-      <img src={logo} alt='Logo' className={styles.logo} />
+    <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
+      <img src={logo} alt='Logo' className='Auth-logo' />
       <AuthInputs
         title='email'
         value={email}
@@ -83,25 +83,23 @@ const LoginPage = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <div className={styles.staySignIn}>
-        <label className={styles.checkboxLabel}>
+      <div className='Auth-staySignIn'>
+        <label className='Auth-checkboxLabel'>
           <input
             type='checkbox'
-            className={styles.checkbox}
+            className='Auth-checkbox'
             checked={isRemember}
             onChange={() => setIsRemember(!isRemember)}
           />
-          <span className={styles.checkmark}></span>
+          <span className='Auth-checkmark'></span>
           <p>Remember me</p>
         </label>
-        <a
-          className={`${styles.pwdForgotMsg} ${styles.accountMsg}`}
-          href='/login-recovery'>
+        <a className='Auth-pwdForgotMsg Auth-accountMsg' href='/login-recovery'>
           Forgot password ?
         </a>
       </div>
       <AuthButton title='LOGIN' />
-      <a className={styles.accountMsg} href='/register'>
+      <a className='Auth-accountMsg' href='/register'>
         Don't have an account ? <u>Sign Up</u>
       </a>
     </form>
@@ -113,8 +111,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.container}>
+    <div className='Auth-screen'>
+      <div className='Auth-container'>
         {error && showAlert}
         {loading ? <Spinner /> : loginScreen}
       </div>

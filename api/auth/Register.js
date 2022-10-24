@@ -1,5 +1,6 @@
 import User from '../../models/user';
 import { createHash } from 'crypto';
+import { Token, setValue } from '../../config/redis';
 const EmailValid = (data) => {
   const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
   return RegExp.test(data);
@@ -54,10 +55,29 @@ const Register = async (req, res) => {
       description,
       name,
     }).save();
-    return res.status(200).json({
-      status: 200,
-      message: `${userName} register`,
+    
+    const user = await User.findOne({
+      email: req.body.email,
     });
+
+    if (user) {
+      const { _id, name, email, description, recipes, likes } = user;
+      const access = Token().Access({ _id, name });
+      const refresh = Token().Refresh({ _id, name });
+      setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
+      return res.status(200).json({
+        token: access,
+        _id,
+        userName: name,
+        email,
+        description,
+        recipes,
+        likes,
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid user data');
+    }
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
