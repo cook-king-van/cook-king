@@ -2,7 +2,13 @@ import Recipe from '../../models/recipe';
 import categories from '../../models/categories';
 export const bestSort = async (req, res) => {
   try {
-    const recipe = await Recipe.find().sort(['like', 'desc']).limit(5);
+    const start = new Date() - 86400000;
+    const recipe = await Recipe.find({
+      createdAt: { $gte: start }, // Today's best
+    })
+      .sort(['like', 'desc'])
+      .limit(5);
+    if (!recipe) return res.status(403).send('No items');
     return res.status(200).send(recipe);
   } catch (e) {
     console.error(`Exception Error`);
@@ -20,6 +26,7 @@ export const optionSort = async (req, res) => {
       .sort([['createAt', 'desc']])
       .populate('recipeId', ['recipeName', 'recipeImage', 'steps'])
       .limit(10);
+    if (!recipe) return res.status(403).send('No items');
     return res.status(200).send(recipe);
   } catch (e) {
     console.error(`Exception Error`);
@@ -37,6 +44,7 @@ export const categorySort = async (req, res) => {
       .select('recipeList -_id')
       .populate('recipeList', ['recipeName', 'recipeImage', 'steps'])
       .limit(10);
+    if (!recipe) return res.status(403).send('No items');
     return res.status(200).send(recipe);
   } catch (e) {
     console.error(`Exception Error`);
