@@ -23,7 +23,7 @@ const option = new Schema({
   sort: {
     type: String,
     enum: {
-      values: ['best', 'brunch', 'snack', 'none'],
+      values: ['brunch', 'snack', 'dinner', 'none'],
     },
     default: 'none',
   },
