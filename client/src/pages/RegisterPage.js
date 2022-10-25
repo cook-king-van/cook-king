@@ -27,14 +27,11 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [error, setError] = useState('');
-  const [user, setUser] = useState();
 
   useEffect(() => {
-    const loggedInUserRemember = localStorage.getItem('user');
-    const loggedInUser = sessionStorage.getItem('user');
+    const loggedInUserRemember = localStorage.getItem('token');
+    const loggedInUser = sessionStorage.getItem('token');
     if (loggedInUserRemember || loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
       navigate('/');
     }
   }, [navigate, currentUserInfo, currentError, error]);
@@ -60,7 +57,6 @@ const RegisterPage = () => {
     }
     await dispatch(registerUser(email, password, passwordCheck));
     if (!loading && currentUserInfo) {
-      setUser(currentUserInfo);
       setError('');
       return;
     }
@@ -112,11 +108,6 @@ const RegisterPage = () => {
       </a>
     </form>
   );
-
-  //if user is already logged in , redirect to the main page
-  if (user) {
-    <Navigate replace to='/' />;
-  }
 
   return (
     <div className='Auth-screen'>

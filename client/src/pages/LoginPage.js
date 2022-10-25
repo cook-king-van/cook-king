@@ -22,16 +22,13 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState();
   const [error, setError] = useState('');
   const [isRemember, setIsRemember] = useState(false);
 
   useEffect(() => {
-    const loggedInUserRemember = localStorage.getItem('user');
-    const loggedInUser = sessionStorage.getItem('user');
+    const loggedInUserRemember = localStorage.getItem('token');
+    const loggedInUser = sessionStorage.getItem('token');
     if (loggedInUserRemember || loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
       navigate('/');
     }
     setError(currentError);
@@ -50,9 +47,6 @@ const LoginPage = () => {
       return;
     }
     dispatch(loginUser(email, password, isRemember));
-    if (currentUser) {
-      setUser(currentUser);
-    }
     setError(currentError);
   };
 
@@ -104,11 +98,6 @@ const LoginPage = () => {
       </a>
     </form>
   );
-
-  //if user is already logged in , redirect to the main page
-  if (user) {
-    <Navigate replace to='/' />;
-  }
 
   return (
     <div className='Auth-screen'>
