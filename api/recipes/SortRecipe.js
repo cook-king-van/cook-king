@@ -2,7 +2,7 @@ import Recipe from '../../models/recipe';
 import categories from '../../models/categories';
 export const bestSort = async (req, res) => {
   try {
-    const recipe = await Recipe.find().sort(['likeLength', 'desc']).limit(5);
+    const recipe = await Recipe.find().sort(['like', 'desc']).limit(5);
     return res.status(200).send(recipe);
   } catch (e) {
     console.error(`Exception Error`);
