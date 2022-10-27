@@ -26,19 +26,20 @@ const Login = async (req, res) => {
         message: `Passwords don't match`,
       });
     }
-    delete user.password;
-    const { _id, name, email, description, FoodLists, likeFood } = user;
-    const access = Token().Access(user);
-    const refresh = Token().Refresh(user);
+    const { _id, name, email, description, recipes, likes } = user;
+    const access = Token().Access({ _id, name });
+    const refresh = Token().Refresh({ _id, name });
+
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
       token: access,
       _id,
-      userName: name,
+      name,
       email,
       description,
-      foodLists: FoodLists,
-      likeFood,
+      recipes,
+      likes,
+      message: `${name} signed in successfully`,
     });
   } catch (e) {
     console.error(`Exception Error`);

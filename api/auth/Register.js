@@ -1,5 +1,6 @@
 import User from '../../models/user';
 import { createHash } from 'crypto';
+import { Token, setValue } from '../../config/redis';
 const EmailValid = (data) => {
   const RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/; //Email Valid
   return RegExp.test(data);
@@ -20,24 +21,25 @@ const Hash = (data) => {
 const Register = async (req, res) => {
   //     BodyData : email , password , passwordconfirm
   try {
+    const { email, description, password, passwordconfirm } = req.body;
     if (
-      !EmailValid(req.body.email) ||
-      !PasswordValid(req.body.password) ||
-      !PasswordValid(req.body.passwordconfirm)
+      !EmailValid(email) ||
+      !PasswordValid(password) ||
+      !PasswordValid(passwordconfirm)
     ) {
       return res.status(403).json({
         status: 403,
         message: `Email or Password Invalid`,
       });
     }
-    if (req.body.passwordconfirm !== req.body.password) {
+    if (passwordconfirm !== password) {
       return res.status(402).json({
         status: 402,
         message: `Passwords don't match`,
       });
     }
     const findUser = await User.findOne({
-      email: req.body.email,
+      email,
     });
     if (findUser) {
       //If User already has signed up return error
@@ -46,11 +48,12 @@ const Register = async (req, res) => {
         message: `User already exists`,
       });
     }
-    const name = req.body.email.split('@')[0];
+    const userName = email.split('@')[0];
     await new User({
-      email: req.body.email,
-      password: Hash(req.body.password),
-      name,
+      email,
+      password: Hash(password),
+      description,
+      name: userName,
     }).save();
 
     const user = await User.findOne({
@@ -58,15 +61,18 @@ const Register = async (req, res) => {
     });
 
     if (user) {
-      const { _id, name, email, description, FoodLists, likeFood } = user;
+      const { _id, name, email, description, recipes, likes } = user;
+      const access = Token().Access({ _id, name });
+      const refresh = Token().Refresh({ _id, name });
+      setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
       return res.status(200).json({
         token: access,
         _id,
         userName: name,
         email,
         description,
-        foodLists: FoodLists,
-        likeFood,
+        recipes,
+        likes,
       });
     } else {
       res.status(400);

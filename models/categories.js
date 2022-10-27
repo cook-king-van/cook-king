@@ -3,20 +3,21 @@ import mongoose, { Schema } from 'mongoose';
 const categories = new Schema({
   categoriesName: {
     type: String,
+    unique: true,
   },
-  foodList: [
+  recipeList: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Food',
+      ref: 'Recipes',
     },
   ],
 });
 
 const option = new Schema({
-  foodId: [
+  recipeId: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Food',
+      ref: 'Recipes',
     },
   ],
   sort: {
