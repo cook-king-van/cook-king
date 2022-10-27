@@ -80,7 +80,6 @@ const RegisterPage = () => {
       <AuthInputs
         title='email'
         value={email}
-        msg={error.email}
         onChange={(e) => {
           setEmail(e.target.value);
         }}
@@ -88,7 +87,6 @@ const RegisterPage = () => {
       <AuthInputs
         title='password'
         value={password}
-        msg={error.password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
@@ -97,7 +95,6 @@ const RegisterPage = () => {
         title='confirm password'
         type='password'
         value={passwordCheck}
-        msg={error.passwordCheck}
         onChange={(e) => {
           setPasswordCheck(e.target.value);
         }}

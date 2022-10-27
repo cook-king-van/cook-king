@@ -13,11 +13,9 @@ import { loadUser, logout } from './features/users/userSlice';
 
 const App = () => {
   useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-    if (sessionStorage.token) {
-      setAuthToken(sessionStorage.token);
+    const token = localStorage.token || sessionStorage.token;
+    if (token) {
+      setAuthToken(token);
     }
     store.dispatch(loadUser());
 
