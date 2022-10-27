@@ -73,7 +73,8 @@ const RegisterPage = () => {
       variant='outlined'
       severity='error'
       className='Auth-authErrMsg'
-      onClose={() => setError('')}>
+      onClose={() => setError('')}
+    >
       {error ? error : currentError}
     </Alert>
   );
@@ -88,6 +89,7 @@ const RegisterPage = () => {
         onChange={(e) => {
           setEmail(e.target.value);
         }}
+        condition={validateEmail(email)}
       />
       <AuthInputs
         title='password'
@@ -96,6 +98,7 @@ const RegisterPage = () => {
         onChange={(e) => {
           setPassword(e.target.value);
         }}
+        condition={validatePassword(email, password)}
       />
       <AuthInputs
         title='confirm password'
@@ -105,8 +108,16 @@ const RegisterPage = () => {
         onChange={(e) => {
           setPasswordCheck(e.target.value);
         }}
+        condition={validatePasswordCheck(password,passwordCheck)}
       />
-      <AuthButton title='REGISTER' />
+      <AuthButton
+        title='REGISTER'
+        valid={
+          validateEmail(email) ||
+          validatePassword(email, password) ||
+          validatePasswordCheck(password, passwordCheck)
+        }
+      />
       <a className='Auth-accountMsg' href='/login'>
         Already have an account ? <u>Sign In</u>
       </a>

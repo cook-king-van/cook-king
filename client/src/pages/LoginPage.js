@@ -65,7 +65,8 @@ const LoginPage = () => {
       className='Auth-authErrMsg'
       onClose={() => {
         setError('');
-      }}>
+      }}
+    >
       {error}
     </Alert>
   );
@@ -77,11 +78,13 @@ const LoginPage = () => {
         title='email'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        condition={validateEmail(email)}
       />
       <AuthInputs
         title='password'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        condition={validatePassword(email, password)}
       />
       <div className='Auth-staySignIn'>
         <label className='Auth-checkboxLabel'>
@@ -98,7 +101,10 @@ const LoginPage = () => {
           Forgot password ?
         </a>
       </div>
-      <AuthButton title='LOGIN' />
+      <AuthButton
+        title='LOGIN'
+        valid={validateEmail(email) || validatePassword(email, password)}
+      />
       <a className='Auth-accountMsg' href='/register'>
         Don't have an account ? <u>Sign Up</u>
       </a>

@@ -26,6 +26,12 @@ export const validatePassword = (email, password) => {
 };
 
 export const validatePasswordCheck = (password, passwordCheck) => {
+  if (password.trim() === '') {
+    return 'Please enter password.';
+  }
+  if (passwordCheck.trim() === '') {
+    return 'Please enter passwordCheck.';
+  }
   if (password !== passwordCheck) {
     return "Passwords don't match.";
   }

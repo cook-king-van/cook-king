@@ -5,7 +5,7 @@ import mainStyles from './LandingPage.module.css';
 import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
-import pencil from '../images/pencil.png';
+// import pencil from '../images/pencil.png';
 import maleUser from '../images/Male User.png';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
@@ -99,7 +99,7 @@ const UserProfile = () => {
           <img src={search} className={mainStyles.searchBth} alt='search' />
         </form>
 
-        <img src={pencil} className={mainStyles.interface} alt='pencil' />
+        {/* <img src={pencil} className={mainStyles.interface} alt='pencil' /> */}
         <img src={maleUser} className={mainStyles.interface} alt='maleUser' />
       </header>
       <section className='UserProfile-container'>

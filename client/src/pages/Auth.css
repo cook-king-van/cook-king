@@ -49,7 +49,7 @@
 }
 
 .Auth-authButton {
-  background: var(--primaryColor);
+  background: var(--secondaryColor);
   color: #fff;
   padding: 3px 150px;
   margin-top: 30px;
@@ -65,8 +65,8 @@
   cursor: pointer;
 }
 
-.Auth-authButton:hover {
-  background: var(--secondaryColor);
+.Auth-authButton:valid {
+  background: var(--primaryColor);
 }
 
 .Auth-email,
@@ -80,12 +80,24 @@
   margin: 20px 10px 10px 5px;
   letter-spacing: 5px;
   /* use this only when using <form></form> and delete align-self: flex start and add display: block */
-  /* text-align: start; */ 
+  /* text-align: start; */
 }
 
-.Auth-authInputs {
-  background: #f3f3f3;
+.Auth-authContainer {
+  display: flex;
+  align-items: center;
   width: 100%;
+}
+
+.Auth-authValid {
+  margin-left: 15px;
+  font-size: 30px;
+  color: green;
+}
+.Auth-authInputs,
+.Auth-authInputsError {
+  background: #f3f3f3;
+  width: 90%;
   height: 40px;
   border-radius: 5px;
   font-size: 20px;
@@ -96,7 +108,15 @@
 }
 
 .Auth-authInputs:focus {
-  outline: none;
+  box-shadow: 0 0 10px var(--dangerColor);
+  border: 1px solid var(--dangerColor);
+  outline-color: var(--buttonRedColor);
+}
+
+.Auth-authInputsError:focus {
+  box-shadow: 0 0 10px var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+  outline-color: var(--lightColor);
 }
 
 .Auth-accountMsg {
@@ -193,7 +213,7 @@
 }
 
 .Auth-checkmark:after {
-  content: "";
+  content: '';
   position: relative;
   display: none;
   margin-right: 8px;
@@ -228,6 +248,5 @@
   text-align: center;
   color: var(--dangerColor);
   border: 1px solid var(--dangerColor);
-  background-color: rgba(212,120,120, 0.6) !important;
+  background-color: rgba(212, 120, 120, 0.6) !important;
 }
-
