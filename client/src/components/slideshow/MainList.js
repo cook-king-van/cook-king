@@ -3,37 +3,42 @@ import './MainList.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from "semantic-ui-react";
+import heart from "../../images/Heart.png";
+import tempFood from "../../images/tempFood.png"
+import tempFood2 from "../../images/TempFood2.png"
+import tempFood3 from "../../images/TempFood3.png"
+
 
 const MainList = () => {
   
   //mock data
   const slideImages = [
     {
-      url: 'https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
+      url: tempFood,
       caption: 'Slide 1',
       heart: 135,
       user: 'Jay',
     },
     {
-      url: 'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+      url: tempFood2,
       caption: 'Slide 2',
       heart: 12,
       user: 'Yun',
     },
     {
-      url: 'https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
+      url: tempFood3,
       caption: 'Slide 3',
       heart: 138,
       user: 'Hoon',
     },
     {
-      url: 'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+      url: tempFood,
       caption: 'Slide 4',
       heart: 138,
       user: 'Hoon',
     },
     {
-      url: 'https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
+      url: tempFood2,
       caption: 'Slide 5',
       heart: 138,
       user: 'Hoon',
@@ -48,7 +53,7 @@ const MainList = () => {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4,
+      items: 3,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -60,22 +65,31 @@ const MainList = () => {
     },
   };
 
+  
+  const CustomRightArrow = ({ onClick }) => {
+    return <i class="MainList-custom-right-arrow" onClick={() => onClick()}></i>;
+  };
+  
+  const CustomLeftArrow = ({ onClick }) => (
+    <i onClick={() => onClick()} className="MainList-custom-left-arrow" />
+  );
+
   //entire slideContainer
   const SlideCreator = (props) => {
     
     //each of the slide card
     const SlideCard = (props) => {
       return (
-        <div className="image_item">
+        <div className="MainList-item">
          <Image
             draggable={false}
-            style={{ width: "100%", height: "80%" }}
+            style={{ width: "350px", height: "235px" }}
             src={props.image.url}
             key={props.image.caption}
           />
           <h3 className="MainList-h3">{props.description}</h3>
           <div className="MainList-cardInfo">
-            <p>{props.heart}</p>
+            <p style={{alignItems: "center", display: 'flex'}}><img src={heart} alt=""></img>{props.heart}</p>
             <p>{props.user}</p>
           </div>
         </div>
@@ -85,14 +99,17 @@ const MainList = () => {
 
 
     return (
+
    <Carousel
       ssr
       partialVisbile
       itemClass="MainList-image_item"
       responsive={responsive}
       arrows={true}
-      infinite
       className="MainList-reactMultiCarouselList"
+      customLeftArrow={<CustomLeftArrow />}
+      customRightArrow={<CustomRightArrow />}
+      draggable={false}
     >
       {slideImages.slice(0, slideImages.length).map(image => {
         return (
@@ -114,6 +131,7 @@ const MainList = () => {
     <>
       <div>
         <h1 className="MainList-h1">Today's Best</h1>
+
       </div>
 
       <div className="MainList-slideShow">

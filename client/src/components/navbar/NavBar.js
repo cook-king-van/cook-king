@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../images/logo.png';
+import logo from '../../images/logo.png';
 import './NavBar.css';
 import Button from '@mui/material/Button';
 
@@ -24,6 +24,7 @@ export const NavBar = () => {
               }}
             >
               <i className="fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl"></i>
+              
             </button>
           </div>
         </form>
