@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Auth.css';
@@ -16,6 +16,13 @@ import {
 } from '../lib/authValidationUtils';
 import { registerUser } from '../features/users/userSlice';
 
+const defaultFormFields = {
+  email: '',
+  password: '',
+  passwordCheck: '',
+  error: '',
+};
+
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,10 +30,8 @@ const RegisterPage = () => {
   const currentError = useSelector((state) => state.user.error);
   const currentUserInfo = useSelector((state) => state.user.userInfo);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [error, setError] = useState('');
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { email, password, passwordCheck, error } = formFields;
 
   useEffect(() => {
     const loggedInUserRemember = localStorage.getItem('token');
@@ -40,26 +45,31 @@ const RegisterPage = () => {
     e.preventDefault();
     const emailMsg = validateEmail(email);
     if (emailMsg !== '') {
-      setError(emailMsg);
+      setFormFields({ ...formFields, error: emailMsg });
       return;
     }
 
     const pwdMsg = validatePassword(email, password);
     if (pwdMsg !== '') {
-      setError(pwdMsg);
+      setFormFields({ ...formFields, error: pwdMsg });
       return;
     }
 
     const pwdCheckMsg = validatePasswordCheck(password, passwordCheck);
     if (pwdCheckMsg !== '') {
-      setError(pwdCheckMsg);
+      setFormFields({ ...formFields, error: pwdCheckMsg });
       return;
     }
     await dispatch(registerUser(email, password, passwordCheck));
     if (!loading && currentUserInfo) {
-      setError('');
+      setFormFields({ ...formFields, error: '' });
       return;
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields({ ...formFields, [name]: value });
   };
 
   const showAlert = (
@@ -69,7 +79,7 @@ const RegisterPage = () => {
       variant='outlined'
       severity='error'
       className='Auth-authErrMsg'
-      onClose={() => setError('')}>
+      onClose={() => setFormFields({ ...formFields, error: '' })}>
       {error ? error : currentError}
     </Alert>
   );
@@ -77,27 +87,14 @@ const RegisterPage = () => {
   const registerScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className='Auth-logo' />
-      <AuthInputs
-        title='email'
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <AuthInputs
-        title='password'
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
+      <AuthInputs title='email' value={email} onChange={handleChange} />
+      <AuthInputs title='password' value={password} onChange={handleChange} />
       <AuthInputs
         title='confirm password'
         type='password'
+        name='passwordCheck'
         value={passwordCheck}
-        onChange={(e) => {
-          setPasswordCheck(e.target.value);
-        }}
+        onChange={handleChange}
       />
       <AuthButton title='REGISTER' />
       <a className='Auth-accountMsg' href='/login'>

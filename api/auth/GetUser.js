@@ -1,3 +1,5 @@
+import { Token } from '../../config/redis';
+
 const GetUser = async (req, res) => {
   try {
     let token = req.headers['authorization'].split(' ')[1];
@@ -16,10 +18,10 @@ const GetUser = async (req, res) => {
     }
     return res.status(200).json({
       status: 200,
-      user: req.user,
+      user: user.payload,
     });
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };

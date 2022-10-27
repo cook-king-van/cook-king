@@ -62,8 +62,9 @@ const Register = async (req, res) => {
 
     if (user) {
       const { _id, name, email, description, recipes, likes } = user;
-      const access = Token().Access({ _id, name });
-      const refresh = Token().Refresh({ _id, name });
+      delete user.password;
+      const access = Token().Access(user);
+      const refresh = Token().Refresh(user);
       setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
       return res.status(200).json({
         token: access,
@@ -79,7 +80,7 @@ const Register = async (req, res) => {
       throw new Error('Invalid user data');
     }
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AuthButton from '../components/AuthButton';
@@ -12,6 +12,13 @@ import { loginUser } from '../features/users/userSlice';
 
 import { validateEmail, validatePassword } from '../lib/authValidationUtils';
 
+const defaultFormFields = {
+  email: '',
+  password: '',
+  error: '',
+  isRemember: false,
+};
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,10 +27,8 @@ const LoginPage = () => {
   const currentError = useSelector((state) => state.user.error);
   const currentUser = useSelector((state) => state.user.userInfo);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isRemember, setIsRemember] = useState(false);
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { email, password, error, isRemember } = formFields;
 
   useEffect(() => {
     const loggedInUserRemember = localStorage.getItem('token');
@@ -31,23 +36,29 @@ const LoginPage = () => {
     if (loggedInUserRemember || loggedInUser) {
       navigate('/');
     }
-    setError(currentError);
+    setFormFields({ ...formFields, error: currentError });
+    // eslint-disable-next-line
   }, [navigate, currentError, currentUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailMsg = validateEmail(email);
-    setError(emailMsg);
+    setFormFields({ ...formFields, error: emailMsg });
     if (emailMsg !== '') {
       return;
     }
     const pwdMsg = validatePassword(email, password);
-    setError(pwdMsg);
+    setFormFields({ ...formFields, error: pwdMsg });
     if (pwdMsg !== '') {
       return;
     }
     dispatch(loginUser(email, password, isRemember));
-    setError(currentError);
+    setFormFields({ ...formFields, error: currentError });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields({ ...formFields, [name]: value });
   };
 
   const showAlert = (
@@ -58,7 +69,7 @@ const LoginPage = () => {
       severity='error'
       className='Auth-authErrMsg'
       onClose={() => {
-        setError('');
+        setFormFields({ ...formFields, error: '' });
       }}>
       {error}
     </Alert>
@@ -67,23 +78,18 @@ const LoginPage = () => {
   const loginScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className='Auth-logo' />
-      <AuthInputs
-        title='email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <AuthInputs
-        title='password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <AuthInputs title='email' value={email} onChange={handleChange} />
+      <AuthInputs title='password' value={password} onChange={handleChange} />
       <div className='Auth-staySignIn'>
         <label className='Auth-checkboxLabel'>
           <input
             type='checkbox'
+            name='isRemember'
             className='Auth-checkbox'
             checked={isRemember}
-            onChange={() => setIsRemember(!isRemember)}
+            onChange={(e) => {
+              setFormFields({ ...formFields, isRemember: !isRemember });
+            }}
           />
           <span className='Auth-checkmark'></span>
           <p>Remember me</p>
