@@ -75,7 +75,7 @@ const recipes = new Schema({
       ref: 'User',
     },
   ],
-  like: {
+  likeCount: {
     type: Number,
     default: 0,
   },
