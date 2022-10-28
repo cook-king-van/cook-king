@@ -37,10 +37,6 @@ const recipes = new Schema({
     type: String,
     required: true,
   },
-  tag: {
-    type: [String],
-    unique: true,
-  },
   size: {
     type: Number,
     required: true,
@@ -72,6 +68,16 @@ const recipes = new Schema({
     type: Date,
     required: true,
     default: () => Date.now(),
+  },
+  userLike: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  likeCount: {
+    type: Number,
+    default: 0,
   },
 });
 
