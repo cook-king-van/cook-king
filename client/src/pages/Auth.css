@@ -84,7 +84,7 @@
 }
 
 .Auth-authContainer {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   width: 100%;
 }
@@ -249,4 +249,19 @@
   color: var(--dangerColor);
   border: 1px solid var(--dangerColor);
   background-color: rgba(212, 120, 120, 0.6) !important;
+}
+
+.Auth-authErrormsg{
+  visibility: hidden;
+  height:10px;
+  justify-content: center;
+  color:var(--dangerColor);
+}
+
+.Auth-authInputValid{
+  display: flex;
+}
+
+.Auth-authInputValid:hover ~ .Auth-authErrormsg{
+  visibility: visible;
 }

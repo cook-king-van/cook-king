@@ -8,14 +8,17 @@ const AuthInputs = (props) => {
         {title.toUpperCase()}
       </label>
       <div className='Auth-authContainer'>
-        <input
-          type={type ?? title}
-          name={title}
-          value={value}
-          onChange={onChange}
-          className={condition ? 'Auth-authInputs' : 'Auth-authInputsError'}
-        />
-        {!condition && <div className='Auth-authValid'>✓</div>}
+        <div className='Auth-authInputValid'>
+          <input
+            type={type ?? title}
+            name={title}
+            value={value}
+            onChange={onChange}
+            className={condition ? 'Auth-authInputs' : 'Auth-authInputsError'}
+          />
+          {!condition && <div className='Auth-authValid'>✓</div>}
+        </div>
+        <div className='Auth-authErrormsg'>{condition}</div>
       </div>
     </>
   );
