@@ -108,7 +108,7 @@ const RegisterPage = () => {
         onChange={(e) => {
           setPasswordCheck(e.target.value);
         }}
-        condition={validatePasswordCheck(password,passwordCheck)}
+        condition={validatePasswordCheck(password, passwordCheck)}
       />
       <AuthButton
         title='REGISTER'

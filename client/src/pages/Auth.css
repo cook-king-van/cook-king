@@ -84,7 +84,6 @@
 }
 
 .Auth-authContainer {
-  /* display: flex; */
   align-items: center;
   width: 100%;
 }
@@ -251,17 +250,17 @@
   background-color: rgba(212, 120, 120, 0.6) !important;
 }
 
-.Auth-authErrormsg{
+.Auth-authErrormsg {
   visibility: hidden;
-  height:10px;
+  height: 10px;
   justify-content: center;
-  color:var(--dangerColor);
+  color: var(--dangerColor);
 }
 
-.Auth-authInputValid{
+.Auth-authInputValid {
   display: flex;
 }
 
-.Auth-authInputValid:hover ~ .Auth-authErrormsg{
+.Auth-authInputValid:hover ~ .Auth-authErrormsg {
   visibility: visible;
 }
