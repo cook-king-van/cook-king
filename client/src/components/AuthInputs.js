@@ -1,7 +1,7 @@
 import '../pages/Auth.css';
 
 const AuthInputs = (props) => {
-  const { title, type, value, onChange } = props;
+  const { title, type, name, value, onChange } = props;
 
   return (
     <>
@@ -10,7 +10,7 @@ const AuthInputs = (props) => {
       </label>
       <input
         type={type ?? title}
-        name={title}
+        name={name ?? title}
         value={value}
         onChange={onChange}
         className='Auth-authInputs'
