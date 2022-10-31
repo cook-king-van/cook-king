@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Auth.css';
@@ -16,6 +16,13 @@ import {
 } from '../lib/authValidationUtils';
 import { registerUser } from '../features/users/userSlice';
 
+const defaultFormFields = {
+  email: '',
+  password: '',
+  passwordCheck: '',
+  error: '',
+};
+
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,18 +30,13 @@ const RegisterPage = () => {
   const currentError = useSelector((state) => state.user.error);
   const currentUserInfo = useSelector((state) => state.user.userInfo);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [error, setError] = useState('');
-  const [user, setUser] = useState();
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { email, password, passwordCheck, error } = formFields;
 
   useEffect(() => {
-    const loggedInUserRemember = localStorage.getItem('user');
-    const loggedInUser = sessionStorage.getItem('user');
+    const loggedInUserRemember = localStorage.getItem('token');
+    const loggedInUser = sessionStorage.getItem('token');
     if (loggedInUserRemember || loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
       navigate('/');
     }
   }, [navigate, currentUserInfo, currentError, error]);
@@ -43,27 +45,31 @@ const RegisterPage = () => {
     e.preventDefault();
     const emailMsg = validateEmail(email);
     if (emailMsg !== '') {
-      setError(emailMsg);
+      setFormFields({ ...formFields, error: emailMsg });
       return;
     }
 
     const pwdMsg = validatePassword(email, password);
     if (pwdMsg !== '') {
-      setError(pwdMsg);
+      setFormFields({ ...formFields, error: pwdMsg });
       return;
     }
 
     const pwdCheckMsg = validatePasswordCheck(password, passwordCheck);
     if (pwdCheckMsg !== '') {
-      setError(pwdCheckMsg);
+      setFormFields({ ...formFields, error: pwdCheckMsg });
       return;
     }
     await dispatch(registerUser(email, password, passwordCheck));
     if (!loading && currentUserInfo) {
-      setUser(currentUserInfo);
-      setError('');
+      setFormFields({ ...formFields, error: '' });
       return;
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields({ ...formFields, [name]: value });
   };
 
   const showAlert = (
@@ -73,8 +79,7 @@ const RegisterPage = () => {
       variant='outlined'
       severity='error'
       className='Auth-authErrMsg'
-      onClose={() => setError('')}
-    >
+      onClose={() => setFormFields({ ...formFields, error: '' })}>
       {error ? error : currentError}
     </Alert>
   );
@@ -103,6 +108,7 @@ const RegisterPage = () => {
       <AuthInputs
         title='confirm password'
         type='password'
+        name='passwordCheck'
         value={passwordCheck}
         msg={error.passwordCheck}
         onChange={(e) => {
@@ -123,11 +129,6 @@ const RegisterPage = () => {
       </a>
     </form>
   );
-
-  //if user is already logged in , redirect to the main page
-  if (user) {
-    <Navigate replace to='/' />;
-  }
 
   return (
     <div className='Auth-screen'>

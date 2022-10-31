@@ -4,9 +4,14 @@ import User from '../../models/user';
 const CreateRecipe = async (req, res) => {
   try {
     const userId = req.user._id;
-    let { recipeName, ingredient, tag, time, option, categoriesName, size } =
-      req.body;
-    option = option ?? 'none';
+    const {
+      recipeName,
+      ingredient,
+      time,
+      option = 'none',
+      categoriesName,
+      size,
+    } = req.body;
     const categories = await Categories.Categories.findOneAndUpdate(
       {
         categoriesName: categoriesName,
@@ -34,7 +39,6 @@ const CreateRecipe = async (req, res) => {
       categoriesId: categories._id,
       recipeName,
       ingredient,
-      tag,
       size,
       time,
       option: findOption._id,

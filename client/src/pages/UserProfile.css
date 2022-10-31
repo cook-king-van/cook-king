@@ -189,3 +189,12 @@
   font-size: 15px;
   color: var(--brownColor);
 }
+
+.UserProfile-profileUpdateMsg {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: -68px;
+}
