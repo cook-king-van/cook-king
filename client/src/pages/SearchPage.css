@@ -1,5 +1,5 @@
 .search-container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   max-width: 80%;
   margin: auto;
   display: flex;
@@ -7,11 +7,13 @@
 }
 
 .search-card {
-  box-shadow: 5px 5px 5px grey;
-  margin: 20px;
-  padding: 10px;
-  background-color: var(--lightBackgroundColor);
-  /* background-color: var(--lightBackground); */
+  /* box-shadow: 2px 2px 2px grey; */
+  margin: 2rem;
+  padding: 2rem;
+  /* background-color: var(--lightBackgroundColor); */
+  background-color: rgba(217, 217, 217, 0.2);
+  border-bottom: 1px solid #898787;
+  border-radius: 10px;
 }
 
 .search-title {

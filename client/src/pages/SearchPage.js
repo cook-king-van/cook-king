@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavBar } from '../components/navbar/NavBar'
 import "./SearchPage.css"
 import heart from "../images/Heart.png";
@@ -6,8 +6,13 @@ import tempFood from "../images/tempFood.png"
 import tempFood2 from "../images/TempFood2.png"
 import tempFood3 from "../images/TempFood3.png"
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 export const SearchPage = (props) => {
+  const {state} = useLocation()
+  let filteredList = [];
+  // console.log(state)
+
   //mock data
   let res = 
     [
@@ -68,15 +73,23 @@ export const SearchPage = (props) => {
     )
   }
 
+  let filter = (value) => {
+    let filtered = res.filter(e => e.caption.includes(value))
+    console.log(filtered)
+    filteredList = filtered;
 
+  }
+  filter(state)
   return (
     <div>
       <NavBar />
       <button>Sort</button>
+      <button>Most View</button>
       <div className='search-container'>
         <ImageList sx={{width: '100%'}}  cols={3} rowHeight={250}>
           
-          {res.map((e, index) => (
+          {filteredList.map((e, index) => (
+
              <ImageListItem key={index} className='search-card'>
              <img
               // style={{ width: "250px", height: "255px" }}
