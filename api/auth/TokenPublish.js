@@ -1,7 +1,7 @@
 import { Token, getValue, Rename, Logout } from '../../config/redis';
 const TokenPublish = async (req, res) => {
   try {
-    let token = req.headers.authorization.split(' ')[1]; //header token
+    const token = req.headers.authorization.split(' ')[1]; //header token
     if (!token) {
       return res.status(401).send('No Token');
     }
