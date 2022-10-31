@@ -1,11 +1,12 @@
 import express from 'express';
-import GetUser from "../api/auth/GetUser";
-import Login from "../api/auth/Login";
-import Register from "../api/auth/Register";
-
+import GetUser from '../api/auth/GetUser';
+import Login from '../api/auth/Login';
+import Register from '../api/auth/Register';
+// import Logout from '../api/auth/Logout';
+// import UserValid from '../api/auth/UserValid';
 const router = express.Router();
 router.post('/login', Login);
 router.post('/register', Register);
 router.get('/user', GetUser);
-
-export default router
+// router.get('/logout', Logout);
+export default router;
