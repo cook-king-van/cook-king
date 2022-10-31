@@ -1,0 +1,22 @@
+.search-container {
+  border: 1px solid black;
+  max-width: 80%;
+  margin: auto;
+  display: flex;
+  /* overflow: auto; */
+}
+
+.search-card {
+  box-shadow: 5px 5px 5px grey;
+  margin: 20px;
+  padding: 10px;
+  background-color: var(--lightBackgroundColor);
+  /* background-color: var(--lightBackground); */
+}
+
+.search-title {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
