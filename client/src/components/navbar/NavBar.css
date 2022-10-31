@@ -60,20 +60,20 @@
 .NavBar-button {
   height: 55px;
   width: 55px;
-  background-color: #5C6E56;
+  background-color: var(--primaryColor);
   border: none;
   border-radius: 20%;
 
 }
 .NavBar-button:hover {
   cursor: pointer;
-  background-color: aquamarine;
+  background-color: var(--secondaryColor);
 }
 
 .NavBar-buttonIcon {
   height: 50px;
   width: 50px;
-  background-color: #5C6E56;
+  background-color: var(--primaryColor);
   border-radius: 50%;
   border: none;
   margin: 0 20px;
@@ -81,7 +81,7 @@
 
 .NavBar-buttonIcon:hover {
   cursor: pointer;
-  background-color: aquamarine;
+  background-color: var(--secondaryColor);
 }
 
 

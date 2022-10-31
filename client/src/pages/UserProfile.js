@@ -4,11 +4,9 @@ import { useSelector } from 'react-redux';
 import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
-import pencil from '../images/pencil.png';
-import maleUser from '../images/Male User.png';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
-import Navbar from '../pages/NavBar';
+import Navbar from '../components/navbar/NavBar';
 
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
