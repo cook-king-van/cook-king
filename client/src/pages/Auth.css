@@ -49,6 +49,7 @@
 }
 
 .Auth-authButton {
+  width: 359.1px;
   background: var(--secondaryColor);
   color: #fff;
   padding: 3px 150px;
@@ -77,7 +78,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 36px;
-  margin: 20px 10px 10px 5px;
+  margin: 20px 10px 10px 65px;
   letter-spacing: 5px;
   /* use this only when using <form></form> and delete align-self: flex start and add display: block */
   /* text-align: start; */
@@ -85,7 +86,7 @@
 
 .Auth-authContainer {
   align-items: center;
-  width: 100%;
+  width: 500px;
 }
 
 .Auth-authValid {
@@ -96,7 +97,8 @@
 .Auth-authInputs,
 .Auth-authInputsError {
   background: #f3f3f3;
-  width: 90%;
+  width: 359.1px;
+  margin-left: 67px;
   height: 40px;
   border-radius: 5px;
   font-size: 20px;
@@ -163,7 +165,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding: 10px 0 10px 5px;
+  padding: 10px 75px 10px 75px;
   color: var(--brownColor);
 }
 
@@ -261,6 +263,6 @@
   display: flex;
 }
 
-.Auth-authInputValid:hover ~ .Auth-authErrormsg {
+.Auth-authInputValid:focus-within ~ .Auth-authErrormsg {
   visibility: visible;
 }

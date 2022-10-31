@@ -30,7 +30,7 @@ export const validatePasswordCheck = (password, passwordCheck) => {
     return 'Please enter password.';
   }
   if (passwordCheck.trim() === '') {
-    return 'Please enter passwordCheck.';
+    return 'Please enter confirm password.';
   }
   if (password !== passwordCheck) {
     return "Passwords don't match.";
