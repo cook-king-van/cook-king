@@ -8,7 +8,7 @@ const LandingPage = () => {
       <NavBar />
       
       <div>
-        <MainList />
+        <MainList title="Today's Best" />
       </div>
     </section>
   );

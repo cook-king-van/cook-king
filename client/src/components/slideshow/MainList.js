@@ -9,7 +9,7 @@ import tempFood2 from "../../images/TempFood2.png"
 import tempFood3 from "../../images/TempFood3.png"
 
 
-const MainList = () => {
+const MainList = (props) => {
   
   //mock data
   const slideImages = [
@@ -130,7 +130,7 @@ const MainList = () => {
   return (
     <>
       <div>
-        <h1 className="MainList-h1">Today's Best</h1>
+        <h1 className="MainList-h1">{props.title}</h1>
 
       </div>
 
