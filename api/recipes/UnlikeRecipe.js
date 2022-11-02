@@ -1,5 +1,5 @@
 import Recipe from '../../models/recipe';
-import mongoose from 'mongoose';
+import User from '../../models/user';
 const UnlikeRecipe = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -24,6 +24,11 @@ const UnlikeRecipe = async (req, res) => {
     if (!ret) {
       return res.status(403).send(`${userName} already unliked ${Id} recipe`);
     }
+    await User.findByIdAndUpdate(userId, {
+      $pull: {
+        likes: Id,
+      },
+    });
     return res.status(200).send(`${userName} unlike ${Id} recipe`);
   } catch (e) {
     console.error(`Exception Error`);
