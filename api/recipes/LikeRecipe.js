@@ -1,4 +1,5 @@
 import Recipe from '../../models/recipe';
+import User from '../../models/user';
 const LikeRecipe = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -23,6 +24,11 @@ const LikeRecipe = async (req, res) => {
     if (!ret) {
       return res.status(403).send(`${userName} already liked ${Id} recipe`);
     }
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        likes: Id,
+      },
+    });
     return res.status(200).send(`${userName} like ${Id} recipe`);
   } catch (e) {
     console.error(`Exception Error`);
