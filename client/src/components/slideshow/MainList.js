@@ -2,15 +2,13 @@ import React from 'react';
 import './MainList.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { Image } from "semantic-ui-react";
-import heart from "../../images/Heart.png";
-import tempFood from "../../images/tempFood.png"
-import tempFood2 from "../../images/TempFood2.png"
-import tempFood3 from "../../images/TempFood3.png"
+import { Image } from 'semantic-ui-react';
+import heart from '../../images/Heart.png';
+import tempFood from '../../images/tempFood.png';
+import tempFood2 from '../../images/TempFood2.png';
+import tempFood3 from '../../images/TempFood3.png';
 
-
-const MainList = (props) => {
-  
+const MainList = ({ title }) => {
   //mock data
   const slideImages = [
     {
@@ -44,7 +42,7 @@ const MainList = (props) => {
       user: 'Hoon',
     },
   ];
-  
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -65,73 +63,70 @@ const MainList = (props) => {
     },
   };
 
-  
   const CustomRightArrow = ({ onClick }) => {
-    return <i class="MainList-custom-right-arrow" onClick={() => onClick()}></i>;
+    return (
+      <i class="MainList-custom-right-arrow" onClick={() => onClick()}></i>
+    );
   };
-  
+
   const CustomLeftArrow = ({ onClick }) => (
     <i onClick={() => onClick()} className="MainList-custom-left-arrow" />
   );
 
   //entire slideContainer
   const SlideCreator = (props) => {
-    
     //each of the slide card
     const SlideCard = (props) => {
       return (
         <div className="MainList-item">
-         <Image
+          <Image
             draggable={false}
-            style={{ width: "350px", height: "235px" }}
+            style={{ width: '350px', height: '235px' }}
             src={props.image.url}
             key={props.image.caption}
           />
           <h3 className="MainList-h3">{props.description}</h3>
           <div className="MainList-cardInfo">
-            <p style={{alignItems: "center", display: 'flex'}}><img src={heart} alt=""></img>{props.heart}</p>
+            <p style={{ alignItems: 'center', display: 'flex' }}>
+              <img src={heart} alt=""></img>
+              {props.heart}
+            </p>
             <p>{props.user}</p>
           </div>
         </div>
-
-      )
-    }
-
+      );
+    };
 
     return (
-
-   <Carousel
-      ssr
-      partialVisbile
-      itemClass="MainList-image_item"
-      responsive={responsive}
-      arrows={true}
-      className="MainList-reactMultiCarouselList"
-      customLeftArrow={<CustomLeftArrow />}
-      customRightArrow={<CustomRightArrow />}
-      draggable={false}
-    >
-      {slideImages.slice(0, slideImages.length).map(image => {
-        return (
-         <SlideCard
-         image={image}
-         description={image.caption}
-         heart={image.heart}
-         user={image.user}
-         />
-        );
-      })}
-    </Carousel>
+      <Carousel
+        ssr
+        partialVisbile
+        itemClass="MainList-image_item"
+        responsive={responsive}
+        arrows={true}
+        className="MainList-reactMultiCarouselList"
+        customLeftArrow={<CustomLeftArrow />}
+        customRightArrow={<CustomRightArrow />}
+        draggable={false}
+      >
+        {slideImages.slice(0, slideImages.length).map((image) => {
+          return (
+            <SlideCard
+              image={image}
+              description={image.caption}
+              heart={image.heart}
+              user={image.user}
+            />
+          );
+        })}
+      </Carousel>
     );
   };
-
-
 
   return (
     <>
       <div>
-        <h1 className="MainList-h1">{props.title}</h1>
-
+        <h1 className="MainList-h1">{title}</h1>
       </div>
 
       <div className="MainList-slideShow">
