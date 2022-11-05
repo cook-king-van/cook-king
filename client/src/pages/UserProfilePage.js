@@ -59,13 +59,15 @@ const UserProfile = () => {
 
   const editProfilePicHandler = async (e) => {
     const file = e.target?.files?.[0];
+    if (!file) {
+      return;
+    }
     const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       setSelectedFile(reader.result);
     };
-    console.log('url', url);
 
     updateUserProfile('Profile photo');
     setTimeout(() => {
