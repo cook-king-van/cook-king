@@ -490,9 +490,10 @@
 .CreateRecipe-saveBtn {
   background-color: var(--lightColor);
   border: 1px solid rgba(92, 110, 86, 0.8);
+  color: #fff;
   border-radius: 5px;
   padding: 12px 50px;
-  font-size: 20px;
+  font-size: 23px;
 }
 
 .CreateRecipe-saveBtn:hover {
@@ -503,9 +504,10 @@
 .CreateRecipe-postBtn {
   background-color: var(--lightBackgroundColor);
   border: 1px solid rgba(108, 93, 83, 0.8);
+  color: #fff;
   border-radius: 5px;
   padding: 12px 50px;
-  font-size: 20px;
+  font-size: 23px;
   margin-left: 20px;
 }
 
