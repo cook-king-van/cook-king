@@ -63,8 +63,8 @@ const Register = async (req, res) => {
     if (user) {
       const { _id, name, email, description, recipes, likes } = user;
       delete user.password;
-      const access = Token().Access({_id,name});
-      const refresh = Token().Refresh({_id,name});
+      const access = Token().Access({ _id, name });
+      const refresh = Token().Refresh({ _id, name });
       setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
       return res.status(200).json({
         token: access,
