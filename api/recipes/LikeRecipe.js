@@ -29,7 +29,7 @@ const LikeRecipe = async (req, res) => {
         likes: Id,
       },
     });
-    return res.status(200).send(`${userName} like ${Id} recipe`);
+    return res.status(200).send(`${userName} liked ${Id} recipe`);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
