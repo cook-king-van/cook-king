@@ -29,7 +29,7 @@ const UnlikeRecipe = async (req, res) => {
         likes: Id,
       },
     });
-    return res.status(200).send(`${userName} unlike ${Id} recipe`);
+    return res.status(200).send(`${userName} unliked ${Id} recipe`);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
