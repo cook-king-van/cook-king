@@ -10,7 +10,7 @@ const EditUserinfo = async (req, res) => {
       description,
       profileImage,
     });
-    return res.status(200).send(`${userName} profile update`);
+    return res.status(200).send(`${userName} profile updated`);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
