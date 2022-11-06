@@ -86,18 +86,14 @@ const RegisterPage = () => {
         title='email'
         value={email}
         msg={error.email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
+        onChange={handleChange}
         condition={validateEmail(email)}
       />
       <AuthInputs
         title='password'
         value={password}
         msg={error.password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
+        onChange={handleChange}
         condition={validatePassword(email, password)}
       />
       <AuthInputs
@@ -105,9 +101,7 @@ const RegisterPage = () => {
         type='password'
         value={passwordCheck}
         msg={error.passwordCheck}
-        onChange={(e) => {
-          setPasswordCheck(e.target.value);
-        }}
+        onChange={handleChange}
         condition={validatePasswordCheck(password, passwordCheck)}
       />
       <AuthButton

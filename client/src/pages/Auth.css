@@ -164,6 +164,7 @@
 .Auth-staySignIn {
   display: flex;
   width: 100%;
+  margin-top: 10px;
   justify-content: space-between;
   padding: 10px 75px 10px 75px;
   color: var(--brownColor);
@@ -253,6 +254,7 @@
 }
 
 .Auth-authErrormsg {
+  margin-top: 10px;
   visibility: hidden;
   height: 10px;
   justify-content: center;

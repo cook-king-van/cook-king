@@ -77,13 +77,13 @@ const LoginPage = () => {
       <AuthInputs
         title='email'
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
         condition={validateEmail(email)}
       />
       <AuthInputs
         title='password'
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
         condition={validatePassword(email, password)}
       />
       <div className='Auth-staySignIn'>
