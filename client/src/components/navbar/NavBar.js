@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../images/logo.png';
+import logo from '../../images/logo.png';
 import './NavBar.css';
 import Button from '@mui/material/Button';
 
@@ -21,7 +21,8 @@ const NavBar = () => {
               className='NavBar-button'
               onClick={() => {
                 alert('searching');
-              }}>
+              }}
+            >
               <i className='fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl'></i>
             </button>
           </div>
@@ -33,7 +34,8 @@ const NavBar = () => {
           className='NavBar-buttonIcon'
           onClick={() => {
             alert('creating');
-          }}>
+          }}
+        >
           {
             <i className='fa-sharp fa-solid NavBar-fa-white fa-pencil fa-2xl'></i>
           }
@@ -42,7 +44,8 @@ const NavBar = () => {
           className='NavBar-buttonIcon'
           onClick={() => {
             alert('profile');
-          }}>
+          }}
+        >
           <i className='fa-solid NavBar-fa-white fa-user fa-2xl'></i>
         </button>
       </div>

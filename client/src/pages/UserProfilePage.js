@@ -1,6 +1,5 @@
 import React, { createRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
