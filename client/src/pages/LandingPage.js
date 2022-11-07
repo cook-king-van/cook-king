@@ -1,12 +1,12 @@
-import React from "react";
-import {NavBar} from '../components/navbar/NavBar'
-import MainList from "../components/slideshow/MainList";
 
+import React from "react";
+import NavBar from '../components/navbar/NavBar'
+import MainList from "../components/slideshow/MainList";
 const LandingPage = () => {
   return (
     <section>
       <NavBar />
-      
+
       <div>
         <MainList />
       </div>

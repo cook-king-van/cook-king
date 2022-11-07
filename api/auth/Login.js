@@ -27,25 +27,23 @@ const Login = async (req, res) => {
       });
     }
     delete user.password;
-    const { _id, name, email, description, FoodLists, likeFood } = user;
-    const tokenUser = { ...user };
-    delete tokenUser.email;
-    delete tokenUser.likeFood;
-    delete tokenUser.FoodLists;
-    const access = Token().Access(tokenUser);
-    const refresh = Token().Refresh(tokenUser);
+    const { _id, name, email, description, recipes, likes } = user;
+    const access = Token().Access(user);
+    const refresh = Token().Refresh(user);
+
     setValue(access, refresh); //key: access , value: refresh if Access Token expired access to redis server
     return res.status(200).json({
       token: access,
       _id,
-      userName: name,
+      name,
       email,
       description,
-      foodLists: FoodLists,
-      likeFood,
+      recipes,
+      likes,
+      message: `${name} signed in successfully`,
     });
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };

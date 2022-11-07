@@ -1,7 +1,6 @@
 import React, { createRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import mainStyles from './LandingPage.module.css';
 import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
@@ -9,26 +8,39 @@ import search from '../images/Google Web Search (darker).png';
 import maleUser from '../images/Male User.png';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
+import Navbar from '../pages/NavBar';
 
-import { Avatar } from '@mui/material';
+import { Avatar, Alert } from '@mui/material';
+import { Loader } from 'semantic-ui-react';
 
 const UserProfile = () => {
   const currentUser = useSelector((state) => state.user);
+  const botUser = 'a user';
   const userImage = currentUser?.userInfo?.userImageUrl;
 
-  const [userName, setUserName] = useState(
-    currentUser?.userInfo?.userName || 'a user'
-  );
-  const [intro, setIntro] = useState(
-    currentUser?.userInfo?.description || `Hello! I am ${userName}`
-  );
-  const [nameFieldWidth, setNameFieldWidth] = useState(userName.length);
+  const [userName, setUserName] = useState('');
+  const [intro, setIntro] = useState('');
+  const [nameFieldWidth, setNameFieldWidth] = useState(0);
   const [isEditProfileName, setEditProfileName] = useState('disabled');
   const [isEditIntro, setEditIntro] = useState('disabled');
   const editProfileNameRef = createRef();
   const editIntroRef = createRef();
 
   const [selectedFile, setSelectedFile] = useState('');
+
+  const [profileUpdateMsg, setProfileUpdateMsg] = useState('');
+
+  useEffect(() => {
+    if (currentUser.userInfo.name) {
+      setUserName(currentUser?.userInfo?.name);
+      setNameFieldWidth(currentUser?.userInfo?.name?.length);
+      setIntro(
+        currentUser?.userInfo?.description === ''
+          ? `Hello! I am ${currentUser?.userInfo?.name || botUser}`
+          : currentUser.userInfo.description
+      );
+    }
+  }, [currentUser.userInfo]);
 
   useEffect(() => {
     if (isEditProfileName === '') {
@@ -39,13 +51,7 @@ const UserProfile = () => {
       editIntroRef.current.selectionEnd = editIntroRef.current.value.length;
       editIntroRef.current.focus();
     }
-  }, [
-    editProfileNameRef,
-    isEditProfileName,
-    editIntroRef,
-    isEditIntro,
-    currentUser,
-  ]);
+  }, [editProfileNameRef, isEditProfileName, editIntroRef, isEditIntro]);
 
   const hiddenFileInput = React.useRef(null);
 
@@ -64,6 +70,10 @@ const UserProfile = () => {
     console.log('url', url);
 
     setSelectedFile(e.target.files[0].toString());
+    updateUserProfile('Profile photo');
+    setTimeout(() => {
+      updateUserProfile('');
+    }, 3000);
   };
 
   const editProfileNameHandler = () => {
@@ -83,8 +93,27 @@ const UserProfile = () => {
     setIntro(e.target.value);
   };
 
-  return (
+  const updateUserProfile = (type) => {
+    setProfileUpdateMsg(type);
+    setTimeout(() => {
+      setProfileUpdateMsg('');
+    }, 3000);
+  };
+
+  const updateProfileMsg = (
+    <Alert
+      severity='success'
+      color='info'
+      className='UserProfile-profileUpdateMsg'>
+      {profileUpdateMsg} updated successfully!
+    </Alert>
+  );
+
+  return currentUser.loading ? (
+    <Loader />
+  ) : (
     <>
+<<<<<<< HEAD
       {/* <header className={mainStyles.headerContainer}>
         <img
           src={logo}
@@ -102,6 +131,10 @@ const UserProfile = () => {
         <img src={pencil} className={mainStyles.interface} alt='pencil' />
         <img src={maleUser} className={mainStyles.interface} alt='maleUser' />
       </header> */}
+=======
+      <Navbar />
+      {profileUpdateMsg ? updateProfileMsg : ''}
+>>>>>>> 64762bdbb775cba5fe0ff7b061532b6597a92d03
       <section className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
@@ -129,6 +162,7 @@ const UserProfile = () => {
               ref={editProfileNameRef}
               onBlur={() => {
                 setEditProfileName('disabled');
+                updateUserProfile('Username');
               }}
               className='UserProfile-userName'
               style={{ width: nameFieldWidth + 'ch' }}
@@ -152,6 +186,7 @@ const UserProfile = () => {
               disabled={isEditIntro}
               onBlur={() => {
                 setEditIntro('disabled');
+                updateUserProfile('Introduction');
               }}
               value={intro}
               rows={6}
