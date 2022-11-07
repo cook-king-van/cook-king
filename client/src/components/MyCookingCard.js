@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pages/UserProfile.css';
+import '../pages/UserProfilePage.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
 
 const MyCookingCard = () => {

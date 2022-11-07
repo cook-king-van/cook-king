@@ -72,4 +72,12 @@ export const getValue = async (key) => {
   return client.get(key);
 };
 
+export const Logout = async (key) => {
+  return client.del(key);
+};
+
+export const Rename = async (from, to) => {
+  return client.rename(from, to);
+};
+
 export default RedisConnect;
