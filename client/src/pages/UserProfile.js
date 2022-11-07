@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
-// import pencil from '../images/pencil.png';
 import maleUser from '../images/Male User.png';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
@@ -113,28 +112,8 @@ const UserProfile = () => {
     <Loader />
   ) : (
     <>
-<<<<<<< HEAD
-      {/* <header className={mainStyles.headerContainer}>
-        <img
-          src={logo}
-          alt='logo'
-          draggable='false'
-          className={mainStyles.logo}
-        />
-        <button className={mainStyles.categoryButton}>Category</button>
-
-        <form action='submit' className={mainStyles.searchBar}>
-          <input type='text' placeholder='Search' className={mainStyles.bar} />
-          <img src={search} className={mainStyles.searchBth} alt='search' />
-        </form>
-
-        <img src={pencil} className={mainStyles.interface} alt='pencil' />
-        <img src={maleUser} className={mainStyles.interface} alt='maleUser' />
-      </header> */}
-=======
       <Navbar />
       {profileUpdateMsg ? updateProfileMsg : ''}
->>>>>>> 64762bdbb775cba5fe0ff7b061532b6597a92d03
       <section className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
