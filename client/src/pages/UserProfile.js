@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import './UserProfile.css';
 import logo from '../images/logo.png';
 import search from '../images/Google Web Search (darker).png';
-import maleUser from '../images/Male User.png';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
 import Navbar from '../components/navbar/NavBar';

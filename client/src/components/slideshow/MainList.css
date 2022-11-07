@@ -5,12 +5,13 @@
 .MainList-h1 {
   margin: 0 20px;
   margin-top: 50px;
+  margin-left: 80px;
   font-family: 'Open-Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
   line-height: 48px;
-  color: #6C5D53;
+  color: var(--brownColor);
 }
 
 .MainList-slideShow {
@@ -58,7 +59,7 @@
   position: absolute !important;
   right: -40px;
   z-index: 1;
-  border: 1px solid #6C5D53;
+  border: 1px solid var(--brownColor);
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 6px;
@@ -73,7 +74,7 @@
   position: absolute !important;
   left: -40px;
   z-index: 1;
-  border: 1px solid #6C5D53;
+  border: 1px solid var(--brownColor);
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 6px;

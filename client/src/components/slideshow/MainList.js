@@ -8,7 +8,7 @@ import tempFood from '../../images/tempFood.png';
 import tempFood2 from '../../images/TempFood2.png';
 import tempFood3 from '../../images/TempFood3.png';
 
-const MainList = () => {
+const MainList = ({ title }) => {
   //mock data
   const slideImages = [
     {
@@ -78,17 +78,17 @@ const MainList = () => {
     //each of the slide card
     const SlideCard = (props) => {
       return (
-        <div className='MainList-item'>
+        <div className="MainList-item">
           <Image
             draggable={false}
             style={{ width: '350px', height: '235px' }}
             src={props.image.url}
             key={props.image.caption}
           />
-          <h3 className='MainList-h3'>{props.description}</h3>
-          <div className='MainList-cardInfo'>
+          <h3 className="MainList-h3">{props.description}</h3>
+          <div className="MainList-cardInfo">
             <p style={{ alignItems: 'center', display: 'flex' }}>
-              <img src={heart} alt=''></img>
+              <img src={heart} alt=""></img>
               {props.heart}
             </p>
             <p>{props.user}</p>
@@ -101,10 +101,10 @@ const MainList = () => {
       <Carousel
         ssr
         partialVisbile
-        itemClass='MainList-image_item'
+        itemClass="MainList-image_item"
         responsive={responsive}
         arrows={true}
-        className='MainList-reactMultiCarouselList'
+        className="MainList-reactMultiCarouselList"
         customLeftArrow={<CustomLeftArrow />}
         customRightArrow={<CustomRightArrow />}
         draggable={false}
@@ -126,7 +126,7 @@ const MainList = () => {
   return (
     <>
       <div>
-        <h1 className='MainList-h1'>Today's Best</h1>
+        <h1 className="MainList-h1">{title}</h1>
       </div>
 
       <div className='MainList-slideShow'>

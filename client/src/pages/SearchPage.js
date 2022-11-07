@@ -77,7 +77,6 @@ export const SearchPage = (props) => {
 
   let filter = (value) => {
     let filtered = res.filter((e) => e.caption.includes(value));
-    console.log(filtered);
     filteredList = filtered;
   };
   filter(state);
