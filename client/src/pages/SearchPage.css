@@ -1,6 +1,11 @@
+.searchPage-container {
+  max-width: 80%;
+  margin: auto;
+}
+
 .search-container {
   /* border: 1px solid black; */
-  max-width: 80%;
+  max-width: 100%;
   margin: auto;
   display: flex;
   /* overflow: auto; */
@@ -21,4 +26,18 @@
   margin: 0;
   display: flex;
   justify-content: space-between;
+}
+
+.searchPage-button {
+  /* position: absolute; */
+width: 176px;
+height: 57px;
+border: none;
+background: var(--lightGreenColor);
+border-radius: 5px;
+margin: 15px;
+}
+
+.searchPage-button:hover {
+  cursor: pointer;
 }

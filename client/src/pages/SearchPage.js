@@ -83,23 +83,25 @@ export const SearchPage = (props) => {
   return (
     <div>
       <NavBar />
-      <button>Sort</button>
-      <button>Most View</button>
-      <div className='search-container'>
-        <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-          {filteredList.map((e, index) => (
-            <ImageListItem key={index} className='search-card'>
-              <img
-                // style={{ width: "250px", height: "255px" }}
-                src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={e.caption}
-                loading='lazy'
-              />
-              <ImageListItemBar position='below' title={<Card item={e} />} />
-            </ImageListItem>
-          ))}
-        </ImageList>
+      <div className='searchPage-container'>
+        <button className='searchPage-button'>Sort</button>
+        <button className='searchPage-button'>Most View</button>
+        <div className='search-container'>
+          <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
+            {filteredList.map((e, index) => (
+              <ImageListItem key={index} className='search-card'>
+                <img
+                  // style={{ width: "250px", height: "255px" }}
+                  src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
+                  srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  alt={e.caption}
+                  loading='lazy'
+                />
+                <ImageListItemBar position='below' title={<Card item={e} />} />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </div>
       </div>
     </div>
   );
