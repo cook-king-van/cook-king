@@ -1,6 +1,7 @@
 import React, { forwardRef, Fragment } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../pages/CreateRecipePage.css';
+import { Tooltip } from '@mui/material';
 
 const RecipeStep = forwardRef((props, ref) => {
   const instructionPlaceHolder = [
@@ -38,66 +39,71 @@ const RecipeStep = forwardRef((props, ref) => {
                         index={index}>
                         {(provided) => (
                           <>
-                            <li
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}>
-                              <label className='CreateRecipe-stepTitle'>
-                                Step {index + 1}
-                              </label>
-                              <div className='CreateRecipe-stepContainer'>
-                                <textarea
-                                  className='CreateRecipe-instructionInput'
-                                  placeholder={`ex) ${
-                                    instructionPlaceHolder[index % 3]
-                                  }`}
-                                  value={step.description}
-                                  onChange={(e) =>
-                                    handleEditInstructionMsg(e, index)
-                                  }
-                                />
-                                {isStepsPhotoAdded[index] ? (
-                                  <div className='CreateRecipe-instructionPhotoHolder'>
-                                    <img
-                                      src={steps[index].imageUrl}
-                                      alt=''
-                                      className='CreateRecipe-instructionPhotoImg'
-                                    />
+                            <Tooltip
+                              title='Drag to change the order'
+                              placement='top-start'
+                              arrow>
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}>
+                                <label className='CreateRecipe-stepTitle'>
+                                  Step {index + 1}
+                                </label>
+                                <div className='CreateRecipe-stepContainer'>
+                                  <textarea
+                                    className='CreateRecipe-instructionInput'
+                                    placeholder={`ex) ${
+                                      instructionPlaceHolder[index % 3]
+                                    }`}
+                                    value={step.description}
+                                    onChange={(e) =>
+                                      handleEditInstructionMsg(e, index)
+                                    }
+                                  />
+                                  {isStepsPhotoAdded[index] ? (
+                                    <div className='CreateRecipe-instructionPhotoHolder'>
+                                      <img
+                                        src={steps[index].imageUrl}
+                                        alt=''
+                                        className='CreateRecipe-instructionPhotoImg'
+                                      />
+                                      <button
+                                        className='CreateRecipe-removeInstructionPhotoBtn'
+                                        onClick={(e) =>
+                                          removeStepsPhoto(e, index)
+                                        }>
+                                        <i className='fa-solid fa-xmark'></i>
+                                      </button>
+                                    </div>
+                                  ) : (
                                     <button
-                                      className='CreateRecipe-removeInstructionPhotoBtn'
+                                      className='CreateRecipe-instructionPhoto'
                                       onClick={(e) =>
-                                        removeStepsPhoto(e, index)
+                                        handleEditInstructionBtn(e, index)
                                       }>
-                                      <i className='fa-solid fa-xmark'></i>
+                                      <input
+                                        accept='image/*'
+                                        type='file'
+                                        ref={(el) => (ref.current[index] = el)}
+                                        onChange={(e) =>
+                                          handleInstructionPhoto(e, index, step)
+                                        }
+                                        className='CreateRecipe-uploadInstructionBtn'
+                                      />
+                                      <i className='fa-sharp fa-solid fa-plus fa-3x CreateRecipe-instructionAddIncon'></i>
                                     </button>
-                                  </div>
-                                ) : (
+                                  )}
                                   <button
-                                    className='CreateRecipe-instructionPhoto'
-                                    onClick={(e) =>
-                                      handleEditInstructionBtn(e, index)
-                                    }>
-                                    <input
-                                      accept='image/*'
-                                      type='file'
-                                      ref={(el) => (ref.current[index] = el)}
-                                      onChange={(e) =>
-                                        handleInstructionPhoto(e, index, step)
-                                      }
-                                      className='CreateRecipe-uploadInstructionBtn'
-                                    />
-                                    <i className='fa-sharp fa-solid fa-plus fa-3x CreateRecipe-instructionAddIncon'></i>
+                                    className='CreateRecipe-deleteInstructionPhotoBtn'
+                                    onClick={() => {
+                                      removeInstruction(index);
+                                    }}>
+                                    <i className='fa-regular fa-circle-xmark fa-2x'></i>
                                   </button>
-                                )}
-                                <button
-                                  className='CreateRecipe-deleteInstructionPhotoBtn'
-                                  onClick={() => {
-                                    removeInstruction(index);
-                                  }}>
-                                  <i className='fa-regular fa-circle-xmark fa-2x'></i>
-                                </button>
-                              </div>
-                            </li>
+                                </div>
+                              </li>
+                            </Tooltip>
                           </>
                         )}
                       </Draggable>
