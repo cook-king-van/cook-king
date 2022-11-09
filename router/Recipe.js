@@ -7,6 +7,7 @@ import {
   categorySort,
 } from '../api/recipes/SortRecipe';
 import UserValid from '../api/auth/UserValid';
+import LikeRecipe from '../api/recipes/LikeRecipe';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.get('/', UserValid, GetAllRecipe);
 router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
+router.put('/like/:recipeId', UserValid, LikeRecipe);
 
 export default router;
