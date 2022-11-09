@@ -1,10 +1,9 @@
 import React, { createRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-import './UserProfile.css';
+import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
-import Navbar from '../pages/NavBar';
+import Navbar from './NavBar';
 
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
@@ -25,6 +24,8 @@ const UserProfile = () => {
   const [selectedFile, setSelectedFile] = useState('');
 
   const [profileUpdateMsg, setProfileUpdateMsg] = useState('');
+
+  console.log('selectedFile', selectedFile);
 
   useEffect(() => {
     if (currentUser.userInfo.name) {
@@ -56,16 +57,17 @@ const UserProfile = () => {
   };
 
   const editProfilePicHandler = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target?.files?.[0];
+    if (!file) {
+      return;
+    }
     const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       setSelectedFile(reader.result);
     };
-    console.log('url', url);
 
-    setSelectedFile(e.target.files[0].toString());
     updateUserProfile('Profile photo');
     setTimeout(() => {
       updateUserProfile('');

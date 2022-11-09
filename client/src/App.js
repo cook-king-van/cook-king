@@ -6,7 +6,7 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginRecoveryPage from './pages/LoginRecoveryPage';
-import UserProfilePage from './pages/UserProfile';
+import UserProfilePage from './pages/UserProfilePage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
 import { loadUser, logout } from './features/users/userSlice';
