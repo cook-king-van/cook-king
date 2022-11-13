@@ -10,11 +10,10 @@ import { useLocation } from 'react-router-dom';
 
 export const SearchPage = (props) => {
   const { state } = useLocation();
-  let filteredList = [];
-  // console.log(state)
+  const filteredList = [];
 
   //mock data
-  let res = [
+  const res = [
     {
       url: tempFood,
       caption: 'Slide 1',
@@ -59,7 +58,7 @@ export const SearchPage = (props) => {
     },
   ];
 
-  let Card = (item) => {
+  const Card = (item) => {
     let eachItem = item.item;
     return (
       <>

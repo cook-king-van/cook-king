@@ -31,7 +31,6 @@ const NavBar = () => {
               type='button'
               className='NavBar-button'
               onClick={() => {
-                // console.log(value)
                 navigate('/search', { state: value });
               }}
             >

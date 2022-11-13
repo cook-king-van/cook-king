@@ -1,12 +1,9 @@
 import React, { createRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-import './UserProfile.css';
-import logo from '../images/logo.png';
-import search from '../images/Google Web Search (darker).png';
+import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
-import Navbar from '../components/navbar/NavBar';
+import Navbar from './NavBar';
 
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
@@ -26,7 +23,9 @@ const UserProfile = () => {
 
   const [selectedFile, setSelectedFile] = useState('');
 
-  const [profileUpdateMsg, setProfileUpdateMsg] = useState('');
+  const [profileUpdateMsg, setProfileUpdateMsg] = useState(false);
+
+  const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
     if (currentUser.userInfo.name) {
@@ -49,7 +48,13 @@ const UserProfile = () => {
       editIntroRef.current.selectionEnd = editIntroRef.current.value.length;
       editIntroRef.current.focus();
     }
-  }, [editProfileNameRef, isEditProfileName, editIntroRef, isEditIntro]);
+  }, [
+    editProfileNameRef,
+    isEditProfileName,
+    editIntroRef,
+    isEditIntro,
+    showUpdate,
+  ]);
 
   const hiddenFileInput = React.useRef(null);
 
@@ -58,20 +63,16 @@ const UserProfile = () => {
   };
 
   const editProfilePicHandler = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target?.files?.[0];
+    if (!file) {
+      return;
+    }
     const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       setSelectedFile(reader.result);
     };
-    console.log('url', url);
-
-    setSelectedFile(e.target.files[0].toString());
-    updateUserProfile('Profile photo');
-    setTimeout(() => {
-      updateUserProfile('');
-    }, 3000);
   };
 
   const editProfileNameHandler = () => {
@@ -91,11 +92,17 @@ const UserProfile = () => {
     setIntro(e.target.value);
   };
 
-  const updateUserProfile = (type) => {
-    setProfileUpdateMsg(type);
+  const showEditBtns = () => {
+    setShowUpdate(true);
+  };
+
+  const handleUpdateProfile = () => {
+    setProfileUpdateMsg(true);
     setTimeout(() => {
-      setProfileUpdateMsg('');
+      setProfileUpdateMsg(false);
     }, 3000);
+    setShowUpdate(false);
+    // send updates to the server
   };
 
   const updateProfileMsg = (
@@ -103,7 +110,7 @@ const UserProfile = () => {
       severity='success'
       color='info'
       className='UserProfile-profileUpdateMsg'>
-      {profileUpdateMsg} updated successfully!
+      Profile updated successfully!
     </Alert>
   );
 
@@ -131,41 +138,57 @@ const UserProfile = () => {
               className='UserProfile-uploadBtn'
             />
             <EditPencilButton
-              styleName='UserProfile-editBtn'
+              styleName={`UserProfile-editBtn ${
+                !showUpdate && 'UserProfile-disableEditBtns'
+              }`}
               onClick={handleEditPicBtn}
             />
+
             <input
               type='text'
               disabled={isEditProfileName}
               ref={editProfileNameRef}
-              onBlur={() => {
-                setEditProfileName('disabled');
-                updateUserProfile('Username');
-              }}
+              onBlur={() => setEditProfileName('disabled')}
               className='UserProfile-userName'
               style={{ width: nameFieldWidth + 'ch' }}
               value={userName}
               onChange={nameChangeHandler}
             />
             <EditPencilButton
-              styleName='UserProfile-nameEditBtn'
+              styleName={`UserProfile-nameEditBtn ${
+                !showUpdate && 'UserProfile-disableEditBtns'
+              }`}
               onClick={editProfileNameHandler}
             />
+
+            <div className='UserProfileEditSaveBtnContainer'>
+              <button
+                className='UserProfile-editProfileBtn'
+                onClick={showEditBtns}>
+                Edit
+              </button>
+              <button
+                className='UserProfile-saveProfileBtn'
+                disabled={!showUpdate}
+                onClick={handleUpdateProfile}>
+                Save
+              </button>
+            </div>
           </div>
           <div className='UserProfile-middleContainer'>
             <label className='UserProfile-introTitle'>About Me...</label>
             <EditPencilButton
-              styleName='UserProfile-introEditButton'
+              styleName={`UserProfile-introEditButton ${
+                !showUpdate && 'UserProfile-disableEditBtns'
+              }`}
               onClick={editIntroHandler}
             />
+
             <textarea
               className='UserProfile-introTextArea'
               ref={editIntroRef}
               disabled={isEditIntro}
-              onBlur={() => {
-                setEditIntro('disabled');
-                updateUserProfile('Introduction');
-              }}
+              onBlur={() => setEditIntro('disabled')}
               value={intro}
               rows={6}
               onChange={introChangeHandler}

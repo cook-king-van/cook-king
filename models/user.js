@@ -12,6 +12,9 @@ const user = new Schema({
       ref: 'Recipes',
     },
   ],
+  profileImage: {
+    type: String,
+  },
   email: {
     type: String,
     unique: true,
