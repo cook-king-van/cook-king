@@ -15,7 +15,43 @@
 .UserProfile-topContainer {
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
+
+.UserProfileEditSaveBtnContainer {
+  margin: 20px 20px auto auto;
+}
+
+.UserProfile-editProfileBtn {
+  padding: 10px 30px;
+  background-color: var(--lightColor);
+  color: #fff;
+  font-size: 15px;
+  border: 1px solid var(--primaryColor);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.UserProfile-editProfileBtn:hover {
+  background-color: var(--secondaryColor);
+}
+
+.UserProfile-saveProfileBtn {
+  padding: 10px 30px;
+  background-color: var(--lightBackgroundColor);
+  color: #fff;
+  font-size: 15px;
+  border: 1px solid var(--brownBackgroundColor);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.UserProfile-saveProfileBtn:hover {
+  background-color: #ba9c89;
+}
+
+/* Introduction Container */
 
 .UserProfile-middleContainer,
 .UserProfile-bottomContainer {
@@ -90,6 +126,10 @@
   cursor: pointer;
 }
 
+.UserProfile-editBtn.UserProfile-disableEditBtns {
+  visibility: hidden;
+}
+
 .UserProfile-uploadBtn {
   display: none;
 }
@@ -111,6 +151,10 @@
   cursor: pointer;
 }
 
+.UserProfile-nameEditBtn.UserProfile-disableEditBtns {
+  visibility: hidden;
+}
+
 .UserProfile-introEditButton {
   background-color: var(--lightColor);
   border-radius: 50%;
@@ -120,6 +164,10 @@
   margin: 0 0 13px 10px;
   z-index: 1;
   cursor: pointer;
+}
+
+.UserProfile-introEditButton.UserProfile-disableEditBtns {
+  visibility: hidden;
 }
 
 .UserProfile-introTitle,
