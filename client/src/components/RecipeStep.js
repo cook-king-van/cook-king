@@ -25,28 +25,25 @@ const RecipeStep = forwardRef((props, ref) => {
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className='CreateRecipe-stepsListContainer'>
           <Droppable droppableId='create'>
-            {(provided) => (
+            {({ droppableProps, innerRef, placeholder }) => (
               <div>
                 <ul
                   className='CreateRecipe-stepsList'
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}>
-                  {steps.map((step, index) => {
+                  {...droppableProps}
+                  ref={innerRef}>
+                  {steps.map(({ id, description }, index) => {
                     return (
-                      <Draggable
-                        key={step.id}
-                        draggableId={step.id}
-                        index={index}>
-                        {(provided) => (
+                      <Draggable key={id} draggableId={id} index={index}>
+                        {({ innerRef, draggableProps, dragHandleProps }) => (
                           <>
                             <Tooltip
                               title='Drag to change the order'
                               placement='top-start'
                               arrow>
                               <li
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}>
+                                ref={innerRef}
+                                {...draggableProps}
+                                {...dragHandleProps}>
                                 <label className='CreateRecipe-stepTitle'>
                                   Step {index + 1}
                                 </label>
@@ -56,7 +53,7 @@ const RecipeStep = forwardRef((props, ref) => {
                                     placeholder={`ex) ${
                                       instructionPlaceHolder[index % 3]
                                     }`}
-                                    value={step.description}
+                                    value={description}
                                     onChange={(e) =>
                                       handleEditInstructionMsg(e, index)
                                     }
@@ -87,7 +84,7 @@ const RecipeStep = forwardRef((props, ref) => {
                                         type='file'
                                         ref={(el) => (ref.current[index] = el)}
                                         onChange={(e) =>
-                                          handleInstructionPhoto(e, index, step)
+                                          handleInstructionPhoto(e, index)
                                         }
                                         className='CreateRecipe-uploadInstructionBtn'
                                       />
@@ -109,7 +106,7 @@ const RecipeStep = forwardRef((props, ref) => {
                       </Draggable>
                     );
                   })}
-                  {provided.placeholder}
+                  {placeholder}
                 </ul>
                 <div className='CreateRecipe-addInstructionBtnContainer'>
                   <div className='CreateRecipe-addInstructionBtnContainer-inner'>

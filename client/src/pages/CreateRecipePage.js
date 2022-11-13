@@ -33,33 +33,25 @@ const CreateRecipePage = () => {
     instructionFileInput.current[index].click();
   };
 
-  const handleInstructionPhoto = (e, index, step) => {
-    const updatedPhoto = steps.map((step, i) => {
-      if (index === i) {
-        return { ...step, imageUrl: URL.createObjectURL(e.target.files[0]) };
-      } else {
-        return step;
-      }
-    });
-    const updatedStatus = isStepsPhotoAdded.map((stats, ind) => {
-      if (index === ind) {
-        return true;
-      } else {
-        return stats;
-      }
-    });
+  const handleInstructionPhoto = (e, index) => {
+    const updatedPhoto = steps.map((step, i) =>
+      index === i
+        ? { ...step, imageUrl: URL.createObjectURL(e.target.files[0]) }
+        : step
+    );
+
+    const updatedStatus = isStepsPhotoAdded.map((stats, i) =>
+      index === i ? true : stats
+    );
+
     setSteps(updatedPhoto);
     setStepsPhotoAdded(updatedStatus);
   };
 
   const handleEditInstructionMsg = (e, index) => {
-    const updatedInstructions = steps.map((step, i) => {
-      if (index === i) {
-        return { ...step, description: e.target.value };
-      } else {
-        return step;
-      }
-    });
+    const updatedInstructions = steps.map((step, i) =>
+      index === i ? { ...step, description: e.target.value } : step
+    );
     setSteps(updatedInstructions);
   };
 
@@ -69,20 +61,13 @@ const CreateRecipePage = () => {
   };
 
   const removeStepsPhoto = (e, index) => {
-    const updatedSteps = steps.map((step, i) => {
-      if (index === i) {
-        return { ...step, imageUrl: '' };
-      } else {
-        return step;
-      }
-    });
-    const updatedStatus = isStepsPhotoAdded.map((stats, ind) => {
-      if (index === ind) {
-        return false;
-      } else {
-        return stats;
-      }
-    });
+    const updatedSteps = steps.map((step, i) =>
+      index === i ? { ...step, imageUrl: '' } : step
+    );
+
+    const updatedStatus = isStepsPhotoAdded.map((stats, i) =>
+      index === i ? false : stats
+    );
     setSteps(updatedSteps);
     setStepsPhotoAdded(updatedStatus);
   };
@@ -120,13 +105,9 @@ const CreateRecipePage = () => {
 
   const handleIngredientChange = (e, index) => {
     const { name, value } = e.target;
-    const updatedIngredients = ingredients.map((ingredient, i) => {
-      if (index === i) {
-        return { ...ingredient, [name]: value };
-      } else {
-        return ingredient;
-      }
-    });
+    const updatedIngredients = ingredients.map((ingredient, i) =>
+      index === i ? { ...ingredient, [name]: value } : ingredient
+    );
     setIngredients(updatedIngredients);
   };
 

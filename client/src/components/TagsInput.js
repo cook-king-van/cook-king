@@ -37,13 +37,11 @@ const TagsInput = () => {
   return (
     <div className='CreateRecipe-tagsInputOuterContainer'>
       <div
-        className={`CreateRecipe-tags-input-container ${
-          addBorder ? 'focus' : ''
-        }`}>
+        className={`CreateRecipe-tags-input-container ${addBorder && 'focus'}`}>
         {tags.map((tag, index) => (
           <ul
             className={`CreateRecipe-tag-item ${
-              sameValueIndex === index ? 'CreateRecipe-same-tag-exist' : ''
+              sameValueIndex === index && 'CreateRecipe-same-tag-exist'
             }`}
             key={index}>
             <span className='CreateRecipe-text'>{tag}</span>
