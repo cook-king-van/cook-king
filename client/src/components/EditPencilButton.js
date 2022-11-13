@@ -1,5 +1,5 @@
 import React from 'react';
-import '../pages/UserProfile.css';
+import '../pages/UserProfilePage.css';
 
 const EditPencilButton = (props) => {
   const { onClick, styleName } = props;
