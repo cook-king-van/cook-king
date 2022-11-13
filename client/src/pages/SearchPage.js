@@ -10,16 +10,14 @@ import { useLocation } from 'react-router-dom';
 
 export const SearchPage = (props) => {
   const { state } = useLocation();
-  let [filteredList, setFilteredList] = useState([]);
-  const [keyword, setKeyword] = useState('');
+  const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
-    setFilteredList(res.filter((e) => e.caption.includes(state)));
-    setKeyword(res.filter((e) => e.caption.includes(state)));
+    setFilteredList(item);
   }, [state]);
 
   //mock data
-  let res = [
+  const res = [
     {
       url: tempFood,
       caption: 'Slide 1',
@@ -63,13 +61,14 @@ export const SearchPage = (props) => {
       user: 'Hoon',
     },
   ];
+  let item = res.filter((card) => card.caption.includes(state));
   
   const handleSortButton = (list) => {
     let temp = [...list];
     setFilteredList(temp.sort((a, b) => a.heart - b.heart));
   };
 
-  let Card = (item) => {
+  const Card = (item) => {
     let eachItem = item.item;
     return (
       <>
@@ -110,13 +109,13 @@ export const SearchPage = (props) => {
       <div className='searchPage-container'>
         <button
           className='searchPage-button'
-          onClick={() => setFilteredList(keyword)}
+          onClick={() => setFilteredList(item)}
         >
           Latest
         </button>
         <button
           className='searchPage-button'
-          onClick={() => handleSortButton(keyword)}
+          onClick={() => handleSortButton(item)}
         >
           Most View
         </button>
