@@ -13,7 +13,7 @@ const NavBar = () => {
   };
   return (
     <section className='NavBar-headerContainer'>
-      <img src={logo} alt='logo' draggable='false' className='NavBar-logo' />
+      <img src={logo} alt='logo' draggable='false' className='NavBar-logo' onClick={() => navigate('/')} />
 
       <div className='NavBar-navMid'>
         <Button variant='text' style={{ color: '#6C5D53' }}>
@@ -55,7 +55,7 @@ const NavBar = () => {
         <button
           className='NavBar-buttonIcon'
           onClick={() => {
-            alert('profile');
+            navigate('/profile')
           }}
         >
           <i className='fa-solid NavBar-fa-white fa-user fa-2xl'></i>
