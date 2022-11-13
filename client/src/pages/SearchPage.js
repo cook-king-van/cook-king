@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import  NavBar  from '../components/navbar/NavBar';
+import React, { useEffect, useState } from 'react';
+import NavBar from '../components/navbar/NavBar';
 import './SearchPage.css';
 import heart from '../images/Heart.png';
 import tempFood from '../images/tempFood.png';
@@ -10,7 +10,13 @@ import { useLocation } from 'react-router-dom';
 
 export const SearchPage = (props) => {
   const { state } = useLocation();
-  const filteredList = [];
+  const [filteredList, setFilteredList] = useState([]);
+  const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    setFilteredList(res.filter((e) => e.caption.includes(state)));
+    setKeyword(res.filter((e) => e.caption.includes(state)));
+  }, [state]);
 
   //mock data
   const res = [
@@ -41,7 +47,7 @@ export const SearchPage = (props) => {
     {
       url: tempFood2,
       caption: 'Slide 5',
-      heart: 138,
+      heart: 238,
       user: 'Hoon',
     },
     {
@@ -53,10 +59,15 @@ export const SearchPage = (props) => {
     {
       url: tempFood2,
       caption: 'Slide 5',
-      heart: 138,
+      heart: 137,
       user: 'Hoon',
     },
   ];
+  
+  const handleSortButton = (list) => {
+    let temp = [...list];
+    setFilteredList(temp.sort((a, b) => a.heart - b.heart));
+  };
 
   const Card = (item) => {
     let eachItem = item.item;
@@ -74,31 +85,46 @@ export const SearchPage = (props) => {
     );
   };
 
-  let filter = (value) => {
-    let filtered = res.filter((e) => e.caption.includes(value));
-    filteredList = filtered;
+
+  const itemRender = (filteredList) => {
+    if (filteredList.length === 0) {
+      return <p>Nothing</p>;
+    }
+    return filteredList.map((e, index) => (
+      <ImageListItem key={index} className='search-card'>
+        <img
+          // style={{ width: "250px", height: "255px" }}
+          src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
+          srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+          alt={e.caption}
+          loading='lazy'
+        />
+        <ImageListItemBar position='below' title={<Card item={e} />} />
+      </ImageListItem>
+    ));
   };
-  filter(state);
+
   return (
     <div>
       <NavBar />
-      <button>Sort</button>
-      <button>Most View</button>
-      <div className='search-container'>
-        <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-          {filteredList.map((e, index) => (
-            <ImageListItem key={index} className='search-card'>
-              <img
-                // style={{ width: "250px", height: "255px" }}
-                src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={e.caption}
-                loading='lazy'
-              />
-              <ImageListItemBar position='below' title={<Card item={e} />} />
-            </ImageListItem>
-          ))}
-        </ImageList>
+      <div className='searchPage-container'>
+        <button
+          className='searchPage-button'
+          onClick={() => setFilteredList(keyword)}
+        >
+          Latest
+        </button>
+        <button
+          className='searchPage-button'
+          onClick={() => handleSortButton(keyword)}
+        >
+          Most View
+        </button>
+        <div className='search-container'>
+          <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
+            {itemRender(filteredList)}
+          </ImageList>
+        </div>
       </div>
     </div>
   );
