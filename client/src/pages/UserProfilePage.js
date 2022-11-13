@@ -28,8 +28,6 @@ const UserProfile = () => {
 
   const [showUpdate, setShowUpdate] = useState(false);
 
-  console.log('selectedFile', selectedFile);
-
   useEffect(() => {
     if (currentUser.userInfo.name) {
       setUserName(currentUser?.userInfo?.name);
@@ -142,7 +140,7 @@ const UserProfile = () => {
             />
             <EditPencilButton
               styleName={`UserProfile-editBtn ${
-                showUpdate ? '' : 'UserProfile-disableEditBtns'
+                !showUpdate && 'UserProfile-disableEditBtns'
               }`}
               onClick={handleEditPicBtn}
             />
@@ -159,7 +157,7 @@ const UserProfile = () => {
             />
             <EditPencilButton
               styleName={`UserProfile-nameEditBtn ${
-                showUpdate ? '' : 'UserProfile-disableEditBtns'
+                !showUpdate && 'UserProfile-disableEditBtns'
               }`}
               onClick={editProfileNameHandler}
             />
@@ -172,7 +170,7 @@ const UserProfile = () => {
               </button>
               <button
                 className='UserProfile-saveProfileBtn'
-                disabled={showUpdate ? false : true}
+                disabled={!showUpdate}
                 onClick={handleUpdateProfile}>
                 Save
               </button>
@@ -182,7 +180,7 @@ const UserProfile = () => {
             <label className='UserProfile-introTitle'>About Me...</label>
             <EditPencilButton
               styleName={`UserProfile-introEditButton ${
-                showUpdate ? '' : 'UserProfile-disableEditBtns'
+                !showUpdate && 'UserProfile-disableEditBtns'
               }`}
               onClick={editIntroHandler}
             />
