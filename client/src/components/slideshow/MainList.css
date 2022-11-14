@@ -1,0 +1,87 @@
+* {
+  font-family: 'Open-Sans', sans-serif;
+}
+
+.MainList-h1 {
+  margin: 0 20px;
+  margin-top: 50px;
+  margin-left: 80px;
+  font-family: 'Open-Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  color: var(--brownColor);
+}
+
+.MainList-slideShow {
+  align-items: center;
+	/* display: flex; */
+	flex-direction: column;
+	justify-content: center;
+}
+
+
+.MainList-slideContainer {
+  background: rgba(217, 217, 217, 0.2);
+  margin: 20px 80px;
+  /* padding: 0px 50px; */
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px grey;
+
+}
+
+.MainList-h3 {
+  margin: 10px;
+}
+
+.MainList-cardInfo {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+
+/* they are inside of the Carousel library */
+.MainList-image_item {
+  margin: 40px 40px 20px;
+  position: unset;
+  height: fit-content;
+  max-width: 350px;
+
+}
+.MainList-reactMultiCarouselList{
+  position: unset !important;
+}
+
+.MainList-custom-right-arrow {
+  position: absolute !important;
+  right: -40px;
+  z-index: 1;
+  border: 1px solid var(--brownColor);
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 6px;
+  opacity: 0.8;
+  cursor: pointer;
+  transform: rotate(-45deg);
+
+}.MainList-custom-right-arrow:hover {
+  opacity: 2;
+}
+.MainList-custom-left-arrow {
+  position: absolute !important;
+  left: -40px;
+  z-index: 1;
+  border: 1px solid var(--brownColor);
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 6px;
+  opacity: 0.8;
+  cursor: pointer;
+  transform: rotate(135deg);
+}
+.MainList-custom-left-arrow {
+  opacity: 1;
+}

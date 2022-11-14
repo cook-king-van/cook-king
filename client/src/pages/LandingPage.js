@@ -1,6 +1,7 @@
+
 import React from 'react';
-import NavBar from './NavBar';
-import MainList from './MainList';
+import NavBar from '../components/navbar/NavBar';
+import MainList from '../components/slideshow/MainList';
 
 const LandingPage = () => {
   return (
@@ -8,7 +9,7 @@ const LandingPage = () => {
       <NavBar />
 
       <div>
-        <MainList />
+        <MainList title="Today's Best" />
       </div>
     </section>
   );
