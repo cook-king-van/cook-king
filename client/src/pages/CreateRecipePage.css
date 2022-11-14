@@ -1,0 +1,517 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.CreateRecipe-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 40px 70px;
+  background: rgba(217, 217, 217, 0.2);
+  margin: 50px 100px;
+  border: 1px solid rgba(217, 217, 217, 0.6);
+}
+
+.CreateRecipe-contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+/* Main Photo */
+.CreateRecipe-mainPhoto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+  width: 40%;
+  background-color: rgba(108, 93, 83, 0.3);
+  border: 1px solid rgba(108, 93, 83, 0.5);
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.CreateRecipe-mainPhoto:hover {
+  opacity: 0.7;
+}
+
+.CreateRecipe-MainPhotoHolder {
+  display: flex;
+  margin-left: 15px;
+  position: relative;
+  flex-direction: column;
+  height: 350px;
+  width: 40%;
+  border: 1px solid rgba(108, 93, 83, 0.5);
+  margin-left: 15px;
+}
+
+.CreateRecipe-mainPhotoAddIcon {
+  padding-top: 30px;
+}
+
+.CreateRecipe-mainPhotoImg,
+.CreateRecipe-instructionPhotoImg {
+  height: 350px;
+  object-fit: fit;
+  position: relative;
+}
+
+.CreateRecipe-removeMainPhotoBtn:hover,
+.CreateRecipe-removeInstructionPhotoBtn:hover {
+  cursor: pointer;
+}
+
+.CreateRecipe-removeMainPhotoBtn,
+.CreateRecipe-removeInstructionPhotoBtn {
+  background-color: var(--primaryDarkColor);
+  color: #fff;
+  border: none;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.CreateRecipe-uploadMainBtn, .CreateRecipe-uploadInstructionBtn {
+  display: none;
+}
+
+.CreateRecipe-mainPhotoTitle {
+  text-align: center;
+  letter-spacing: 1.5px;
+}
+
+/* Recipe Title, Tag, Servings, Time */
+.CreateRecipe-foodTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 30px;
+}
+
+.CreateRecipe-tagContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.CreateRecipe-example {
+  padding-top: 8px;
+  color: var(--primaryDarkColor);
+}
+
+.CreateRecipe-title {
+  font-size: 18px;
+}
+
+.CreateRecipe-foodTitleInput {
+  border: 1px solid var(--primaryDarkColor);
+  width: 80%;
+  height: 35px;
+  padding: 0.3rem;
+  text-indent: 7px;
+  border-radius: 3px;
+  color: var(--brownColor);
+  border: 1px solid var(--primaryDarkColor);
+  -webkit-text-fill-color: var(--brownColor);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.CreateRecipe-foodTitleInput:focus {
+  border: 2px solid var(--brownBackgroundColor);
+  outline: none;
+}
+
+.CreateRecipe-tagsInputOuterContainer {
+  width: 80%;
+  margin-left: 40px;
+}
+
+.CreateRecipe-tags-input-container {
+  border: 1px solid var(--primaryDarkColor);
+  background-color: #fff;
+  min-height: 45px;
+  padding: 5px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.CreateRecipe-tags-input-container.focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+.CreateRecipe-tag-item {
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgba(156, 179, 149, 0.6);
+  display: inline-block;
+  padding: 0.4rem 0.55rem;
+  border-radius: 20px;
+  -webkit-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+}
+
+.CreateRecipe-same-tag-exist {
+  background-color: #719e61;
+}
+
+.CreateRecipe-tag-item .CreateRecipe-close {
+  height: 15px;
+  width: 15px;
+  background-color: rgba(62, 66, 57, 0.9);
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5em;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.CreateRecipe-tags-input {
+  flex-grow: 1;
+  text-indent: 7px;
+  font-size: 15px;
+  border: none;
+  outline: none;
+}
+
+.CreateRecipe-TimeServingInfo {
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.CreateRecipe-servingInput {
+  border: 1px solid var(--primaryDarkColor);
+  width: 26%;
+  height: 35px;
+  padding: 0.3rem;
+  text-indent: 7px;
+  border-radius: 3px;
+  font-size: 15px;
+  color: var(--brownColor);
+  border: 1px solid var(--primaryDarkColor);
+  -webkit-text-fill-color: var(--brownColor);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.CreateRecipe-servingInput:focus {
+  border: 2px solid var(--brownBackgroundColor);
+  outline: none;
+}
+
+.CreateRecipe-timeOptions {
+  width: 30%;
+  border-radius: 3px;
+  height: 35px;
+  text-indent: 7px;
+  padding: 0.3rem;
+  font-size: 15px;
+  outline: none;
+  border: 1px solid black;
+  color: var(--brownColor);
+  background-color: #fff;
+}
+
+.CreateRecipe-timeOptions:focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+.CreateRecipe-timeSelect:focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+/* Ingredients */
+.CreateRecipe-blockContainer {
+  padding: 40px 70px;
+  padding-right: 20px;
+  background: rgba(217, 217, 217, 0.2);
+  margin: 50px 100px;
+  border: 1px solid rgba(217, 217, 217, 0.6);
+}
+
+.CreateRecipe-ingredientInnerContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 35px;
+}
+
+.CreateRecipe-ingredientTitle,
+.CreateRecipe-instructionTitle {
+  grid-column: 1 / span 3;
+  padding-bottom: 20px;
+  font-size: 23px;
+}
+
+.CreateRecipe-ingredientTips {
+  grid-column: 1 / span 3;
+  padding-bottom: 20px;
+  color: var(--darkGrayColor);
+  font-weight: 600;
+}
+
+.CreateRecipe-ingredientName {
+  margin-bottom: 10px;
+}
+
+.CreateRecipe-ingredientMeasure {
+  margin-bottom: 10px;
+}
+
+.CreateRecipe-ingredientMeasure {
+  grid-column: 2 / span 2;
+}
+
+.CreateRecipe-ingredientNameInput {
+  border: 1px solid var(--primaryDarkColor);
+  border-radius: 3px;
+  padding: 0.3rem;
+  height: 35px;
+  width: 80%;
+  text-indent: 7px;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--brownColor);
+  outline: none;
+  margin-top: 10px;
+}
+
+.CreateRecipe-ingredientNameInput:focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+.CreateRecipe-ingredientMeasureInput {
+  border: 1px solid var(--primaryDarkColor);
+  border-radius: 3px;
+  padding: 0.3rem;
+  height: 35px;
+  width: 80%;
+  text-indent: 7px;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--brownColor);
+  outline: none;
+  margin-top: 10px;
+}
+
+.CreateRecipe-ingredientMeasureInput:focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+.CreateRecipe-deleteIngredientBtn {
+  border: none;
+  background-color: Transparent;
+  color: var(--dangerColor);
+  margin-top: 10px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+}
+
+.CreateRecipe-deleteIngredientBtn:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+.CreateRecipe-addIngredientBtnContainer,
+.CreateRecipe-addInstructionBtnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.CreateRecipe-addIngredientBtnContainer-inner,
+.CreateRecipe-addInstructionBtnContainer-inner {
+  flex: 1;
+  text-align: center;
+}
+
+.CreateRecipe-addIngredientBtn, .CreateRecipe-addInstructionBtn {
+  width: 30px;
+  height: 30px;
+  margin-top: 40px;
+  border: none;
+  background-color: Transparent;
+  color: var(--primaryColor);
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+}
+
+.CreateRecipe-addIngredientBtn:hover, .CreateRecipe-addInstructionBtn:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+.CreateRecipe-emptyBox {
+  display: flex;
+  align-self: flex-end;
+  margin-left: auto;
+  width: 12%;
+}
+
+/* Instructions */
+.CreateRecipe-instructionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateRecipe-instructionTips {
+  color: var(--darkGrayColor);
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.CreateRecipe-instructionTips-padding {
+  color: var(--darkGrayColor);
+  font-weight: 500;
+  margin-left: 20px;
+  line-height: 25px;
+}
+
+.CreateRecipe-instructionTips-padding-bottom {
+  margin-bottom: 35px;
+}
+
+.CreateRecipe-stepsListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.CreateRecipe-stepsList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.CreateRecipe-stepsList li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: solid 2px #d0d0d0;
+  background-color: rgba(206, 225, 200, 0.2);
+  border-radius: 0.2rem;
+  padding: 30px 30px;
+  padding-right: 15px;
+  margin-bottom: 1rem;
+}
+
+.CreateRecipe-stepTitle {
+  display: block;
+  font-size: 35px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #719e61;
+}
+
+.CreateRecipe-stepContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.CreateRecipe-instructionInput {
+  border: 1px solid var(--primaryDarkColor);
+  border-radius: 3px;
+  resize: none;
+  flex: 1;
+  font-family: 'Open Sans', sans-serif;
+  padding: 15px;
+  outline: none;
+  color: var(--brownColor);
+  font-size: 20px;
+}
+
+.CreateRecipe-instructionInput:focus {
+  border: 2px solid var(--brownBackgroundColor);
+}
+
+.CreateRecipe-instructionAddIncon {
+  color: dimgray;
+}
+
+.CreateRecipe-instructionPhoto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  height: 350px;
+  background-color: rgba(108, 93, 83, 0.3);
+  border: 1px solid rgba(108, 93, 83, 0.5);
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.CreateRecipe-instructionPhoto:hover {
+  opacity: 0.7;
+}
+
+.CreateRecipe-instructionPhotoHolder {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 352px;
+  width: 33%;
+  border: 1px solid rgba(108, 93, 83, 0.5);
+  margin-left: 15px;
+}
+
+.CreateRecipe-deleteInstructionPhotoBtn {
+  align-self: center;
+  border: none;
+  background-color: Transparent;
+  color: var(--dangerColor);
+  margin-left: 10px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+}
+
+.CreateRecipe-deleteInstructionPhotoBtn:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+/* Submit Buttons */
+.CreateRecipe-submitBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px 100px;
+}
+
+.CreateRecipe-saveBtn {
+  background-color: var(--lightColor);
+  border: 1px solid rgba(92, 110, 86, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 50px;
+  font-size: 23px;
+}
+
+.CreateRecipe-saveBtn:hover {
+  background-color: var(--secondaryColor);
+  cursor: pointer;
+}
+
+.CreateRecipe-postBtn {
+  background-color: var(--lightBackgroundColor);
+  border: 1px solid rgba(108, 93, 83, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 50px;
+  font-size: 23px;
+  margin-left: 20px;
+}
+
+.CreateRecipe-postBtn:hover {
+  background-color: rgba(159, 132, 115, 0.8);
+  cursor: pointer;
+}

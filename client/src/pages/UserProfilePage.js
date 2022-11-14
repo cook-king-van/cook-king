@@ -30,7 +30,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (currentUser.userInfo.name) {
       setUserName(currentUser?.userInfo?.name);
-      setNameFieldWidth(currentUser?.userInfo?.name?.length);
+      setNameFieldWidth(currentUser?.userInfo?.name?.length + 1);
       setIntro(
         currentUser?.userInfo?.description === ''
           ? `Hello! I am ${currentUser?.userInfo?.name || botUser}`
@@ -84,7 +84,7 @@ const UserProfile = () => {
   };
 
   const nameChangeHandler = (e) => {
-    setNameFieldWidth(e.target.value.length);
+    setNameFieldWidth(e.target.value.length + 1);
     setUserName(e.target.value);
   };
 
@@ -183,7 +183,6 @@ const UserProfile = () => {
               }`}
               onClick={editIntroHandler}
             />
-
             <textarea
               className='UserProfile-introTextArea'
               ref={editIntroRef}
