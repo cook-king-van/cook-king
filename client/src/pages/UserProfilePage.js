@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
-import Navbar from './NavBar';
+import Navbar from '../components/navbar/NavBar';
 
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
