@@ -2,7 +2,7 @@ import React from 'react';
 import '../pages/UserProfilePage.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
 
-const MyCookingCard = () => {
+const MyCookingCard = ({ recipe }) => {
   return (
     <div className='UserProfile-cardContainer'>
       <img src={cheesecake} alt='cheese cake' className='UserProfile-food' />

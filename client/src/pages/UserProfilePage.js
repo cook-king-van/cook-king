@@ -9,6 +9,7 @@ import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
 
 const UserProfile = () => {
+  console.log('profile page');
   const currentUser = useSelector((state) => state.user);
   const botUser = 'a user';
   const userImage = currentUser?.userInfo?.userImageUrl;
@@ -18,17 +19,17 @@ const UserProfile = () => {
   const [nameFieldWidth, setNameFieldWidth] = useState(0);
   const [isEditProfileName, setEditProfileName] = useState('disabled');
   const [isEditIntro, setEditIntro] = useState('disabled');
+  const [cookingList, setCookingList] = useState([]);
+
   const editProfileNameRef = createRef();
   const editIntroRef = createRef();
 
   const [selectedFile, setSelectedFile] = useState('');
-
   const [profileUpdateMsg, setProfileUpdateMsg] = useState(false);
-
   const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
-    if (currentUser.userInfo.name) {
+    if (currentUser?.userInfo?.name) {
       setUserName(currentUser?.userInfo?.name);
       setNameFieldWidth(currentUser?.userInfo?.name?.length + 1);
       setIntro(
@@ -36,6 +37,7 @@ const UserProfile = () => {
           ? `Hello! I am ${currentUser?.userInfo?.name || botUser}`
           : currentUser.userInfo.description
       );
+      setCookingList(currentUser?.userInfo?.recipes);
     }
   }, [currentUser.userInfo]);
 
@@ -198,12 +200,10 @@ const UserProfile = () => {
               My Cooking List
             </label>
             <div className='UserProfile-myItemsContainer'>
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
+              {cookingList &&
+                cookingList.map((recipe, i) => (
+                  <MyCookingCard key={i} recipe={recipe} />
+                ))}
             </div>
           </div>
           <div className='UserProfile-bottomContainer'>

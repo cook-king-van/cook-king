@@ -175,7 +175,7 @@ export const registerUser =
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/api/auth/user');
-    dispatch(userLoaded(res.data.user));
+    dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
     sessionStorage.removeItem('token');

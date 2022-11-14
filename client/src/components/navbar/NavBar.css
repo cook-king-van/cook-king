@@ -12,6 +12,11 @@
   padding: 15px 0;
 }
 
+.NavBar-logoContainer {
+  border: none;
+  background-color: #fff;
+}
+
 .NavBar-logo {
   position: relative;
   align-items: center;
