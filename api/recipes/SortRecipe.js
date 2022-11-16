@@ -3,11 +3,13 @@ import categories from '../../models/categories';
 export const todayBestReceipeSort = async (req, res) => {
   try {
     const start = new Date() - 86400000;
-    const recipe = await Recipe.find({
-      createdAt: { $gte: start }, // Today's best
-    })
-      .sort(['likeCount', 'desc'])
-      .limit(5);
+    const recipe = await Recipe.find({},null,
+      {
+        createdAt: { $gte: start }, // Today's best
+      },
+      null,
+      { sort: { likeCount: 1 ,createdAt:-1} }
+    ).limit(5);
     if (!recipe) {
       return res.status(403).send('No items');
     }
@@ -23,9 +25,10 @@ export const optionSort = async (req, res) => {
     const sort = req.params.sort;
     const recipe = await categories.Option.find({
       sort: sort,
+    }, null, {
+      sort:{'createdAt':-1}
     })
       .select('recipeId -_id')
-      .sort([['createAt', 'desc']])
       .populate('recipeId', ['recipeName', 'recipeImage', 'steps'])
       .limit(10);
     if (!recipe) {
@@ -43,8 +46,10 @@ export const categorySort = async (req, res) => {
     const sort = req.params.sort;
     const recipe = await categories.Categories.find({
       categoriesName: sort,
+    }, null, {
+      sort:{'createdAt':-1}
     })
-      .sort(['createAt', 'desc'])
+      // .sort(['createAt', 'desc'])
       .select('recipeList -_id')
       .populate('recipeList', ['recipeName', 'recipeImage', 'steps'])
       .limit(10);
