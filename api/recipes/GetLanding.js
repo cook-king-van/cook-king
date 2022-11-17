@@ -14,7 +14,7 @@ const GetLanding = async (req, res) => {
         $orderby: { likeCount: -1 },
       })
         .limit(5)
-        .select('_id recipeName likeCount');
+        .select('_id recipeName likeCount recipeImage');
       for (let index = 0; index < supplyRecipe.length; index++) {
         if (BestRecipe.length == 5) {
           break;
@@ -30,7 +30,7 @@ const GetLanding = async (req, res) => {
           limit: 5,
           sort: { createdAt: -1 },
         },
-        select: ['recipeName', 'recipeImage', 'likeCount', 'recipeImage'],
+        select: ['recipeName', 'recipeImage', 'likeCount'],
       });
     if (!OptionRecipes) {
       return res.status(403).send('No items');
