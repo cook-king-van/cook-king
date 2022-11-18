@@ -87,6 +87,12 @@ const res = [
     heart: 16,
     user: 'Hoon',
   },
+  {
+    url: tempFood2,
+    caption: 'Slide 15',
+    heart: 16,
+    user: 'Hoon',
+  },
 ];
 
 
