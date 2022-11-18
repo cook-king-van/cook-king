@@ -7,60 +7,39 @@ import tempFood2 from '../images/TempFood2.png';
 import tempFood3 from '../images/TempFood3.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import res from "../utils/mockData";
+import InfiniteScroll, {infiniteScroll} from "react-infinite-scroll-component";
 
 export const SearchPage = (props) => {
   const { state } = useLocation();
   const [filteredList, setFilteredList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentView, setCurrentView] = useState(res.slice(currentPage, currentPage + 7))
 
   useEffect(() => {
     setFilteredList(item);
   }, [state]);
 
+  // useEffect(() => {
+  //   setCurrentView(res.slice(currentPage, currentPage + 7))
+  //   setCurrentPage((prev) => prev + currentPage);
+  // },[])
+
   //mock data
-  const res = [
-    {
-      url: tempFood,
-      caption: 'Slide 1',
-      heart: 135,
-      user: 'Jay',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 2',
-      heart: 12,
-      user: 'Yun',
-    },
-    {
-      url: tempFood3,
-      caption: 'Slide 3',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood,
-      caption: 'Slide 4',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 238,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 137,
-      user: 'Hoon',
-    },
-  ];
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setCurrentView(
+        currentView.concat(res.slice(currentPage + 7, currentPage + 14))
+        // (prev) => [...prev, res.slice(currentPage, currentPage+ 7)]
+      );
+      setCurrentPage((prev) => prev + 7);
+    }, 1500);
+  }
+  
+
+
+
+  //filter the keywords
   let item = res.filter((card) => card.caption.includes(state));
   
   const handleSortButton = (list) => {
@@ -89,7 +68,7 @@ export const SearchPage = (props) => {
     if (filteredList.length === 0) {
       return <p>Nothing</p>;
     }
-    return filteredList.map((e, index) => (
+    const body = filteredList.map((e, index) => (
       <ImageListItem key={index} className='search-card'>
         <img
           // style={{ width: "250px", height: "255px" }}
@@ -101,6 +80,17 @@ export const SearchPage = (props) => {
         <ImageListItemBar position='below' title={<Card item={e} />} />
       </ImageListItem>
     ));
+      console.log("page",currentPage)
+      console.log("view",currentView)
+    return (
+      <InfiniteScroll dataLength={currentView.length} next={fetchMoreData} hasMore={true} loader={<h4>Loading...</h4>}>
+      {currentView.map((i, index) => (
+            <div style={{border: "1px solid black", width:'100px', height:"100px"}} key={index}>
+              {i.caption} - #{index}
+            </div>
+          ))}
+      </InfiniteScroll>
+    )
   };
 
   return (
