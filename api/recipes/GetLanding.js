@@ -2,24 +2,23 @@ import Recipe from '../../models/recipe';
 import categories from '../../models/categories';
 const GetLanding = async (req, res) => {
   try {
-    const start = new Date() - 86400000;
-    const BestRecipe = await Recipe.find({
+    const start = new Date() - 86400000; // from yesterday sort likeCount asce
+    let BestRecipe = await Recipe.find({
       createdAt: { $gte: start },
       $orderby: { likeCount: -1 },
     })
       .limit(5)
-      .select('_id recipeName likeCount recipeImage');
+      .select('recipeName likeCount recipeImage');
     if (BestRecipe.length < 5) {
       const supplyRecipe = await Recipe.find({
-        $orderby: { likeCount: -1 },
+        $orderby: { likeCount: -1, createdAt: -1 },
       })
         .limit(5)
-        .select('_id recipeName likeCount recipeImage');
-      for (let index = 0; index < supplyRecipe.length; index++) {
-        if (BestRecipe.length == 5) {
-          break;
-        }
-        BestRecipe.push(supplyRecipe[index]);
+        .select('recipeName likeCount recipeImage');
+      BestRecipe = BestRecipe.concat(supplyRecipe);
+      while (BestRecipe.length !== 5) {
+        // Pop until length is 5
+        BestRecipe.pop();
       }
     }
     const OptionRecipes = await categories.Option.find()
@@ -28,7 +27,7 @@ const GetLanding = async (req, res) => {
         path: 'recipeId',
         options: {
           limit: 5,
-          sort: { createdAt: -1 },
+          sort: { likeCount: -1, createdAt: -1 },
         },
         select: ['recipeName', 'recipeImage', 'likeCount'],
       });
@@ -48,3 +47,14 @@ const GetLanding = async (req, res) => {
 };
 
 export default GetLanding;
+/**
+ *  Error Code
+ *
+ *  401 No Token
+ *  402 Token expried
+ *  403 No Item
+ *  500 Exception Error
+ *
+ *  Response Code
+ *  200
+ */
