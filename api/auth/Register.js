@@ -21,7 +21,7 @@ const Hash = (data) => {
 const Register = async (req, res) => {
   //     BodyData : email , password , passwordconfirm
   try {
-    const { email, description, password, passwordconfirm } = req.body;
+    const { email, password, passwordconfirm } = req.body;
     if (
       !EmailValid(email) ||
       !PasswordValid(password) ||
@@ -52,7 +52,7 @@ const Register = async (req, res) => {
     await new User({
       email,
       password: Hash(password),
-      description,
+      description: '',
       name: userName,
     }).save();
 
@@ -81,6 +81,7 @@ const Register = async (req, res) => {
     }
   } catch (e) {
     console.error(`Exception Error: ${e.message}`);
+    console.log(`error: ${e}`);
     return res.status(500).send(e.message);
   }
 };

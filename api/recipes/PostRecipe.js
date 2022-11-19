@@ -1,59 +1,98 @@
 import Recipe from '../../models/recipe';
 import Categories from '../../models/categories';
 import User from '../../models/user';
+
+const MakingTag = async (tags) => {
+  const tagIds = await Promise.all(
+    tags.map(async (tag) => {
+      const newTag = await new Categories.Tag({
+        tagName: tag,
+      }).save();
+      return newTag._id;
+    })
+  );
+  return tagIds;
+};
+
+async function addRecipeIdToTag(tagIds, recipeId) {
+  await Promise.all(
+    tagIds.map(async (tagId) => {
+      await Categories.Tag.findByIdAndUpdate(tagId, {
+        $push: {
+          recipeId: recipeId,
+        },
+      });
+    })
+  );
+}
+
 const CreateRecipe = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.id;
     const {
       recipeName,
       ingredient,
       time,
       option = 'none',
-      categoriesName,
+      categoriesName = 'none',
       size,
+      tags,
     } = req.body;
-    const categories = await Categories.Categories.findOneAndUpdate(
-      {
-        categoriesName: categoriesName,
-      },
-      {
-        categoreisName: categoriesName,
-      },
-      {
-        new: true,
-        upsert: true,
-      }
-    );
+
+    if (!recipeName) {
+      return res.status(400).send({ message: 'Please enter recipe name.' });
+    }
+    if (!ingredient) {
+      return res.status(400).send({ message: 'Please add ingredients.' });
+    }
+    if (!time) {
+      return res.status(400).send({ message: 'Please add time.' });
+    }
+    if (!size) {
+      return res
+        .status(400)
+        .send({ message: 'Please add size.', item: 'size' });
+    }
+
+    const findCategory = await Categories.Categories.findOne({
+      categoriesName: categoriesName,
+    });
     const findOption = await Categories.Option.findOne({
       sort: option,
     });
     const steps = [];
     req.body.step.forEach((e, index) => {
-      //Json Parse
-      const json = JSON.parse(e);
-      json.order = index + 1; //order
-      steps.push(json);
+      const tmpStep = { ...e, order: index + 1 };
+      steps.push(tmpStep);
     });
+
+    const tagIds = await MakingTag(tags);
+
     const recipe = await new Recipe({
       userId,
-      categoriesId: categories._id,
+      categoriesId: findCategory._id,
       recipeName,
       ingredient,
       size,
       time,
       option: findOption._id,
+      tags: tagIds,
       steps,
     }).save();
+
     await Categories.Option.findByIdAndUpdate(findOption._id, {
       $push: {
         recipeId: recipe._id,
       },
     });
-    await Categories.Categories.findByIdAndUpdate(categories._id, {
+    await Categories.Categories.findByIdAndUpdate(findCategory._id, {
       $push: {
         recipeList: recipe._id,
       },
     });
+
+    await addRecipeIdToTag(tagIds, recipe._id);
+
     await User.findByIdAndUpdate(userId, {
       $push: {
         recipes: recipe._id,
@@ -65,7 +104,8 @@ const CreateRecipe = async (req, res) => {
     });
   } catch (e) {
     console.error(`Exception Error`);
-    return res.status(500).send(e.message);
+    console.log(`error: ${e.message}`);
+    return res.status(500).send({ message: e.message });
   }
 };
 export default CreateRecipe;
