@@ -8,17 +8,26 @@ import res from '../utils/mockData';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const SearchPage = (props) => {
+  const pageSize = 7;
   const { state } = useLocation();
   const [filteredList, setFilteredList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(7);
-  const [currentView, setCurrentView] = useState(res.slice(0, 7));
+  const [currentPage, setCurrentPage] = useState(pageSize);
+  const [currentView, setCurrentView] = useState([]);
   const [hasMode, setHasMode] = useState(true);
 
-  useEffect(() => {
-    setFilteredList(item);
-  }, [state]);
 
-  //mock data
+  useEffect(() => {
+    setFilteredList(item)
+    setCurrentView(item.slice(0, pageSize));
+  }, [state]);
+  
+  // console.log("filter",filteredList)
+  // console.log("current", currentView)
+  
+  //filter the keywords
+  let item = res.filter((card) => card.caption.includes(state));
+
+  //function for bring the next data from the reuslt
   const fetchMoreData = () => {
     if (currentView.length >= filteredList.length) {
       setHasMode(false);
@@ -27,18 +36,15 @@ export const SearchPage = (props) => {
 
     setTimeout(() => {
       setCurrentView(
-        currentView.concat(res.slice(currentPage, currentPage + 7))
+        currentView.concat(filteredList.slice(currentPage, currentPage + pageSize))
       );
       setCurrentPage((prev) => prev + 7);
-    }, 1500);
+    }, 1000);
   };
 
-  //filter the keywords
-  let item = res.filter((card) => card.caption.includes(state));
-
-  const handleSortButton = (list) => {
+  const handleLatestButton = (list) => {
     let temp = [...list];
-    setFilteredList(temp.sort((a, b) => a.heart - b.heart));
+    setCurrentView(temp.sort((a, b) => b.heart - a.heart));
   };
 
   const Card = (item) => {
@@ -61,20 +67,6 @@ export const SearchPage = (props) => {
     if (filteredList.length === 0) {
       return <p>Nothing</p>;
     }
-    const body = filteredList.map((e, index) => (
-      <ImageListItem key={index} className='search-card'>
-        <img
-          // style={{ width: "250px", height: "255px" }}
-          src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-          srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-          alt={e.caption}
-          loading='lazy'
-        />
-        <ImageListItemBar position='below' title={<Card item={e} />} />
-      </ImageListItem>
-    ));
-    console.log('page', currentPage);
-    console.log('view', currentView);
     return (
       <InfiniteScroll
         dataLength={currentView.length}
@@ -109,13 +101,13 @@ export const SearchPage = (props) => {
       <div className='searchPage-container'>
         <button
           className='searchPage-button'
-          onClick={() => setFilteredList(item)}
+          onClick={() => setCurrentView([...filteredList])}
         >
           Latest
         </button>
         <button
           className='searchPage-button'
-          onClick={() => handleSortButton(item)}
+          onClick={() => handleLatestButton(item)}
         >
           Most View
         </button>
