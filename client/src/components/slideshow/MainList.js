@@ -65,7 +65,7 @@ const MainList = ({ title }) => {
 
   const CustomRightArrow = ({ onClick }) => {
     return (
-      <i class='MainList-custom-right-arrow' onClick={() => onClick()}></i>
+      <i className='MainList-custom-right-arrow' onClick={() => onClick()}></i>
     );
   };
 
@@ -74,7 +74,7 @@ const MainList = ({ title }) => {
   );
 
   //entire slideContainer
-  const SlideCreator = (props) => {
+  const SlideCreator = ({heart, user}) => {
     //each of the slide card
     const SlideCard = (props) => {
       return (
@@ -89,9 +89,9 @@ const MainList = ({ title }) => {
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
               <img src={heart} alt=''></img>
-              {props.heart}
+              {heart}
             </p>
-            <p>{props.user}</p>
+            <p>{user}</p>
           </div>
         </div>
       );
@@ -100,7 +100,7 @@ const MainList = ({ title }) => {
     return (
       <Carousel
         ssr
-        partialVisbile
+        partialVisible
         itemClass='MainList-image_item'
         responsive={responsive}
         arrows={true}
@@ -116,6 +116,7 @@ const MainList = ({ title }) => {
               description={image.caption}
               heart={image.heart}
               user={image.user}
+              key={image.caption}
             />
           );
         })}
