@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-multi-carousel": "^2.8.2",
     "react-redux": "^8.0.4",
@@ -46,5 +47,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8888"
+  "proxy": "http://localhost:8888",
+  "devDependencies": {
+    "@types/uuid": "^8.3.4"
+  }
 }

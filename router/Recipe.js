@@ -10,6 +10,7 @@ import UserValid from '../api/auth/UserValid';
 import LikeRecipe from '../api/recipes/LikeRecipe';
 import GetLanding from '../api/recipes/GetLanding';
 import UnlikeRecipe from '../api/recipes/UnlikeRecipe';
+import SearchRecipe from '../api/recipes/SearchRecipe';
 const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
@@ -19,6 +20,7 @@ router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
 router.put('/like/:recipeId', UserValid, LikeRecipe);
 router.get('/landing', UserValid, GetLanding);
+router.get('/search', UserValid, SearchRecipe);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
 
 export default router;

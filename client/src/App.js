@@ -5,8 +5,10 @@ import PrivateRoute from './lib/PrivateRoute';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import LoginRecoveryPage from './pages/LoginRecoveryPage';
 import UserProfilePage from './pages/UserProfilePage';
+import LoginRecoveryPage from './pages/LoginRecoveryPage';
+import CreateRecipePage from './pages/CreateRecipePage';
+import { SearchPage } from './pages/SearchPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
 import { loadUser, logout } from './features/users/userSlice';
@@ -32,8 +34,10 @@ const App = () => {
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/login-recovery' element={<LoginRecoveryPage />} />
       <Route path='/' element={<LandingPage />} exact />
+      <Route path='/search' element={<SearchPage />} exact />
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<UserProfilePage />} exact />
+        <Route path='/create-recipe' element={<CreateRecipePage />} exact />
       </Route>
     </Routes>
   );
