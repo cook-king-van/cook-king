@@ -3,24 +3,18 @@ import categories from '../../models/categories';
 const GetLanding = async (req, res) => {
   try {
     const start = new Date() - 86400000; // from yesterday sort likeCount asce
-    let BestRecipe = await Recipe.find({
+    const BestRecipe = await Recipe.find({
       createdAt: { $gte: start },
       $orderby: { likeCount: -1 },
     })
       .limit(5)
       .select('recipeName likeCount recipeImage');
-    if (BestRecipe.length < 5) {
-      const supplyRecipe = await Recipe.find({
-        $orderby: { likeCount: -1, createdAt: -1 },
-      })
-        .limit(5)
-        .select('recipeName likeCount recipeImage');
-      BestRecipe = BestRecipe.concat(supplyRecipe);
-      while (BestRecipe.length !== 5) {
-        // Pop until length is 5
-        BestRecipe.pop();
-      }
-    }
+    const supplyRecipe = await Recipe.find({
+      $orderby: { likeCount: -1, createdAt: -1 },
+    })
+      .limit(5)
+      .select('recipeName likeCount recipeImage');
+    const best = BestRecipe.concat(supplyRecipe).slice(0, 5);
     const OptionRecipes = await categories.Option.find()
       .select('recipeId -_id sort')
       .populate({
@@ -35,7 +29,7 @@ const GetLanding = async (req, res) => {
       return res.status(403).send('No items');
     }
     return res.send({
-      best: BestRecipe,
+      best,
       brunch: OptionRecipes[0].recipeId,
       snack: OptionRecipes[1].recipeId,
       dinner: OptionRecipes[2].recipeId,
