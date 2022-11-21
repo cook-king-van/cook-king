@@ -20,7 +20,7 @@ const SearchRecipe = async (req, res) => {
       .select('-_id -tagName -__v')
       .populate({
         path: 'recipeId',
-        select: ['recipeName', 'likeCount'],
+        select: ['recipeName', 'likeCount', 'recipeImage'],
       });
     const recipes = FindRecipes.concat(TagRecipes[0].recipeId); // connect two arrays
     if (recipes.length === 0) {
