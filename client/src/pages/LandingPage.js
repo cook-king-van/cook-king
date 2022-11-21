@@ -15,7 +15,7 @@ const LandingPage = () => {
   const getReq = async () => {
     await axios.get('/api/recipes', {
       headers: {
-        Authorization: currentUser.token,
+        Authorization: `Acess: ${currentUser.token}`,
       },
     })
     .then((res) => {
