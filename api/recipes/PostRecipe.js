@@ -60,10 +60,9 @@ const CreateRecipe = async (req, res) => {
     const findOption = await Categories.Option.findOne({
       sort: option,
     });
-    const steps = [];
-    req.body.step.forEach((e, index) => {
-      const tmpStep = { ...e, order: index + 1 };
-      steps.push(tmpStep);
+
+    const steps = req.body.step.map((e, index) => {
+      return { ...e, order: index + 1 };
     });
 
     const tagIds = await MakingTag(tags);

@@ -56,17 +56,18 @@ const CreateRecipePage = () => {
 
   usePrompt(
     'Are you sure you want to leave this page? You have unsaved changes.',
-    recipeName !== '' ||
-      mainPhoto !== '' ||
-      time !== 0 ||
-      tags.length !== 0 ||
-      servings !== 0 ||
-      option !== '' ||
-      ingredients[0].name !== '' ||
-      ingredients[0].measure !== '' ||
-      steps[0].imageUrl !== '' ||
-      steps[0].description !== '' ||
-      category !== ''
+    !createRecipeDoneMsg &&
+      (recipeName !== '' ||
+        mainPhoto !== '' ||
+        time !== 0 ||
+        tags.length !== 0 ||
+        servings !== 0 ||
+        option !== '' ||
+        ingredients[0].name !== '' ||
+        ingredients[0].measure !== '' ||
+        steps[0].imageUrl !== '' ||
+        steps[0].description !== '' ||
+        category !== '')
   );
 
   const handleKeyDown = (e) => {
@@ -375,7 +376,7 @@ const CreateRecipePage = () => {
   );
 
   return (
-    <Fragment>
+    <>
       {!isLoading && createRecipeDoneMsg ? showCreateRecipeDoneMsg : ''}
       {saveRecipeDoneMsg && showSaveRecipeDoneMsg}
       <Navbar />
@@ -413,7 +414,11 @@ const CreateRecipePage = () => {
         </>
       )}
       {isLoading ? (
-        <Spinner />
+        <div className='CreateRecipe-spinnerContainer'>
+          <div>
+            <Spinner />
+          </div>
+        </div>
       ) : (
         <>
           <RecipeBasicContent
@@ -471,7 +476,7 @@ const CreateRecipePage = () => {
           </div>
         </>
       )}
-    </Fragment>
+    </>
   );
 };
 

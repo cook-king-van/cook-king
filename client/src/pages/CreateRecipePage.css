@@ -2,6 +2,14 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+.CreateRecipe-spinnerContainer {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  justify-content: center;
+  text-align: center;
+}
+
 .CreateRecipe-container {
   display: flex;
   flex-direction: row;
