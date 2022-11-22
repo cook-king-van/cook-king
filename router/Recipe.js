@@ -18,7 +18,7 @@ router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
 router.put('/like/:recipeId', UserValid, LikeRecipe);
-router.get('/landing', UserValid, GetLanding);
+router.get('/landing',  GetLanding);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
 
 export default router;

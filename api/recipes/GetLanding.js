@@ -8,22 +8,28 @@ const GetLanding = async (req, res) => {
       $orderby: { likeCount: -1 },
     })
       .limit(5)
-      .select('recipeName likeCount recipeImage');
+      .select('recipeName likeCount recipeImage')
+      .populate('userId', 'name');
+
     const supplyRecipe = await Recipe.find({
       $orderby: { likeCount: -1, createdAt: -1 },
     })
       .limit(5)
-      .select('recipeName likeCount recipeImage');
+      .select('recipeName likeCount recipeImage userId')
+      .populate('userId', 'name -_id');
     const best = BestRecipe.concat(supplyRecipe).slice(0, 5);
     const OptionRecipes = await categories.Option.find()
       .select('recipeId -_id sort')
       .populate({
         path: 'recipeId',
+        populate: {
+          path: 'userId',
+        },
         options: {
           limit: 5,
           sort: { likeCount: -1, createdAt: -1 },
         },
-        select: ['recipeName', 'recipeImage', 'likeCount'],
+        select: ['recipeName', 'recipeImage', 'likeCount', 'userId'],
       });
     if (!OptionRecipes) {
       return res.status(403).send('No items');
