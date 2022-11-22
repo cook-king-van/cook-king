@@ -9,8 +9,8 @@ import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
 
 const UserProfile = () => {
-  console.log('profile page');
   const currentUser = useSelector((state) => state.user);
+  console.log('currentuser', currentUser);
   const botUser = 'a user';
   const userImage = currentUser?.userInfo?.userImageUrl;
 
@@ -20,6 +20,10 @@ const UserProfile = () => {
   const [isEditProfileName, setEditProfileName] = useState('disabled');
   const [isEditIntro, setEditIntro] = useState('disabled');
   const [cookingList, setCookingList] = useState([]);
+  const [likes, setLikes] = useState([]);
+
+  console.log('cookinglist', cookingList);
+  console.log('likes', likes);
 
   const editProfileNameRef = createRef();
   const editIntroRef = createRef();
@@ -38,6 +42,7 @@ const UserProfile = () => {
           : currentUser.userInfo.description
       );
       setCookingList(currentUser?.userInfo?.recipes);
+      setLikes(currentUser?.userInfo?.likes);
     }
   }, [currentUser.userInfo]);
 
@@ -115,6 +120,8 @@ const UserProfile = () => {
       Profile updated successfully!
     </Alert>
   );
+
+  const noRecipeMsg = <p>There is no recipe to display</p>;
 
   return currentUser.loading ? (
     <Loader />
@@ -200,10 +207,11 @@ const UserProfile = () => {
               My Cooking List
             </label>
             <div className='UserProfile-myItemsContainer'>
-              {cookingList &&
-                cookingList.map((recipe, i) => (
-                  <MyCookingCard key={i} recipe={recipe} />
-                ))}
+              {cookingList
+                ? cookingList.map((recipe, i) => (
+                    <MyCookingCard key={i} recipe={recipe} />
+                  ))
+                : noRecipeMsg}
             </div>
           </div>
           <div className='UserProfile-bottomContainer'>
@@ -212,12 +220,11 @@ const UserProfile = () => {
               <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
             </label>
             <div className='UserProfile-myItemsContainer'>
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
+              {likes
+                ? likes.map((like, i) => (
+                    <MyCookingCard key={i} recipe={like} />
+                  ))
+                : noRecipeMsg}
             </div>
           </div>
         </div>

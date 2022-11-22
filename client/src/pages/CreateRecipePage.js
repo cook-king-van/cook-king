@@ -1,5 +1,5 @@
 import React, { useState, useRef, Fragment } from 'react';
-import Navbar from '../pages/NavBar';
+import Navbar from '../components/navbar/NavBar';
 import './CreateRecipePage.css';
 
 import RecipeBasicContent from '../components/RecipeBasicContent';
