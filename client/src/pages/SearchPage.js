@@ -43,6 +43,7 @@ export const SearchPage = (props) => {
   };
 
   const handleLatestButton = (list) => {
+
     let temp = [...list];
     setCurrentView(temp.sort((a, b) => b.heart - a.heart));
   };
@@ -97,7 +98,7 @@ export const SearchPage = (props) => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar searchItem={state} />
       <div className='searchPage-container'>
         <button
           className='searchPage-button'
