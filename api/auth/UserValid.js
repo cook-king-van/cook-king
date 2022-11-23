@@ -3,7 +3,6 @@ const UserValid = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     if (!token) {
-      console.log("token", token)
       return res.status(401).json({
         status: 401,
         message: `There is no Token`,

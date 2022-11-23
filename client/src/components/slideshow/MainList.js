@@ -8,8 +8,14 @@ import tempFood from '../../images/tempFood.png';
 import tempFood2 from '../../images/TempFood2.png';
 import tempFood3 from '../../images/TempFood3.png';
 
-const MainList = ({ title }) => {
+const MainList = ({ title, allData }) => {
   //mock data
+  const slideData = [];
+  console.log(allData);
+  allData.map((item, index) => {
+    slideData[index] = { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
+  });
+  console.log("slide",slideData);
   const slideImages = [
     {
       url: tempFood,
@@ -74,9 +80,10 @@ const MainList = ({ title }) => {
   );
 
   //entire slideContainer
-  const SlideCreator = ({heart, user}) => {
+  const SlideCreator = ({ heart, user }) => {
     //each of the slide card
     const SlideCard = (props) => {
+      {console.log("image",props.user)}
       return (
         <div className='MainList-item'>
           <Image
@@ -89,9 +96,9 @@ const MainList = ({ title }) => {
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
               <img src={heart} alt=''></img>
-              {heart}
+              {props.image.heart}
             </p>
-            <p>{user}</p>
+            <p>{props.image.user}</p>
           </div>
         </div>
       );
@@ -109,7 +116,7 @@ const MainList = ({ title }) => {
         customRightArrow={<CustomRightArrow />}
         draggable={false}
       >
-        {slideImages.slice(0, slideImages.length).map((image) => {
+        {slideData.slice(0, slideData.length).map((image) => {
           return (
             <SlideCard
               image={image}
