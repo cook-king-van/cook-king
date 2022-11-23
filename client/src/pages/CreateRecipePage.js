@@ -53,10 +53,11 @@ const CreateRecipePage = () => {
 
   const [createRecipeDoneMsg, setCreateRecipeDoneMsg] = useState(false);
   const [saveRecipeDoneMsg, setSaveRecipeDoneMsg] = useState(false);
+  const [disablePrompt, setDisablePrompt] = useState(false);
 
   usePrompt(
     'Are you sure you want to leave this page? You have unsaved changes.',
-    !createRecipeDoneMsg &&
+    !disablePrompt && !createRecipeDoneMsg &&
       (recipeName !== '' ||
         mainPhoto !== '' ||
         time !== 0 ||
@@ -302,9 +303,9 @@ const CreateRecipePage = () => {
       })
     );
     setSaveRecipeDoneMsg(true);
+    setDisablePrompt(true);
     setTimeout(() => {
       setSaveRecipeDoneMsg(false);
-      navigate('/');
     }, 2000);
   };
 
@@ -332,6 +333,7 @@ const CreateRecipePage = () => {
       return;
     } else {
       setCreateRecipeDoneMsg(true);
+      setDisablePrompt(true);
       setTimeout(() => {
         setCreateRecipeDoneMsg(false);
         navigate('/');
