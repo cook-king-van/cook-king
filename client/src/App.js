@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import UserProfilePage from './pages/UserProfilePage';
 import LoginRecoveryPage from './pages/LoginRecoveryPage';
+import CreateRecipePage from './pages/CreateRecipePage';
 import { SearchPage } from './pages/SearchPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
@@ -36,6 +37,7 @@ const App = () => {
       <Route path='/search' element={<SearchPage />} exact />
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<UserProfilePage />} exact />
+        <Route path='/create-recipe' element={<CreateRecipePage />} exact />
       </Route>
     </Routes>
   );

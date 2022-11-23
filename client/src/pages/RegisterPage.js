@@ -87,16 +87,37 @@ const RegisterPage = () => {
   const registerScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className='Auth-logo' />
-      <AuthInputs title='email' value={email} onChange={handleChange} />
-      <AuthInputs title='password' value={password} onChange={handleChange} />
+      <AuthInputs
+        title='email'
+        value={email}
+        msg={error.email}
+        onChange={handleChange}
+        condition={validateEmail(email)}
+      />
+      <AuthInputs
+        title='password'
+        value={password}
+        msg={error.password}
+        onChange={handleChange}
+        condition={validatePassword(email, password)}
+      />
       <AuthInputs
         title='confirm password'
         type='password'
         name='passwordCheck'
         value={passwordCheck}
+        msg={error.passwordCheck}
         onChange={handleChange}
+        condition={validatePasswordCheck(password, passwordCheck)}
       />
-      <AuthButton title='REGISTER' />
+      <AuthButton
+        title='REGISTER'
+        valid={
+          validateEmail(email) ||
+          validatePassword(email, password) ||
+          validatePasswordCheck(password, passwordCheck)
+        }
+      />
       <a className='Auth-accountMsg' href='/login'>
         Already have an account ? <u>Sign In</u>
       </a>
