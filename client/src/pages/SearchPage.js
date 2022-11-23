@@ -62,7 +62,7 @@ export const SearchPage = (props) => {
     },
   ];
   let item = res.filter((card) => card.caption.includes(state));
-  
+
   const handleSortButton = (list) => {
     let temp = [...list];
     setFilteredList(temp.sort((a, b) => a.heart - b.heart));
@@ -84,7 +84,6 @@ export const SearchPage = (props) => {
     );
   };
 
-
   const itemRender = (filteredList) => {
     if (filteredList.length === 0) {
       return <p>Nothing</p>;
@@ -105,18 +104,16 @@ export const SearchPage = (props) => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar searchItem={state} />
       <div className='searchPage-container'>
         <button
           className='searchPage-button'
-          onClick={() => setFilteredList(item)}
-        >
+          onClick={() => setFilteredList(item)}>
           Latest
         </button>
         <button
           className='searchPage-button'
-          onClick={() => handleSortButton(item)}
-        >
+          onClick={() => handleSortButton(item)}>
           Most View
         </button>
         <div className='search-container'>

@@ -22,6 +22,18 @@ const Step = new Schema({
     default: () => Date.now(),
   },
 });
+
+const Ingredient = new Schema({
+  name: {
+    type: String,
+    default: '',
+  },
+  measure: {
+    type: String,
+    deafult: '',
+  },
+});
+
 const recipes = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
@@ -46,12 +58,15 @@ const recipes = new Schema({
     required: true,
   },
   ingredient: {
-    type: [String],
-    unique: true,
+    type: [Ingredient],
   },
   option: {
     type: Schema.Types.ObjectId,
     ref: 'Option',
+  },
+  tags: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Tag',
   },
   recipeImage: {
     type: String,

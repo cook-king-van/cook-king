@@ -9,6 +9,7 @@ const initialState = {
   error: '',
   isRemember: false,
   token: sessionStorage.getItem('token') || localStorage.getItem('token'),
+  recipe: {},
 };
 
 const usersSlice = createSlice({
@@ -71,6 +72,12 @@ const usersSlice = createSlice({
       state.userInfo = {};
       state.token = '';
     },
+    saveRecipe(state, action) {
+      state.recipe = action.payload;
+    },
+    resetRecipe(state, action) {
+      state.recipe = {};
+    },
   },
 });
 
@@ -88,6 +95,8 @@ export const {
   updateIsRemember,
   userLoaded,
   userLoadedError,
+  saveRecipe,
+  resetRecipe,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -175,7 +184,7 @@ export const registerUser =
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/api/auth/user');
-    dispatch(userLoaded(res.data.user));
+    dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
     sessionStorage.removeItem('token');
@@ -188,17 +197,21 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateLoading());
 
     const {
-      users: { userInfo, isRemember },
+      users: { userInfo, isRemember, token },
     } = getState();
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    const { data } = await axios.put(
+      `/api/users/${userInfo._id}`,
+      user,
+      config
+    );
 
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
@@ -217,4 +230,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     }
     dispatch(userUpdateFailure(message));
   }
+};
+
+export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
+  dispatch(saveRecipe(recipe));
+  localStorage.setItem('recipe', JSON.stringify(recipe));
+};
+
+export const resetRecipeLocal = () => async (dispatch, getState) => {
+  dispatch(resetRecipe());
 };

@@ -1,38 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../pages/CreateRecipePage.css';
 
-const TagsInput = () => {
-  const [tags, setTags] = useState([]);
-  const [addBorder, setAddBorder] = useState(false);
-  const [sameValueIndex, setSameValueIndex] = useState('');
-
-  const handleKeyDown = (e) => {
-    if (e.key !== 'Enter') return;
-    const value = e.target.value;
-    if (!value.trim()) return;
-    if (tags.indexOf(value) !== -1) {
-      const index = tags.indexOf(value);
-      setTimeout(() => {
-        setSameValueIndex('');
-      }, 300);
-      setSameValueIndex(index);
-      return;
-    }
-    setTags([...tags, value]);
-    e.target.value = '';
-  };
-
-  const removeTag = (index) => {
-    setTags(tags.filter((el, i) => i !== index));
-  };
-
-  const focusBorder = () => {
-    setAddBorder(true);
-  };
-
-  const unFocusBorder = () => {
-    setAddBorder(false);
-  };
+const TagsInput = (props) => {
+  const {
+    addBorder,
+    tags,
+    sameValueIndex,
+    handleKeyDown,
+    removeTag,
+    focusBorder,
+    unFocusBorder,
+  } = props;
 
   return (
     <div className='CreateRecipe-tagsInputOuterContainer'>
