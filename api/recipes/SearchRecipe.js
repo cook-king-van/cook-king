@@ -1,6 +1,5 @@
-import categories from '../../models/categories';
 import Recipe from '../../models/recipe';
-import Tag from '../../models/tag';
+import Tag from '../../models/categories';
 const SearchRecipe = async (req, res) => {
   try {
     const name = req.query.name;
@@ -11,7 +10,7 @@ const SearchRecipe = async (req, res) => {
         $options: 'i',
       },
     }).select('recipeName recipeImage likeCount');
-    const TagRecipes = await categories.Tag.find({
+    const TagRecipes = await Tag.find({
       tagName: {
         $regex: name,
         $options: 'i',
