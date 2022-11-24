@@ -13,11 +13,11 @@ Backend Developer - [Younghoon Yu](https://github.com/younghoonyou)
 
 ## Tech Stack
 
-**Frontend:**
+**Frontend**\
 [![FrontEnd](https://skills.thijs.gg/icons?i=html,css,js,react,materialui,figma)](https://skills.thijs.gg)
 
-**Backend:** Node, Express
+**Backend**\
 [![BackEnd](https://skills.thijs.gg/icons?i=nodejs,express,mongodb,redis)](https://skills.thijs.gg)
 
-**Project Management:**
+**Project Management**\
 [![BackEnd](https://skills.thijs.gg/icons?i=git,github)](https://skills.thijs.gg)
