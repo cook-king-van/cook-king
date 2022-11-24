@@ -7,7 +7,7 @@ const GetSingleRecipe = async (req, res) => {
       .populate('userId', 'name -_id')
       .populate('categoriesId', 'categoriesName -_id')
       .populate('option', 'sort -_id')
-      .populate('tags', 'tagName');
+      .populate('tags', 'tagName -_id');
     return res.send(recipe);
   } catch (e) {
     console.error(`Exception Error`);
