@@ -89,7 +89,13 @@ const NavBar = (props) => {
             onChange={(e) => setValue(e.target.value)}
           />
           <div className='NavBar-imageWrapper'>
-            <button type='button' className='NavBar-button'>
+            <button
+              type='button'
+              className='NavBar-button'
+              onClick={() => {
+                // console.log(value)
+                navigate('/search', { state: value });
+              }}>
               <i className='fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl'></i>
             </button>
           </div>

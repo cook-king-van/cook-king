@@ -57,7 +57,8 @@ const CreateRecipePage = () => {
 
   usePrompt(
     'Are you sure you want to leave this page? You have unsaved changes.',
-    !disablePrompt && !createRecipeDoneMsg &&
+    !disablePrompt &&
+      !createRecipeDoneMsg &&
       (recipeName !== '' ||
         mainPhoto !== '' ||
         time !== 0 ||

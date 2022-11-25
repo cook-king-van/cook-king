@@ -107,8 +107,7 @@ const MainList = ({ title }) => {
         className='MainList-reactMultiCarouselList'
         customLeftArrow={<CustomLeftArrow />}
         customRightArrow={<CustomRightArrow />}
-        draggable={false}
-      >
+        draggable={false}>
         {slideImages.slice(0, slideImages.length).map((image) => {
           return (
             <SlideCard
