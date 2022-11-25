@@ -9,7 +9,8 @@ const initialState = {
   error: '',
   isRemember: false,
   token: sessionStorage.getItem('token') || localStorage.getItem('token'),
-  recipe: {},
+  recipes: [],
+  likes: [],
 };
 
 const usersSlice = createSlice({
@@ -78,6 +79,17 @@ const usersSlice = createSlice({
     resetRecipe(state, action) {
       state.recipe = {};
     },
+    userGetRecipesLoading(state, action) {
+      state.loading = true;
+    },
+    userGetRecipesSuccess(state, action) {
+      state.loading = false;
+      state.recipes = [...state, action.payload];
+    },
+    userGetRecipesFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -97,6 +109,9 @@ export const {
   userLoadedError,
   saveRecipe,
   resetRecipe,
+  userGetRecipesLoading,
+  userGetRecipesSuccess,
+  userGetRecipesFailure,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -189,6 +204,27 @@ export const loadUser = () => async (dispatch) => {
     dispatch(userLoadedError());
     sessionStorage.removeItem('token');
     localStorage.removeItem('token');
+  }
+};
+
+export const getUserRecipes = () => async (dispatch, getState) => {
+  try {
+    dispatch(userGetRecipesLoading());
+
+    const {
+      users: { userInfo },
+    } = getState();
+    const res = await api.get(`/api/users/${userInfo._id}/recipes`);
+    console.log('res', res);
+    dispatch(userGetRecipesSuccess(res.data));
+  } catch (error) {
+    dispatch(
+      userGetRecipesFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
   }
 };
 

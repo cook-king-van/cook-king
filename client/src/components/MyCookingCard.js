@@ -1,8 +1,12 @@
 import React from 'react';
 import '../pages/UserProfilePage.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
+import { getUserRecipes } from '../features/users/userSlice';
 
-const MyCookingCard = () => {
+const MyCookingCard = ({ recipe }) => {
+  const currentRecipe = getUserRecipes(recipe);
+  console.log('current recipe', currentRecipe);
+
   return (
     <div className='UserProfile-cardContainer'>
       <img src={cheesecake} alt='cheese cake' className='UserProfile-food' />
