@@ -11,10 +11,12 @@ import LikeRecipe from '../api/recipes/LikeRecipe';
 import GetLanding from '../api/recipes/GetLanding';
 import UnlikeRecipe from '../api/recipes/UnlikeRecipe';
 import SearchRecipe from '../api/recipes/SearchRecipe';
+import GetSingleRecipe from '../api/recipes/GetSingleRecipe';
 const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
 router.get('/', UserValid, GetAllRecipe);
+router.get('/:recipeId', UserValid, GetSingleRecipe);
 router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
