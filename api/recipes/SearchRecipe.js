@@ -1,5 +1,5 @@
 import Recipe from '../../models/recipe';
-import Tag from '../../models/categories';
+import categories from '../../models/categories';
 const SearchRecipe = async (req, res) => {
   try {
     const name = req.query.name;
@@ -9,19 +9,30 @@ const SearchRecipe = async (req, res) => {
         $regex: name,
         $options: 'i',
       },
-    }).select('recipeName recipeImage likeCount');
-    const TagRecipes = await Tag.find({
+    }).select('recipeName recipeImage likeCount userId')
+      .populate('userId', 'name -_id');
+    
+    const TagRecipes = await categories.Tag.find({
       tagName: {
         $regex: name,
         $options: 'i',
       },
     })
-      .select('-_id -tagName -__v')
+      .select('recipeId -_id')
       .populate({
         path: 'recipeId',
-        select: ['recipeName', 'likeCount'],
+        select: ['recipeName', 'likeCount', 'recipeImage'],
+        populate: {
+          path: 'userId',
+          select: 'name -_id',
+        },
       });
-    const recipes = FindRecipes.concat(TagRecipes[0].recipeId); // connect two arrays
+    const recipes = [...FindRecipes];
+    TagRecipes.map((recipe) => {
+      if (recipe.recipeId[0] !== undefined) {
+        recipes.push(recipe.recipeId[0]);
+      }
+    })
     if (recipes.length === 0) {
       return res.status(203).send('There is no searching result');
     }
