@@ -118,7 +118,7 @@ const CreateRecipePage = () => {
         step,
       } = localRecipe;
       setRecipeName(recipeName);
-      if (recipeImage !== '') setIsMainPhotoAdded(true);
+      if (recipeImage) setIsMainPhotoAdded(true);
       setMainPhoto(recipeImage);
       setServings(size);
       setOption(option);
@@ -217,7 +217,7 @@ const CreateRecipePage = () => {
   };
 
   const addInstruction = () => {
-    const lastIdx = Number(steps.at(-1)?.id ? steps.at(-1)?.id : 0);
+    const lastIdx = Number(steps.at(-1)?.id ?? 0);
     setSteps([
       ...steps,
       { id: (lastIdx + 1).toString(), imageUrl: '', description: '' },
