@@ -28,7 +28,7 @@ async function addRecipeIdToTag(tagIds, recipeId) {
 
 const CreateRecipe = async (req, res) => {
   try {
-    const userId = req.id;
+    const userId = req.user._id;
     const {
       recipeName,
       ingredient,
