@@ -21,8 +21,6 @@ export const SearchPage = (props) => {
     setCurrentView(item.slice(0, pageSize));
   }, [state]);
   
-  // console.log("filter",filteredList)
-  // console.log("current", currentView)
   
   //filter the keywords
   let item = res.filter((card) => card.caption.includes(state));
@@ -66,24 +64,18 @@ export const SearchPage = (props) => {
 
   const itemRender = (filteredList) => {
     if (filteredList.length === 0) {
-      return <p>Nothing</p>;
+      return
     }
     return (
       <InfiniteScroll
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-        loader={<h4>Loading...</h4>}
+        style={{display:'flex', flexWrap: 'wrap'}}
       >
         {currentView.map((e, index) => (
           <ImageListItem key={index} className='search-card'>
             <img
-              // style={{ width: "250px", height: "255px" }}
               src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
               srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
               alt={e.caption}
@@ -116,6 +108,9 @@ export const SearchPage = (props) => {
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             {itemRender(filteredList)}
           </ImageList>
+          {currentView.length === filteredList.length ? (
+            <p>Nothing More </p> 
+          ) : <p>Loading More...</p>}
         </div>
       </div>
     </div>

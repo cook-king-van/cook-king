@@ -11,7 +11,6 @@ import tempFood3 from '../../images/TempFood3.png';
 const MainList = ({ title, allData }) => {
   //mock data
   const slideData = [];
-  console.log(allData);
   allData.map((item, index) => {
     slideData[index] = { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
   });
@@ -83,7 +82,6 @@ const MainList = ({ title, allData }) => {
   const SlideCreator = ({ heart, user }) => {
     //each of the slide card
     const SlideCard = (props) => {
-      {console.log("image",props.user)}
       return (
         <div className='MainList-item'>
           <Image
