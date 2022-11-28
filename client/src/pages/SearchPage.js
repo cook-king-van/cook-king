@@ -92,25 +92,27 @@ export const SearchPage = (props) => {
     <div>
       <NavBar searchItem={state} />
       <div className='searchPage-container'>
-        <button
-          className='searchPage-button'
-          onClick={() => setCurrentView([...filteredList])}
-        >
-          Latest
-        </button>
-        <button
-          className='searchPage-button'
-          onClick={() => handleLatestButton(item)}
-        >
-          Most View
-        </button>
+        <div className='button-container'>
+          <button
+            className='searchPage-button'
+            onClick={() => setCurrentView([...filteredList])}
+          >
+            Latest
+          </button>
+          <button
+            className='searchPage-button'
+            onClick={() => handleLatestButton(item)}
+          >
+            Most View
+          </button>
+        </div>
         <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             {itemRender(filteredList)}
           </ImageList>
           {currentView.length === filteredList.length ? (
-            <p>Nothing More </p> 
-          ) : <p>Loading More...</p>}
+            <h3 style={{margin: "10px 120px"}}>Nothing More </h3> 
+          ) : <h3 className='search-tag'>Loading More...</h3>}
         </div>
       </div>
     </div>
