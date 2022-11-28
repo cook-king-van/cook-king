@@ -84,9 +84,20 @@ const usersSlice = createSlice({
     },
     userGetRecipesSuccess(state, action) {
       state.loading = false;
-      state.recipes = [...state, action.payload];
+      state.recipes = [...state.recipes, action.payload];
     },
     userGetRecipesFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    userGetLikesLoading(state, action) {
+      state.loading = true;
+    },
+    userGetLikesSuccess(state, action) {
+      state.loading = false;
+      state.likes = [...state.likes, action.payload];
+    },
+    userGetLikesFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -112,6 +123,9 @@ export const {
   userGetRecipesLoading,
   userGetRecipesSuccess,
   userGetRecipesFailure,
+  userGetLikesLoading,
+  userGetLikesSuccess,
+  userGetLikesFailure,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -207,27 +221,6 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const getUserRecipes = () => async (dispatch, getState) => {
-  try {
-    dispatch(userGetRecipesLoading());
-
-    const {
-      users: { userInfo },
-    } = getState();
-    const res = await api.get(`/api/users/${userInfo._id}/recipes`);
-    console.log('res', res);
-    dispatch(userGetRecipesSuccess(res.data));
-  } catch (error) {
-    dispatch(
-      userGetRecipesFailure(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    );
-  }
-};
-
 export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch(userUpdateLoading());
@@ -275,4 +268,38 @@ export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
 
 export const resetRecipeLocal = () => async (dispatch, getState) => {
   dispatch(resetRecipe());
+};
+
+export const getUserRecipes = (recipeId) => async (dispatch, getState) => {
+  try {
+    dispatch(userGetRecipesLoading());
+
+    const { data } = await api.get(`/api/recipes/${recipeId}`);
+    dispatch(userGetRecipesSuccess(data));
+  } catch (error) {
+    dispatch(
+      userGetRecipesFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+};
+
+export const getUserLikes = (recipeId) => async (dispatch, getState) => {
+  try {
+    dispatch(userGetLikesLoading());
+
+    const { data } = await api.get(`/api/recipes/${recipeId}`);
+    dispatch(userGetLikesSuccess(data));
+  } catch (error) {
+    dispatch(
+      userGetLikesFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
 };

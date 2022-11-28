@@ -9,8 +9,8 @@ dotenv.config();
 connectDB();
 connectRedis();
 const app = express();
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({ limit: '50mb', extended: false }));
+app.use(express.json({ limit: '50mb' }));
 
 app.get('/', (req, res) => {
   res.send('hello');
