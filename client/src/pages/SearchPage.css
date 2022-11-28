@@ -39,6 +39,10 @@ border-radius: 5px;
 margin: 15px;
 }
 
+.button-container {
+  padding: 0 100px;
+}
+
 .searchPage-button:hover {
   cursor: pointer;
 }
@@ -54,5 +58,9 @@ margin: 15px;
 
 .infinite-scroll-component {
   padding: 0 100px;
-
+}
+.search-tag {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 10px 220px;
 }
