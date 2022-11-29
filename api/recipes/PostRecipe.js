@@ -5,9 +5,17 @@ import User from '../../models/user';
 const MakingTag = async (tags) => {
   const tagIds = await Promise.all(
     tags.map(async (tag) => {
-      const newTag = await new Categories.Tag({
-        tagName: tag,
-      }).save();
+      const newTag = await Categories.Tag.findOneAndUpdate(
+        {
+          tagName: tag,
+        },
+        {
+          tagName: tag,
+        },
+        {
+          upsert: true,
+        }
+      );
       return newTag._id;
     })
   );
@@ -31,6 +39,7 @@ const CreateRecipe = async (req, res) => {
     const userId = req.user._id;
     const {
       recipeName,
+      recipeImage,
       ingredient,
       time,
       option = 'none',
@@ -70,6 +79,7 @@ const CreateRecipe = async (req, res) => {
     const recipe = await new Recipe({
       userId,
       categoriesId: findCategory._id,
+      recipeImage,
       recipeName,
       ingredient,
       size,
