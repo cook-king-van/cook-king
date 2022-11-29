@@ -9,9 +9,10 @@ const SearchRecipe = async (req, res) => {
         $regex: name,
         $options: 'i',
       },
-    }).select('recipeName recipeImage likeCount userId')
+    })
+      .select('recipeName recipeImage likeCount userId')
       .populate('userId', 'name -_id');
-    
+
     const TagRecipes = await categories.Tag.find({
       tagName: {
         $regex: name,
@@ -28,11 +29,11 @@ const SearchRecipe = async (req, res) => {
         },
       });
     const recipes = [...FindRecipes];
-    TagRecipes.map((recipe) => {
+    TagRecipes.forEach((recipe) => {
       if (recipe.recipeId[0] !== undefined) {
         recipes.push(recipe.recipeId[0]);
       }
-    })
+    });
     if (recipes.length === 0) {
       return res.status(203).send('There is no searching result');
     }
