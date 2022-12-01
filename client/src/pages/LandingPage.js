@@ -11,11 +11,11 @@ const LandingPage = () => {
 
   useEffect(() => {
     console.log(currentUser.token);
-    getReq();
+    ReqDataWithToken();
     // eachData();
   }, []);
 
-  const getReq = async () => {
+  const ReqDataWithToken = async () => {
     await axios.get('/api/recipes', {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,

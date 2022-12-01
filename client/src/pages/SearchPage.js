@@ -31,7 +31,7 @@ export const SearchPage = (props) => {
       setHasMode(false);
       return;
     }
-
+    //this two function have to be inside of a callback function, so will proejct to render at once.
     setTimeout(() => {
       setCurrentView(
         currentView.concat(filteredList.slice(currentPage, currentPage + pageSize))
@@ -42,7 +42,7 @@ export const SearchPage = (props) => {
 
   const handleLatestButton = (list) => {
 
-    let temp = [...list];
+    const temp = [...list];
     setCurrentView(temp.sort((a, b) => b.heart - a.heart));
   };
 

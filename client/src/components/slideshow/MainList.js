@@ -10,43 +10,9 @@ import tempFood3 from '../../images/TempFood3.png';
 
 const MainList = ({ title, allData }) => {
   //mock data
-  const slideData = [];
-  allData.map((item, index) => {
+  const slideData = allData.map((item, index) => {
     slideData[index] = { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
   });
-  console.log("slide",slideData);
-  const slideImages = [
-    {
-      url: tempFood,
-      caption: 'Slide 1',
-      heart: 135,
-      user: 'Jay',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 2',
-      heart: 12,
-      user: 'Yun',
-    },
-    {
-      url: tempFood3,
-      caption: 'Slide 3',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood,
-      caption: 'Slide 4',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 138,
-      user: 'Hoon',
-    },
-  ];
 
   const responsive = {
     superLargeDesktop: {
