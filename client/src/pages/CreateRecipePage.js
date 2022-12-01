@@ -57,17 +57,18 @@ const CreateRecipePage = () => {
 
   usePrompt(
     'Are you sure you want to leave this page? You have unsaved changes.',
-    !disablePrompt && !createRecipeDoneMsg &&
+    !disablePrompt &&
+      !createRecipeDoneMsg &&
       (recipeName !== '' ||
         mainPhoto !== '' ||
         time !== 0 ||
         tags.length !== 0 ||
         servings !== 0 ||
         option !== '' ||
-        ingredients[0].name !== '' ||
-        ingredients[0].measure !== '' ||
-        steps[0].imageUrl !== '' ||
-        steps[0].description !== '' ||
+        ingredients[0]?.name !== '' ||
+        ingredients[0]?.measure !== '' ||
+        steps[0]?.imageUrl !== '' ||
+        steps[0]?.description !== '' ||
         category !== '')
   );
 
@@ -117,7 +118,7 @@ const CreateRecipePage = () => {
         step,
       } = localRecipe;
       setRecipeName(recipeName);
-      setIsMainPhotoAdded(true);
+      if (recipeImage) setIsMainPhotoAdded(true);
       setMainPhoto(recipeImage);
       setServings(size);
       setOption(option);
@@ -216,7 +217,7 @@ const CreateRecipePage = () => {
   };
 
   const addInstruction = () => {
-    const lastIdx = Number(steps.at(-1).id);
+    const lastIdx = Number(steps.at(-1)?.id ?? 0);
     setSteps([
       ...steps,
       { id: (lastIdx + 1).toString(), imageUrl: '', description: '' },
@@ -288,6 +289,7 @@ const CreateRecipePage = () => {
     const recipe = localStorage.getItem('recipe');
     if (recipe) {
       setShowRecipeWarningMsg(true);
+      return;
     }
     dispatch(
       saveRecipeToLocal({
