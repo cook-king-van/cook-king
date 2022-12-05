@@ -561,7 +561,7 @@
 .CreateRecipe-errorMsg {
   position: sticky;
   top: 0;
-  padding: 30px !important;
+  padding: 20px !important;
   border-radius: 0 !important;
   text-align: center;
   color: var(--dangerColor);
