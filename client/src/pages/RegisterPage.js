@@ -27,7 +27,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loading = useSelector((state) => state.user.loading);
-  const currentError = useSelector((state) => state.user.error);
+  let currentError = useSelector((state) => state.user.error);
   const currentUserInfo = useSelector((state) => state.user.userInfo);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
@@ -80,7 +80,19 @@ const RegisterPage = () => {
       severity='error'
       className='Auth-authErrMsg'
       onClose={() => setFormFields({ ...formFields, error: '' })}>
-      {error ? error : currentError}
+      {error}
+    </Alert>
+  );
+
+  const showErrorAlert = (
+    <Alert
+      //uncomment if you don't want icon in your alert
+      // icon={false}
+      variant='outlined'
+      severity='error'
+      className='Auth-authErrMsg'
+      onClose={() => (currentError = null)}>
+      {currentError}
     </Alert>
   );
 
@@ -128,7 +140,7 @@ const RegisterPage = () => {
     <div className='Auth-screen'>
       <div className='Auth-container'>
         {error && showAlert}
-        {currentError && showAlert}
+        {currentError && showErrorAlert}
         {loading ? <Spinner /> : registerScreen}
       </div>
     </div>
