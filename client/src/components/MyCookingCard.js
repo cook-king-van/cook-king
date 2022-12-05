@@ -16,7 +16,7 @@ const MyCookingCard = ({ recipe }) => {
           <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
           <p className='UserProfile-likes'>{likeCount}</p>
         </div>
-        <p className='UserProfile-likesDate'>{userId.name ?? '2022.06.23'}</p>
+        <p className='UserProfile-likesDate'>{userId?.name ?? '2022.06.23'}</p>
       </div>
     </div>
   );

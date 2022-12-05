@@ -218,7 +218,7 @@ const UserProfile = () => {
             <div className='UserProfile-myItemsContainer'>
               {currentUser?.recipes.length > 0
                 ? currentUser?.recipes.map((recipe, i) => (
-                    <MyCookingCard key={i} recipe={recipe} />
+                    <MyCookingCard key={recipe._id} recipe={recipe} />
                   ))
                 : noRecipeMsg}
             </div>
@@ -231,7 +231,7 @@ const UserProfile = () => {
             <div className='UserProfile-myItemsContainer'>
               {likes.length > 0
                 ? likes.map((like, i) => (
-                    <MyCookingCard key={i} recipe={like} />
+                    <MyCookingCard key={like._id} recipe={like} />
                   ))
                 : noRecipeMsg}
             </div>
