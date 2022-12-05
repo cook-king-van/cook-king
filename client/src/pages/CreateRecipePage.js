@@ -146,7 +146,13 @@ const CreateRecipePage = () => {
 
   const handleMainPhoto = (e) => {
     setIsMainPhotoAdded(true);
-    setMainPhoto(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      setMainPhoto(reader.result);
+    };
   };
 
   const handleEditInstructionBtn = (e, index) => {
@@ -154,17 +160,21 @@ const CreateRecipePage = () => {
   };
 
   const handleInstructionPhoto = (e, index) => {
-    const updatedPhoto = steps.map((step, i) =>
-      index === i
-        ? { ...step, imageUrl: URL.createObjectURL(e.target.files[0]) }
-        : step
-    );
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      const updatedPhoto = steps.map((step, i) =>
+        index === i ? { ...step, imageUrl: reader.result } : step
+      );
+      setSteps(updatedPhoto);
+    };
 
     const updatedStatus = isStepsPhotoAdded.map((stats, i) =>
       index === i ? true : stats
     );
 
-    setSteps(updatedPhoto);
     setStepsPhotoAdded(updatedStatus);
   };
 

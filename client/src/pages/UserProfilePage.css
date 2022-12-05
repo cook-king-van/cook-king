@@ -245,3 +245,9 @@
   margin-top: 20px;
   margin-bottom: -68px;
 }
+
+/* No Recipe Msg */
+.UserProfile-noRecipeMsg {
+  padding: 40px 0;
+  color: var(--brownColor);
+}
