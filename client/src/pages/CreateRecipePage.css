@@ -567,7 +567,7 @@
   color: var(--dangerColor);
   border: 1px solid var(--dangerColor);
   background-color: rgba(218, 128, 128, 0.9) !important;
-  z-index: 1;
+  z-index: 1 !important;
 }
 
 /* Recipe Creation Done Message */
