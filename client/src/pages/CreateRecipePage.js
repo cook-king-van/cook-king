@@ -37,7 +37,7 @@ const CreateRecipePage = () => {
   const [option, setOption] = useState('');
   const [ingredients, setIngredients] = useState([{ name: '', measure: '' }]);
   const [steps, setSteps] = useState([
-    { id: '1', imageUrl: '', description: '' },
+    { id: '1', stepImage: '', description: '' },
   ]);
   const [category, setCategory] = useState('');
   const [isStepsPhotoAdded, setStepsPhotoAdded] = useState([false]);
@@ -67,7 +67,7 @@ const CreateRecipePage = () => {
         option !== '' ||
         ingredients[0]?.name !== '' ||
         ingredients[0]?.measure !== '' ||
-        steps[0]?.imageUrl !== '' ||
+        steps[0]?.stepImage !== '' ||
         steps[0]?.description !== '' ||
         category !== '')
   );
@@ -127,7 +127,7 @@ const CreateRecipePage = () => {
       setTags(tags);
       setIngredients(ingredient);
       const stephotoAdd = step.map((st, i) =>
-        st.imageUrl !== '' ? true : false
+        st.stepImage !== '' ? true : false
       );
       setStepsPhotoAdded(stephotoAdd);
       setSteps(step);
@@ -166,7 +166,7 @@ const CreateRecipePage = () => {
 
     reader.onloadend = function (e) {
       const updatedPhoto = steps.map((step, i) =>
-        index === i ? { ...step, imageUrl: reader.result } : step
+        index === i ? { ...step, stepImage: reader.result } : step
       );
       setSteps(updatedPhoto);
     };
@@ -192,7 +192,7 @@ const CreateRecipePage = () => {
 
   const removeStepsPhoto = (e, index) => {
     const updatedSteps = steps.map((step, i) =>
-      index === i ? { ...step, imageUrl: '' } : step
+      index === i ? { ...step, stepImage: '' } : step
     );
 
     const updatedStatus = isStepsPhotoAdded.map((stats, i) =>
@@ -230,7 +230,7 @@ const CreateRecipePage = () => {
     const lastIdx = Number(steps.at(-1)?.id ?? 0);
     setSteps([
       ...steps,
-      { id: (lastIdx + 1).toString(), imageUrl: '', description: '' },
+      { id: (lastIdx + 1).toString(), stepImage: '', description: '' },
     ]);
     setStepsPhotoAdded([...isStepsPhotoAdded, false]);
   };
