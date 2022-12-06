@@ -17,10 +17,6 @@ const NavBar = (props) => {
   const [value, setValue] = useState('');
   const navigate = useNavigate();
 
-  const submition = (e) => {
-    e.preventDefault();
-    navigate('/search', { state: value });
-  };
 
   const [showLocalRecipeWarning, setShowLocalRecipeWarning] = useState(false);
   const handleCloseWarningMsg = () => {
@@ -80,12 +76,12 @@ const NavBar = (props) => {
         <Button variant='text' style={{ color: '#6C5D53' }}>
           Category
         </Button>
-        <form className='NavBar-searchBar' onSubmit={submition}>
+        <form className='NavBar-searchBar'>
           <input
             type='text'
             placeholder='Search bar'
             className='NavBar-bar'
-            value={searchItem}
+            // value={searchItem}
             onChange={(e) => setValue(e.target.value)}
           />
           <div className='NavBar-imageWrapper'>
@@ -93,9 +89,9 @@ const NavBar = (props) => {
               type='button'
               className='NavBar-button'
               onClick={() => {
-                // console.log(value)
                 navigate('/search', { state: value });
-              }}>
+              }}
+            >
               <i className='fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl'></i>
             </button>
           </div>
