@@ -4,6 +4,7 @@ import axios from 'axios';
 const initialState = {
   loading: false,
   recipes: [],
+  currentRecipe: {},
   error: '',
 };
 
@@ -24,11 +25,30 @@ const recipeSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    getRecipeLoading(state, action) {
+      state.loading = true;
+      state.error = '';
+    },
+    getRecipeSuccess(state, action) {
+      state.loading = false;
+      state.currentRecipe = action.payload;
+      state.error = '';
+    },
+    getRecipeFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { createRecipeLoading, createRecipeSuccess, createRecipeFailure } =
-  recipeSlice.actions;
+export const {
+  createRecipeLoading,
+  createRecipeSuccess,
+  createRecipeFailure,
+  getRecipeLoading,
+  getRecipeSuccess,
+  getRecipeFailure,
+} = recipeSlice.actions;
 
 export default recipeSlice.reducer;
 
@@ -60,5 +80,22 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(createRecipeFailure(message));
+  }
+};
+
+export const getRecipe = (recipeId) => async (dispatch, getState) => {
+  try {
+    dispatch(getRecipeLoading());
+    const { data } = await axios.get(`/api/recipes/${recipeId}`);
+    console.log('data', data);
+    dispatch(getRecipeSuccess(data));
+  } catch (error) {
+    dispatch(
+      getRecipeFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
   }
 };

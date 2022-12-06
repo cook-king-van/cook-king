@@ -2,11 +2,16 @@ import React from 'react';
 import '../pages/UserProfilePage.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
 
-const MyCookingCard = ({ recipe }) => {
-  const { recipeName, likeCount, userId } = recipe;
+const MyCookingCard = (props) => {
+  const { recipe, onClick } = props;
+  const { recipeName, likeCount, recipeImage, updatedAt, userId } = recipe;
   return (
-    <div className='UserProfile-cardContainer'>
-      <img src={cheesecake} alt='cheese cake' className='UserProfile-food' />
+    <div className='UserProfile-cardContainer' onClick={onClick}>
+      <img
+        src={recipeImage ?? cheesecake}
+        alt='cheese cake'
+        className='UserProfile-food'
+      />
       <div className='UserProfile-cardTextContainer'>
         <p className='UserProfile-foodTitle'>{recipeName}</p>
         <p> </p>
@@ -16,7 +21,9 @@ const MyCookingCard = ({ recipe }) => {
           <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
           <p className='UserProfile-likes'>{likeCount}</p>
         </div>
-        <p className='UserProfile-likesDate'>{userId?.name ?? '2022.06.23'}</p>
+        <p className='UserProfile-likesDate'>
+          {updatedAt ? updatedAt.split('T')[0] : userId?.name}
+        </p>
       </div>
     </div>
   );
