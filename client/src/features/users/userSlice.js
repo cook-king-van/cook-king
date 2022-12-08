@@ -38,14 +38,15 @@ const usersSlice = createSlice({
       state.error = null;
       state.isRemember = false;
       state.isAuthenticated = false;
-      state.bio = {};
     },
     userRegisterLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userRegisterSuccess(state, action) {
       state.loading = false;
       state.userInfo = action.payload;
+      state.error = null;
     },
     userRegisterFailure(state, action) {
       state.loading = false;
@@ -53,10 +54,12 @@ const usersSlice = createSlice({
     },
     userUpdateLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userUpdateSuccess(state, action) {
       state.loading = false;
       state.bio = action.payload;
+      state.error = null;
     },
     userUpdateFailure(state, action) {
       state.loading = false;
@@ -78,6 +81,9 @@ const usersSlice = createSlice({
     resetRecipe(state, action) {
       state.recipe = {};
     },
+    updateToken(state, action) {
+      state.token = action.payload;
+    },
   },
 });
 
@@ -97,6 +103,7 @@ export const {
   userLoadedError,
   saveRecipe,
   resetRecipe,
+  updateToken,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -187,8 +194,10 @@ export const loadUser = () => async (dispatch) => {
     dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('token');
+    console.log(error);
+    if (error.response.status === 401) {
+      dispatch(getRefreshToken());
+    }
   }
 };
 
@@ -197,7 +206,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateLoading());
 
     const {
-      users: { userInfo, isRemember, token },
+      user: { userInfo, isRemember, token },
     } = getState();
 
     const config = {
@@ -207,11 +216,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/users/${userInfo._id}`,
-      user,
-      config
-    );
+    const { data } = await api.put(`/api/users/${userInfo._id}`, user, config);
 
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
@@ -239,4 +244,23 @@ export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
 
 export const resetRecipeLocal = () => async (dispatch, getState) => {
   dispatch(resetRecipe());
+  localStorage.removeItem('recipe');
+};
+
+export const getRefreshToken = () => async (dispatch, getState) => {
+  try {
+    const {
+      user: { isRemember },
+    } = getState();
+    const res = await axios.get('api/auth/token');
+    const { token } = res.data;
+    dispatch(updateToken(token));
+    if (isRemember) {
+      localStorage.setItem('token', token);
+    } else {
+      sessionStorage.setItem('token', token);
+    }
+  } catch (error) {
+    dispatch(logout());
+  }
 };

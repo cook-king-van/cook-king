@@ -1,3 +1,4 @@
+import { original } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Create an instance of axios
@@ -10,7 +11,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    config.headers['Authorization'] = `Bearer ${
+      localStorage.getItem('token') || sessionStorage.getItem('token')
+    }`;
     return config;
   },
   (error) => {
@@ -20,11 +23,24 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (res) => res,
-  (err) => {
-    if (err.response.status === 401) {
-      console.log(err.response);
+  async (err) => {
+    const originalConfig = err.config;
+    if (originalConfig.url !== '/api/auth/user' && err.response) {
+      if (err.response.status === 401) {
+        try {
+          const rs = await api.get('api/auth/token');
+
+          const { token } = rs.data;
+          console.log('wow');
+          localStorage.setItem('token', token);
+
+          return api(originalConfig);
+        } catch (_error) {
+          return Promise.reject(_error);
+        }
+      }
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
   }
 );
 

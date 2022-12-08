@@ -2,7 +2,6 @@ import '../pages/Auth.css';
 
 const AuthInputs = (props) => {
   const { title, type, name, value, onChange, condition } = props;
-  console.log('type', type);
   return (
     <>
       <label className='Auth-email' htmlFor={title}>

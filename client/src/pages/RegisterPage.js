@@ -27,7 +27,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loading = useSelector((state) => state.user.loading);
-  let currentError = useSelector((state) => state.user.error);
+  const currentError = useSelector((state) => state.user.error);
   const currentUserInfo = useSelector((state) => state.user.userInfo);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
@@ -39,7 +39,10 @@ const RegisterPage = () => {
     if (loggedInUserRemember || loggedInUser) {
       navigate('/');
     }
-  }, [navigate, currentUserInfo, currentError, error]);
+
+    setFormFields({ ...formFields, error: currentError });
+    // eslint-disable-next-line
+  }, [navigate, currentUserInfo, currentError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +63,8 @@ const RegisterPage = () => {
       setFormFields({ ...formFields, error: pwdCheckMsg });
       return;
     }
-    await dispatch(registerUser(email, password, passwordCheck));
+    dispatch(registerUser(email, password, passwordCheck));
+    setFormFields({ ...formFields, error: currentError });
     if (!loading && currentUserInfo) {
       setFormFields({ ...formFields, error: '' });
       return;
@@ -84,32 +88,18 @@ const RegisterPage = () => {
     </Alert>
   );
 
-  const showErrorAlert = (
-    <Alert
-      //uncomment if you don't want icon in your alert
-      // icon={false}
-      variant='outlined'
-      severity='error'
-      className='Auth-authErrMsg'
-      onClose={() => (currentError = null)}>
-      {currentError}
-    </Alert>
-  );
-
   const registerScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className='Auth-logo' />
       <AuthInputs
         title='email'
         value={email}
-        msg={error.email}
         onChange={handleChange}
         condition={validateEmail(email)}
       />
       <AuthInputs
         title='password'
         value={password}
-        msg={error.password}
         onChange={handleChange}
         condition={validatePassword(email, password)}
       />
@@ -118,7 +108,6 @@ const RegisterPage = () => {
         type='password'
         name='passwordCheck'
         value={passwordCheck}
-        msg={error.passwordCheck}
         onChange={handleChange}
         condition={validatePasswordCheck(password, passwordCheck)}
       />
@@ -140,7 +129,6 @@ const RegisterPage = () => {
     <div className='Auth-screen'>
       <div className='Auth-container'>
         {error && showAlert}
-        {currentError && showErrorAlert}
         {loading ? <Spinner /> : registerScreen}
       </div>
     </div>

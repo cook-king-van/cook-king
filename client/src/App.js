@@ -12,12 +12,14 @@ import { SearchPage } from './pages/SearchPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
 import { loadUser, logout } from './features/users/userSlice';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  const isLocal = useSelector((state) => state.user.isRemember);
   useEffect(() => {
     const token = localStorage.token || sessionStorage.token;
     if (token) {
-      setAuthToken(token);
+      setAuthToken(token, isLocal);
     }
     store.dispatch(loadUser());
 
@@ -26,6 +28,7 @@ const App = () => {
       if (!localStorage.token || !sessionStorage.token)
         store.dispatch(logout());
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
