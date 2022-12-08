@@ -14,12 +14,12 @@ const recipeSlice = createSlice({
   reducers: {
     createRecipeLoading(state, action) {
       state.loading = true;
-      state.error = '';
+      state.error = null;
     },
     createRecipeSuccess(state, action) {
       state.loading = false;
       state.recipes = [...state.recipes, action.payload];
-      state.error = '';
+      state.error = null;
     },
     createRecipeFailure(state, action) {
       state.loading = false;
@@ -27,12 +27,12 @@ const recipeSlice = createSlice({
     },
     getRecipeLoading(state, action) {
       state.loading = true;
-      state.error = '';
+      state.error = null;
     },
     getRecipeSuccess(state, action) {
       state.loading = false;
       state.currentRecipe = action.payload;
-      state.error = '';
+      state.error = null;
     },
     getRecipeFailure(state, action) {
       state.loading = false;
