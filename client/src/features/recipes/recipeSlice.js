@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { loadUser } from '../users/userSlice';
 
 const initialState = {
   loading: false,
@@ -54,6 +55,7 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
     const { data } = await axios.post('/api/recipes/', recipes, config);
 
     dispatch(createRecipeSuccess(data));
+    dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message
