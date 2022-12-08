@@ -25,13 +25,12 @@ api.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalConfig = err.config;
-    if (originalConfig.url !== '/api/auth/user' && err.response) {
+    if (originalConfig.url !== '/api/auth/login' && err.response) {
       if (err.response.status === 401) {
         try {
           const rs = await api.get('api/auth/token');
 
           const { token } = rs.data;
-          console.log('wow');
           localStorage.setItem('token', token);
 
           return api(originalConfig);

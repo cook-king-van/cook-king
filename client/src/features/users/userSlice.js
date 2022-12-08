@@ -194,10 +194,6 @@ export const loadUser = () => async (dispatch) => {
     dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
-    console.log(error);
-    if (error.response.status === 401) {
-      dispatch(getRefreshToken());
-    }
   }
 };
 
