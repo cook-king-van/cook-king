@@ -8,12 +8,12 @@ import Navbar from '../components/navbar/NavBar';
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
 
-import { getUserLikes, getUserRecipes } from '../features/users/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user);
-  console.log('currentuser', currentUser);
   const botUser = 'a user';
   const userImage = currentUser?.userInfo?.userImageUrl;
 
@@ -41,14 +41,8 @@ const UserProfile = () => {
           ? `Hello! I am ${currentUser?.userInfo?.name || botUser}`
           : currentUser.userInfo.description
       );
-      currentUser?.userInfo?.recipes.forEach((recipe) => {
-        dispatch(getUserRecipes(recipe));
-      });
-      setCookingList(currentUser?.recipes);
-      currentUser?.userInfo?.likes.forEach((recipe) => {
-        dispatch(getUserLikes(recipe));
-      });
-      setLikes(currentUser?.likes);
+      setCookingList(currentUser?.userInfo?.recipes);
+      setLikes(currentUser?.userInfo?.likes);
     }
   }, [currentUser.userInfo, dispatch]);
 
@@ -117,6 +111,10 @@ const UserProfile = () => {
     }, 3000);
     setShowUpdate(false);
     // send updates to the server
+  };
+
+  const recipeOnClick = (e, recipeId) => {
+    navigate(`/recipe/${recipeId}`);
   };
 
   const updateProfileMsg = (
@@ -216,9 +214,13 @@ const UserProfile = () => {
               My Cooking List
             </label>
             <div className='UserProfile-myItemsContainer'>
-              {currentUser?.recipes.length > 0
-                ? currentUser?.recipes.map((recipe, i) => (
-                    <MyCookingCard key={recipe._id} recipe={recipe} />
+              {cookingList.length > 0
+                ? cookingList.map((recipe, i) => (
+                    <MyCookingCard
+                      key={recipe._id}
+                      recipe={recipe}
+                      onClick={(e) => recipeOnClick(e, recipe._id)}
+                    />
                   ))
                 : noRecipeMsg}
             </div>
@@ -231,7 +233,11 @@ const UserProfile = () => {
             <div className='UserProfile-myItemsContainer'>
               {likes.length > 0
                 ? likes.map((like, i) => (
-                    <MyCookingCard key={like._id} recipe={like} />
+                    <MyCookingCard
+                      key={like._id}
+                      recipe={like}
+                      onClick={(e) => recipeOnClick(e, like._id)}
+                    />
                   ))
                 : noRecipeMsg}
             </div>
