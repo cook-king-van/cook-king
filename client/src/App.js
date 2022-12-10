@@ -12,14 +12,13 @@ import { SearchPage } from './pages/SearchPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
 import { loadUser, logout } from './features/users/userSlice';
-import { useSelector } from 'react-redux';
 
 const App = () => {
-  const isLocal = useSelector((state) => state.user.isRemember);
   useEffect(() => {
     const token = localStorage.token || sessionStorage.token;
+    const isRemember = localStorage.remember;
     if (token) {
-      setAuthToken(token, isLocal);
+      setAuthToken(token, isRemember);
     }
     store.dispatch(loadUser());
 

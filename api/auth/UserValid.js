@@ -1,7 +1,7 @@
 import { Token } from '../../config/redis';
 const UserValid = async (req, res, next) => {
   try {
-    if (req.headers.authorization.split(' ')[1] === 'null') {
+    if (!req.headers.authorization) {
       return res.status(402).json({
         status: 402,
         message: `There is no Token`,
