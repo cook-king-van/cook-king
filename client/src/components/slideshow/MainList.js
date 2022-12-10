@@ -10,10 +10,11 @@ import tempFood3 from '../../images/TempFood3.png';
 
 const MainList = ({ title, allData }) => {
   //mock data
-  const slideData = []
-  allData.map((item, index) => {
-    slideData[index] = { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
-  });
+  const slideData = allData.map((item) => {
+    return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
+    })
+    
+    
 
   const responsive = {
     superLargeDesktop: {
