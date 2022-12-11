@@ -16,7 +16,7 @@ const GetLanding = async (req, res) => {
       .select('recipeName likeCount recipeImage');
     const best = BestRecipe.concat(supplyRecipe).slice(0, 5);
     const OptionRecipes = await categories.Option.find()
-      .select('recipeId -_id sort')
+      .select('sort -_id')
       .populate({
         path: 'recipeId',
         options: {

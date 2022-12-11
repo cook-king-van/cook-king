@@ -84,12 +84,13 @@ const recipes = new Schema({
     required: true,
     default: () => Date.now(),
   },
-  userLike: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+  userLike: {
+    type: Map,
+    of: {
+      type: Boolean,
+      default: false,
     },
-  ],
+  },
   likeCount: {
     type: Number,
     default: 0,

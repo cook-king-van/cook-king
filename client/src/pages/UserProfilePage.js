@@ -1,5 +1,5 @@
 import React, { createRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
@@ -8,7 +8,11 @@ import Navbar from '../components/navbar/NavBar';
 import { Avatar, Alert } from '@mui/material';
 import { Loader } from 'semantic-ui-react';
 
+import { useNavigate } from 'react-router-dom';
+
 const UserProfile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user);
   const botUser = 'a user';
   const userImage = currentUser?.userInfo?.userImageUrl;
@@ -18,17 +22,18 @@ const UserProfile = () => {
   const [nameFieldWidth, setNameFieldWidth] = useState(0);
   const [isEditProfileName, setEditProfileName] = useState('disabled');
   const [isEditIntro, setEditIntro] = useState('disabled');
+  const [cookingList, setCookingList] = useState([]);
+  const [likes, setLikes] = useState([]);
+
   const editProfileNameRef = createRef();
   const editIntroRef = createRef();
 
   const [selectedFile, setSelectedFile] = useState('');
-
   const [profileUpdateMsg, setProfileUpdateMsg] = useState(false);
-
   const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
-    if (currentUser.userInfo.name) {
+    if (currentUser?.userInfo?.name) {
       setUserName(currentUser?.userInfo?.name);
       setNameFieldWidth(currentUser?.userInfo?.name?.length + 1);
       setIntro(
@@ -36,16 +41,16 @@ const UserProfile = () => {
           ? `Hello! I am ${currentUser?.userInfo?.name || botUser}`
           : currentUser.userInfo.description
       );
+      setCookingList(currentUser?.userInfo?.recipes);
+      setLikes(currentUser?.userInfo?.likes);
     }
-  }, [currentUser.userInfo]);
+  }, [currentUser.userInfo, dispatch]);
 
   useEffect(() => {
     if (isEditProfileName === '') {
       editProfileNameRef.current.focus();
     }
     if (isEditIntro === '') {
-      editIntroRef.current.selectionStart = editIntroRef.current.value.length;
-      editIntroRef.current.selectionEnd = editIntroRef.current.value.length;
       editIntroRef.current.focus();
     }
   }, [
@@ -80,6 +85,9 @@ const UserProfile = () => {
   };
 
   const editIntroHandler = () => {
+    editIntroRef.current.selectionStart = editIntroRef.current.value.length;
+    editIntroRef.current.selectionEnd = editIntroRef.current.value.length;
+    editIntroRef.current.focus();
     setEditIntro('');
   };
 
@@ -105,6 +113,10 @@ const UserProfile = () => {
     // send updates to the server
   };
 
+  const recipeOnClick = (e, recipeId) => {
+    navigate(`/recipe/${recipeId}`);
+  };
+
   const updateProfileMsg = (
     <Alert
       severity='success'
@@ -112,6 +124,10 @@ const UserProfile = () => {
       className='UserProfile-profileUpdateMsg'>
       Profile updated successfully!
     </Alert>
+  );
+
+  const noRecipeMsg = (
+    <p className='UserProfile-noRecipeMsg'>There's no recipe to display</p>
   );
 
   return currentUser.loading ? (
@@ -198,12 +214,15 @@ const UserProfile = () => {
               My Cooking List
             </label>
             <div className='UserProfile-myItemsContainer'>
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
+              {cookingList.length > 0
+                ? cookingList.map((recipe, i) => (
+                    <MyCookingCard
+                      key={recipe._id}
+                      recipe={recipe}
+                      onClick={(e) => recipeOnClick(e, recipe._id)}
+                    />
+                  ))
+                : noRecipeMsg}
             </div>
           </div>
           <div className='UserProfile-bottomContainer'>
@@ -212,12 +231,15 @@ const UserProfile = () => {
               <i className='fa-solid fa-heart UserProfile-heartIcon'></i>
             </label>
             <div className='UserProfile-myItemsContainer'>
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
-              <MyCookingCard />
+              {likes.length > 0
+                ? likes.map((like, i) => (
+                    <MyCookingCard
+                      key={like._id}
+                      recipe={like}
+                      onClick={(e) => recipeOnClick(e, like._id)}
+                    />
+                  ))
+                : noRecipeMsg}
             </div>
           </div>
         </div>

@@ -561,16 +561,18 @@
 .CreateRecipe-errorMsg {
   position: sticky;
   top: 0;
-  padding: 30px !important;
+  padding: 20px !important;
   border-radius: 0 !important;
   text-align: center;
   color: var(--dangerColor);
   border: 1px solid var(--dangerColor);
   background-color: rgba(218, 128, 128, 0.9) !important;
+  z-index: 1 !important;
 }
 
 /* Recipe Creation Done Message */
 .CreateRecipe-createRecipeDoneMsg {
   position: sticky;
   top: 0;
+  z-index: 1;
 }

@@ -8,7 +8,6 @@ const initialState = {
   userInfo: {},
   error: '',
   token: sessionStorage.getItem('token') || localStorage.getItem('token'),
-  recipe: {},
 };
 
 const usersSlice = createSlice({
@@ -71,12 +70,6 @@ const usersSlice = createSlice({
       state.userInfo = {};
       state.token = '';
     },
-    saveRecipe(state, action) {
-      state.recipe = action.payload;
-    },
-    resetRecipe(state, action) {
-      state.recipe = {};
-    },
     updateToken(state, action) {
       state.token = action.payload;
     },
@@ -96,8 +89,6 @@ export const {
   userUpdateFailure,
   userLoaded,
   userLoadedError,
-  saveRecipe,
-  resetRecipe,
   updateToken,
 } = usersSlice.actions;
 
@@ -121,6 +112,7 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     );
 
     dispatch(userLoginSuccess(data));
+    dispatch(loadUser());
 
     // store the token in localStorage if checkbox is ticked
     if (isRemember) {
@@ -229,12 +221,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 };
 
 export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
-  dispatch(saveRecipe(recipe));
   localStorage.setItem('recipe', JSON.stringify(recipe));
 };
 
 export const resetRecipeLocal = () => async (dispatch, getState) => {
-  dispatch(resetRecipe());
   localStorage.removeItem('recipe');
 };
 
