@@ -36,7 +36,9 @@ api.interceptors.response.use(
       try {
         const rs = await api.get('api/auth/token');
         const { token } = rs.data;
-        localStorage.setItem('token', token);
+        const isRemember = localStorage.getItem('remember');
+        const storage = isRemember ? localStorage : sessionStorage;
+        storage.setItem('token', token);
         return api(originalConfig);
       } catch (_error) {
         return Promise.reject(_error);
