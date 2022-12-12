@@ -242,7 +242,11 @@ const CreateRecipePage = () => {
   };
 
   const removeInstruction = (i) => {
-    setSteps((steps) => steps.filter((step, index) => index !== i));
+    const filteredItems = steps.filter((step, index) => index !== i);
+    const updatedStepItems = filteredItems.map((step, i) => {
+      return { ...step, id: (i + 1).toString() };
+    });
+    setSteps(updatedStepItems);
     setStepsPhotoAdded((stats) => stats.filter((stat, ind) => ind !== i));
   };
 
@@ -259,7 +263,11 @@ const CreateRecipePage = () => {
     const stepsItems = Array.from(steps);
     const [reorderedItem] = stepsItems.splice(result.source.index, 1);
     stepsItems.splice(result.destination.index, 0, reorderedItem);
-    setSteps(stepsItems);
+
+    const updatedStepItems = stepsItems.map((step, i) => {
+      return { ...step, id: (i + 1).toString() };
+    });
+    setSteps(updatedStepItems);
     const photoStatus = Array.from(isStepsPhotoAdded);
     const [reorderedStatus] = photoStatus.splice(result.source.index, 1);
     photoStatus.splice(result.destination.index, 0, reorderedStatus);
