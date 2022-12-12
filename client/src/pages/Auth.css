@@ -52,12 +52,12 @@
   width: 359.1px;
   background: var(--secondaryColor);
   color: #fff;
-  padding: 3px 150px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  padding: 3px 135px;
+  margin: 30px auto;
   font-style: normal;
   font-weight: 700;
   font-size: 17px;
+  display: inline-block;
   text-align: center;
   line-height: 36px;
   letter-spacing: 2px;

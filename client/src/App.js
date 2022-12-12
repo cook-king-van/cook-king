@@ -18,8 +18,9 @@ import { loadUser, logout } from './features/users/userSlice';
 const App = () => {
   useEffect(() => {
     const token = localStorage.token || sessionStorage.token;
+    const isRemember = localStorage.remember;
     if (token) {
-      setAuthToken(token);
+      setAuthToken(token, isRemember);
     }
     store.dispatch(loadUser());
 
@@ -28,6 +29,7 @@ const App = () => {
       if (!localStorage.token || !sessionStorage.token)
         store.dispatch(logout());
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
