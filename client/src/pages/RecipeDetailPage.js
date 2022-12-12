@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getRecipe } from '../features/recipes/recipeSlice';
 
 const RecipeDetailPage = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const recipe = useSelector((state) => state.recipes.currentRecipe);
@@ -20,6 +20,7 @@ const RecipeDetailPage = () => {
     ingredient,
     categoriesId,
     userId,
+    _id,
   } = recipe;
 
   useEffect(() => {
@@ -30,6 +31,10 @@ const RecipeDetailPage = () => {
     navigate('/*');
   }
 
+  const editRecipe = (id) => {
+    navigate(`/recipe/edit/${id}`);
+  };
+
   return (
     <div>
       RecipeDetailPage
@@ -37,6 +42,7 @@ const RecipeDetailPage = () => {
       <div>size: {size}</div>
       <div>time: {time}</div>
       <div>likes: {likeCount}</div>
+      <button onClick={() => editRecipe(_id)}>edit</button>
     </div>
   );
 };
