@@ -6,16 +6,30 @@ import '../pages/CreateRecipePage.css';
 
 const RecipeBasicContent = forwardRef((props, ref) => {
   const {
+    recipeName,
+    onRecipeNameChange,
     onServingChange,
     servings,
+    onOptionChange,
+    option,
     onTimeChange,
+    category,
+    onCategoryChange,
     time,
     isMainPhotoAdded,
     mainPhoto,
     removePhoto,
     handleMainPhoto,
     handleEditMainBtn,
+    addBorder,
+    tags,
+    sameValueIndex,
+    handleKeyDown,
+    removeTag,
+    focusBorder,
+    unFocusBorder,
   } = props;
+
   return (
     <div className='CreateRecipe-container'>
       <div className='CreateRecipe-contentContainer'>
@@ -25,11 +39,21 @@ const RecipeBasicContent = forwardRef((props, ref) => {
             type='text'
             className='CreateRecipe-foodTitleInput'
             placeholder='ex) beef poutine'
+            value={recipeName}
+            onChange={onRecipeNameChange}
           />
         </div>
         <div className='CreateRecipe-tagContainer'>
           <label className='CreateRecipe-title'>Tag</label>
-          <TagsInput />
+          <TagsInput
+            addBorder={addBorder}
+            tags={tags}
+            sameValueIndex={sameValueIndex}
+            handleKeyDown={handleKeyDown}
+            removeTag={removeTag}
+            focusBorder={focusBorder}
+            unFocusBorder={unFocusBorder}
+          />
         </div>
         <div className='CreateRecipe-TimeServingInfo'>
           <label className='CreateRecipe-title'>Servings</label>
@@ -39,12 +63,12 @@ const RecipeBasicContent = forwardRef((props, ref) => {
             onChange={onServingChange}
             value={servings}>
             <option>Servings</option>
-            <option value='5'>1</option>
-            <option value='10'>2</option>
-            <option value='15'>3</option>
-            <option value='20'>4</option>
-            <option value='30'>5</option>
-            <option value='60'>6 &gt;</option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6 &gt;</option>
           </select>
           <label className='CreateRecipe-title'>Time</label>
           <select
@@ -62,6 +86,31 @@ const RecipeBasicContent = forwardRef((props, ref) => {
             <option value='90'>within 90min</option>
             <option value='120'>within 2hrs</option>
             <option value='999'>over 2hrs</option>
+          </select>
+        </div>
+        <div className='CreateRecipe-option'>
+          <label className='CreateRecipe-title'>Options</label>
+          <select
+            id='framework'
+            className='CreateRecipe-optionInput'
+            onChange={onOptionChange}
+            value={option}>
+            <option>Options</option>
+            <option value='brunch'>Brunch</option>
+            <option value='snack'>Snack</option>
+            <option value='dinner'>Dinner</option>
+          </select>
+          <label className='CreateRecipe-title'>Categories</label>
+          <select
+            id='framework'
+            className='CreateRecipe-optionInput'
+            onChange={onCategoryChange}
+            value={category}>
+            <option>Categories</option>
+            <option value='asian'>Asian</option>
+            <option value='american'>American</option>
+            <option value='european'>European</option>
+            <option value='african'>African</option>
           </select>
         </div>
       </div>

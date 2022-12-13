@@ -7,7 +7,6 @@ const initialState = {
   isAuthenticated: false,
   userInfo: {},
   error: '',
-  isRemember: false,
   token: sessionStorage.getItem('token') || localStorage.getItem('token'),
 };
 
@@ -15,9 +14,6 @@ const usersSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateIsRemember(state, action) {
-      state.isRemember = action.payload;
-    },
     userLoginLoading(state, action) {
       state.loading = true;
     },
@@ -37,14 +33,15 @@ const usersSlice = createSlice({
       state.error = null;
       state.isRemember = false;
       state.isAuthenticated = false;
-      state.bio = {};
     },
     userRegisterLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userRegisterSuccess(state, action) {
       state.loading = false;
       state.userInfo = action.payload;
+      state.error = null;
     },
     userRegisterFailure(state, action) {
       state.loading = false;
@@ -52,10 +49,12 @@ const usersSlice = createSlice({
     },
     userUpdateLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userUpdateSuccess(state, action) {
       state.loading = false;
       state.bio = action.payload;
+      state.error = null;
     },
     userUpdateFailure(state, action) {
       state.loading = false;
@@ -71,6 +70,9 @@ const usersSlice = createSlice({
       state.userInfo = {};
       state.token = '';
     },
+    updateToken(state, action) {
+      state.token = action.payload;
+    },
   },
 });
 
@@ -85,9 +87,9 @@ export const {
   userUpdateLoading,
   userUpdateSuccess,
   userUpdateFailure,
-  updateIsRemember,
   userLoaded,
   userLoadedError,
+  updateToken,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -110,13 +112,14 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     );
 
     dispatch(userLoginSuccess(data));
+    dispatch(loadUser());
 
     // store the token in localStorage if checkbox is ticked
     if (isRemember) {
-      dispatch(updateIsRemember(true));
+      localStorage.setItem('remember', true);
       localStorage.setItem('token', data.token);
     } else {
-      dispatch(updateIsRemember(false));
+      localStorage.setItem('remember', false);
       sessionStorage.setItem('token', data.token);
     }
   } catch (error) {
@@ -134,7 +137,6 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   sessionStorage.removeItem('token');
   dispatch(userLogout());
-  dispatch(updateIsRemember(false));
   document.location.href = '/login';
 };
 
@@ -157,8 +159,8 @@ export const registerUser =
 
       dispatch(userRegisterSuccess(data));
       dispatch(userLoginSuccess(data));
-      dispatch(updateIsRemember(false));
 
+      localStorage.setItem('remember', true);
       localStorage.removeItem('token');
       sessionStorage.setItem('token', data.token);
     } catch (error) {
@@ -175,11 +177,9 @@ export const registerUser =
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/api/auth/user');
-    dispatch(userLoaded(res.data.user));
+    dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('token');
   }
 };
 
@@ -188,20 +188,21 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateLoading());
 
     const {
-      users: { userInfo, isRemember },
+      user: { userInfo, token },
     } = getState();
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    const { data } = await api.put(`/api/users/${userInfo._id}`, user, config);
 
     dispatch(userUpdateSuccess(data));
     dispatch(userLoginSuccess(data));
+    const isRemember = localStorage.getItem('remember');
     if (isRemember) {
       localStorage.setItem('token', data.token);
     } else {
@@ -216,5 +217,29 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       dispatch(logout());
     }
     dispatch(userUpdateFailure(message));
+  }
+};
+
+export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
+  localStorage.setItem('recipe', JSON.stringify(recipe));
+};
+
+export const resetRecipeLocal = () => async (dispatch, getState) => {
+  localStorage.removeItem('recipe');
+};
+
+export const getRefreshToken = () => async (dispatch) => {
+  try {
+    const res = await axios.get('api/auth/token');
+    const { token } = res.data;
+    dispatch(updateToken(token));
+    const isRemember = localStorage.getItem('remember');
+    if (isRemember) {
+      localStorage.setItem('token', token);
+    } else {
+      sessionStorage.setItem('token', token);
+    }
+  } catch (error) {
+    dispatch(logout());
   }
 };

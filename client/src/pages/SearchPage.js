@@ -2,127 +2,137 @@ import React, { useEffect, useState } from 'react';
 import NavBar from '../components/navbar/NavBar';
 import './SearchPage.css';
 import heart from '../images/Heart.png';
-import tempFood from '../images/tempFood.png';
-import tempFood2 from '../images/TempFood2.png';
-import tempFood3 from '../images/TempFood3.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import res from '../utils/mockData';
+import tempFood from '../images/tempFood.png';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export const SearchPage = (props) => {
+  const pageSize = 7;
   const { state } = useLocation();
-  const [filteredList, setFilteredList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(pageSize);
+  const [currentView, setCurrentView] = useState([]);
+  const [hasMode, setHasMode] = useState(true);
+  const [reqData, setReqData] = useState([])
+  const currentUser = useSelector((state) => state.user);
+
 
   useEffect(() => {
-    setFilteredList(item);
+    ReqDataWithToken();
+    setCurrentView(reqData.slice(0, pageSize));
+    // console.log(currentUser.token)
   }, [state]);
 
-  //mock data
-  const res = [
-    {
-      url: tempFood,
-      caption: 'Slide 1',
-      heart: 135,
-      user: 'Jay',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 2',
-      heart: 12,
-      user: 'Yun',
-    },
-    {
-      url: tempFood3,
-      caption: 'Slide 3',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood,
-      caption: 'Slide 4',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 238,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 138,
-      user: 'Hoon',
-    },
-    {
-      url: tempFood2,
-      caption: 'Slide 5',
-      heart: 137,
-      user: 'Hoon',
-    },
-  ];
-  let item = res.filter((card) => card.caption.includes(state));
+
+  const ReqDataWithToken = async () => {
+    await axios.get('/api/recipes/search?name=', {
+      headers: {
+        Authorization: `Bearer ${currentUser.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data)
+      setReqData(res.data.recipes)
+      
+    })
+    .catch((err) => {
+      console.log("Error code " + err);
+    })
+  };  
   
-  const handleSortButton = (list) => {
-    let temp = [...list];
-    setFilteredList(temp.sort((a, b) => a.heart - b.heart));
+
+  //function for bring the next data from the reuslt
+  const fetchMoreData = () => {
+    if (currentView.length >= reqData.length) {
+      setHasMode(false);
+      return;
+    }
+    //this two function have to be inside of a callback function, so will proejct to render at once.
+    setTimeout(() => {
+      setCurrentView(
+        currentView.concat(reqData.slice(currentPage, currentPage + pageSize))
+      );
+      setCurrentPage((prev) => prev + 7);
+    }, 1000);
+  };
+
+  const handleLatestButton = (list) => {
+
+    const temp = [...list];
+    setCurrentView(temp.sort((a, b) => b.heart - a.heart));
   };
 
   const Card = (item) => {
     let eachItem = item.item;
     return (
       <>
-        <h5>{eachItem.caption}</h5>
+        <h5>{eachItem.recipeName}</h5>
         <div className='search-title'>
           <p style={{ alignItems: 'center', display: 'flex' }}>
             <img src={heart} alt=''></img>
-            {eachItem.heart}
+            {eachItem.likeCount}
           </p>
-          <p>{eachItem.user}</p>
+          {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
         </div>
       </>
     );
   };
 
-
   const itemRender = (filteredList) => {
     if (filteredList.length === 0) {
-      return <p>Nothing</p>;
+      return
     }
-    return filteredList.map((e, index) => (
-      <ImageListItem key={index} className='search-card'>
-        <img
-          // style={{ width: "250px", height: "255px" }}
-          src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-          srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-          alt={e.caption}
-          loading='lazy'
-        />
-        <ImageListItemBar position='below' title={<Card item={e} />} />
-      </ImageListItem>
-    ));
+    return (
+      <InfiniteScroll
+        dataLength={currentView.length}
+        next={fetchMoreData}
+        hasMore={hasMode}
+        style={{display:'flex', flexWrap: 'wrap'}}
+      >
+        {currentView.map((e, index) => (
+          <ImageListItem key={index} className='search-card'>
+            <img
+            src={tempFood}
+              // src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
+              // srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={index}
+              loading='lazy'
+            />
+            <ImageListItemBar position='below' title={<Card item={e} />} />
+          </ImageListItem>
+        ))}
+      </InfiniteScroll>
+    );
   };
 
   return (
     <div>
-      <NavBar />
+      <NavBar searchItem={state} />
       <div className='searchPage-container'>
-        <button
-          className='searchPage-button'
-          onClick={() => setFilteredList(item)}
-        >
-          Latest
-        </button>
-        <button
-          className='searchPage-button'
-          onClick={() => handleSortButton(item)}
-        >
-          Most View
-        </button>
+        <div className='button-container'>
+          <button
+            className='searchPage-button'
+            onClick={() => setCurrentView([...reqData.slice(0, currentPage + pageSize)])}
+          >
+            Latest
+          </button>
+          <button
+            className='searchPage-button'
+            onClick={() => handleLatestButton(reqData)}
+          >
+            Most View
+          </button>
+        </div>
         <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-            {itemRender(filteredList)}
+            {itemRender(reqData)}
           </ImageList>
+          {currentView.length === reqData.length ? (
+            <h3 style={{margin: "10px 120px"}}>Nothing More </h3> 
+          ) : <h3 className='search-tag'>Loading More...</h3>}
         </div>
       </div>
     </div>

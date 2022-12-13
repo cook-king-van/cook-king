@@ -49,14 +49,15 @@
 }
 
 .Auth-authButton {
-  background: var(--primaryColor);
+  width: 359.1px;
+  background: var(--secondaryColor);
   color: #fff;
-  padding: 3px 150px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  padding: 3px 135px;
+  margin: 30px auto;
   font-style: normal;
   font-weight: 700;
   font-size: 17px;
+  display: inline-block;
   text-align: center;
   line-height: 36px;
   letter-spacing: 2px;
@@ -65,8 +66,8 @@
   cursor: pointer;
 }
 
-.Auth-authButton:hover {
-  background: var(--secondaryColor);
+.Auth-authButton:valid {
+  background: var(--primaryColor);
 }
 
 .Auth-email,
@@ -77,15 +78,27 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 36px;
-  margin: 20px 10px 10px 5px;
+  margin: 20px 10px 10px 65px;
   letter-spacing: 5px;
   /* use this only when using <form></form> and delete align-self: flex start and add display: block */
-  /* text-align: start; */ 
+  /* text-align: start; */
 }
 
-.Auth-authInputs {
+.Auth-authContainer {
+  align-items: center;
+  width: 500px;
+}
+
+.Auth-authValid {
+  margin-left: 15px;
+  font-size: 30px;
+  color: green;
+}
+.Auth-authInputs,
+.Auth-authInputsError {
   background: #f3f3f3;
-  width: 100%;
+  width: 359.1px;
+  margin-left: 67px;
   height: 40px;
   border-radius: 5px;
   font-size: 20px;
@@ -96,7 +109,15 @@
 }
 
 .Auth-authInputs:focus {
-  outline: none;
+  box-shadow: 0 0 10px var(--dangerColor);
+  border: 1px solid var(--dangerColor);
+  outline-color: var(--buttonRedColor);
+}
+
+.Auth-authInputsError:focus {
+  box-shadow: 0 0 10px var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+  outline-color: var(--lightColor);
 }
 
 .Auth-accountMsg {
@@ -143,8 +164,9 @@
 .Auth-staySignIn {
   display: flex;
   width: 100%;
+  margin-top: 10px;
   justify-content: space-between;
-  padding: 10px 0 10px 5px;
+  padding: 10px 75px 10px 75px;
   color: var(--brownColor);
 }
 
@@ -193,7 +215,7 @@
 }
 
 .Auth-checkmark:after {
-  content: "";
+  content: '';
   position: relative;
   display: none;
   margin-right: 8px;
@@ -228,6 +250,21 @@
   text-align: center;
   color: var(--dangerColor);
   border: 1px solid var(--dangerColor);
-  background-color: rgba(212,120,120, 0.6) !important;
+  background-color: rgba(212, 120, 120, 0.6) !important;
 }
 
+.Auth-authErrormsg {
+  margin-top: 10px;
+  visibility: hidden;
+  height: 10px;
+  justify-content: center;
+  color: var(--dangerColor);
+}
+
+.Auth-authInputValid {
+  display: flex;
+}
+
+.Auth-authInputValid:focus-within ~ .Auth-authErrormsg {
+  visibility: visible;
+}

@@ -8,13 +8,11 @@ const UnlikeRecipe = async (req, res) => {
     const ret = await Recipe.findOneAndUpdate(
       {
         _id: Id,
-        userLike: {
-          $in: userId,
-        },
+        [`userLike.${userId}`]: true,
       },
       {
-        $pull: {
-          userLike: userId,
+        $unset: {
+          [`userLike.${userId}`]: false,
         },
         $inc: {
           likeCount: -1,

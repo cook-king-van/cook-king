@@ -78,8 +78,18 @@ const LoginPage = () => {
   const loginScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
       <img src={logo} alt='Logo' className='Auth-logo' />
-      <AuthInputs title='email' value={email} onChange={handleChange} />
-      <AuthInputs title='password' value={password} onChange={handleChange} />
+      <AuthInputs
+        title='email'
+        value={email}
+        onChange={handleChange}
+        condition={validateEmail(email)}
+      />
+      <AuthInputs
+        title='password'
+        value={password}
+        onChange={handleChange}
+        condition={validatePassword(email, password)}
+      />
       <div className='Auth-staySignIn'>
         <label className='Auth-checkboxLabel'>
           <input
@@ -98,7 +108,10 @@ const LoginPage = () => {
           Forgot password ?
         </a>
       </div>
-      <AuthButton title='LOGIN' />
+      <AuthButton
+        title='LOGIN'
+        valid={validateEmail(email) || validatePassword(email, password)}
+      />
       <a className='Auth-accountMsg' href='/register'>
         Don't have an account ? <u>Sign Up</u>
       </a>

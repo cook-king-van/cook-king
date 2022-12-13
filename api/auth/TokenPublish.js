@@ -7,7 +7,7 @@ const TokenPublish = async (req, res) => {
     }
     const refresh = await getValue(token);
     if (!refresh) {
-      return res.status(402).send('Need to login');
+      return res.status(401).send('Need to login');
     }
     const data = await Token().RefreshVerify(refresh);
     if (!data) {
