@@ -1,5 +1,5 @@
-import React, { useState, useRef, Fragment } from 'react';
-import Navbar from '../pages/NavBar';
+import React, { useState, useRef } from 'react';
+import NavBar from '../components/navbar/NavBar';
 import './CreateRecipePage.css';
 
 import RecipeBasicContent from '../components/RecipeBasicContent';
@@ -125,7 +125,7 @@ const CreateRecipePage = () => {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
       <RecipeBasicContent
         ref={hiddenFileInput}
         onServingChange={onServingChange}
