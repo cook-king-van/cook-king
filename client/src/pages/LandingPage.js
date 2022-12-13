@@ -42,8 +42,8 @@ const LandingPage = () => {
 
       <div>
         <MainList title="Today's Best" DataType = {Best} />
-        <MainList title="Today's Branch" DataType = {branch} />
-        <MainList title="Today's Snack" DataType = {snack} />
+        <MainList title="Branch" DataType = {branch} />
+        <MainList title="Snack" DataType = {snack} />
       </div>
     </section>
   );
