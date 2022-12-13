@@ -3,15 +3,15 @@ import './MainList.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'semantic-ui-react';
-import heart from '../../images/Heart.png';
+import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
 import tempFood2 from '../../images/TempFood2.png';
 import tempFood3 from '../../images/TempFood3.png';
 
-const MainList = ({ title, allData }) => {
+const MainList = ({ title, DataType }) => {
   //mock data
-  const slideData = allData.map((item) => {
-    return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: tempFood };
+  const slideData = DataType.map((item) => {
+    return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: item.recipeImage ? item.recipeImage : tempFood };
     })
     
     
@@ -61,7 +61,7 @@ const MainList = ({ title, allData }) => {
           <h3 className='MainList-h3'>{props.description}</h3>
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
-              <img src={heart} alt=''></img>
+            <img src={heartImg} alt=''></img>
               {props.image.heart}
             </p>
             <p>{props.image.user}</p>
