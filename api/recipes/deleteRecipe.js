@@ -4,7 +4,7 @@ const deleteRecipe = async (req, res) => {
     const recipeId = req.params.recipeId;
     const recipe = await Recipe.findByIdAndDelete(recipeId);
     if (!recipe) {
-      return res.status(403).send(`There is no recipe`);
+      return res.status(400).send(`There is no recipe`);
     }
     return res.send(`Recipe deleted`);
   } catch (e) {
