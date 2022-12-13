@@ -48,7 +48,6 @@ const RecipeDetailPage = () => {
       <div>time: {time}</div>
       <div>likes: {likeCount}</div>
       <button onClick={() => editRecipe(_id)}>edit</button>
-    </div>
     </>
   );
 };
