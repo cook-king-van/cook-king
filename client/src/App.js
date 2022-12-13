@@ -13,6 +13,7 @@ import RecipeDetailPage from './pages/RecipeDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
+import RecipeDetailPage from './pages/RecipeDetailPage'
 import { loadUser, logout } from './features/users/userSlice';
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<UserProfilePage />} exact />
         <Route path='/create-recipe' element={<CreateRecipePage />} exact />
+        <Route path='/detail' element={<RecipeDetailPage />} exact />
       </Route>
     </Routes>
   );

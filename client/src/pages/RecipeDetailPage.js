@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import NavBar from '../components/navbar/NavBar';
+import DetailBox from '../components/RecipeDetail/DetailBox';
+import UserRecommend from '../components/RecipeDetail/UserRecommend';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getRecipe } from '../features/recipes/recipeSlice';
 
 const RecipeDetailPage = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const recipe = useSelector((state) => state.recipes.currentRecipe);
@@ -29,15 +32,16 @@ const RecipeDetailPage = () => {
   if (error) {
     navigate('/*');
   }
-
   return (
-    <div>
-      RecipeDetailPage
+    <>
+      <NavBar />
+      <DetailBox />
+      <UserRecommend />
       <div>recipe name: {recipeName}</div>
       <div>size: {size}</div>
       <div>time: {time}</div>
       <div>likes: {likeCount}</div>
-    </div>
+    </>
   );
 };
 
