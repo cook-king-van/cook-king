@@ -10,6 +10,7 @@ import LoginRecoveryPage from './pages/LoginRecoveryPage';
 import CreateRecipePage from './pages/CreateRecipePage';
 import { SearchPage } from './pages/SearchPage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
+import EditRecipePage from './pages/EditRecipePage';
 import NotFoundPage from './pages/NotFoundPage';
 import setAuthToken from './utils/SetAuthToken';
 import store from './store';
@@ -45,6 +46,7 @@ const App = () => {
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<UserProfilePage />} exact />
         <Route path='/create-recipe' element={<CreateRecipePage />} exact />
+        <Route path='/recipe/edit/:id' element={<EditRecipePage />} />
       </Route>
     </Routes>
   );

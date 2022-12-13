@@ -23,6 +23,7 @@ const RecipeDetailPage = () => {
     ingredient,
     categoriesId,
     userId,
+    _id,
   } = recipe;
 
   useEffect(() => {
@@ -32,6 +33,11 @@ const RecipeDetailPage = () => {
   if (error) {
     navigate('/*');
   }
+
+  const editRecipe = (id) => {
+    navigate(`/recipe/edit/${id}`);
+  };
+
   return (
     <>
       <NavBar />
@@ -41,6 +47,8 @@ const RecipeDetailPage = () => {
       <div>size: {size}</div>
       <div>time: {time}</div>
       <div>likes: {likeCount}</div>
+      <button onClick={() => editRecipe(_id)}>edit</button>
+    </div>
     </>
   );
 };

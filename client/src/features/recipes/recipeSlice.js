@@ -89,7 +89,6 @@ export const getRecipe = (recipeId) => async (dispatch, getState) => {
   try {
     dispatch(getRecipeLoading());
     const { data } = await axios.get(`/api/recipes/${recipeId}`);
-    console.log('data', data);
     dispatch(getRecipeSuccess(data));
   } catch (error) {
     dispatch(
