@@ -24,7 +24,7 @@ const LandingPage = () => {
     .then((res) => {
       setAllData(res.data)
     })
-  }
+  };
 
   // let eachData = () => {
   //   allData.map((item, index) => {
