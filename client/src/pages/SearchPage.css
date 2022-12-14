@@ -20,6 +20,7 @@
   background-color: rgba(217, 217, 217, 0.2);
   border-bottom: 1px solid #898787;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .search-title {
@@ -58,6 +59,7 @@ margin: 15px;
 
 .infinite-scroll-component {
   padding: 0 100px;
+  overflow: hidden !important;
 }
 .search-tag {
   display: flex;
