@@ -4,7 +4,7 @@ import './SearchPage.css';
 import heart from '../images/Heart.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import res from '../utils/mockData';
+// import res from '../utils/mockData';
 import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
@@ -21,23 +21,25 @@ export const SearchPage = (props) => {
   const currentUser = useSelector((state) => state.user);
 
   useEffect(() => {
-    ReqDataWithToken()
+    ReqDataWithToken(state)
     // console.log(currentUser.token)
   }, [state]);
 
 
 
-  const ReqDataWithToken = async () => {
-    await api.get('/api/recipes/search?name=', {
+  const ReqDataWithToken = async (req) => {
+    const res =  await api.get(`/api/recipes/search?name=${req}`, {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,
       },
     });
 
     try {
-      // console.log("res",res);
-      setReqData(res);
-      setCurrentView(res.slice(0, pageSize));
+      console.log("res",res.data);
+      if ( res.data !== 'There is no searching result') {
+        setReqData(res.data.recipes);
+        setCurrentView(res.data.recipes.slice(0, pageSize)); 
+      } 
     } catch (error) {
       console.log('Error code ' + error);
     }
@@ -130,8 +132,8 @@ export const SearchPage = (props) => {
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             <ItemRender filteredList={reqData} />
           </ImageList>
-          {currentView.length === reqData.length ? (
-            <h3 style={{ margin: '10px 120px' }}>Nothing More </h3>
+          { currentView.length === reqData.length ? (
+            <h3 style={{ margin: '10px 120px' }}>Nothing More! or No result! </h3>
           ) : (
             <h3 className='search-tag'>Loading More...</h3>
           )}

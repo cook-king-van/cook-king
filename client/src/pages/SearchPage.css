@@ -58,11 +58,17 @@ margin: 15px;
 }
 
 .infinite-scroll-component {
-  padding: 0 100px;
+  padding-left: 100px;
   overflow: hidden !important;
 }
 .search-tag {
   display: flex;
   flex-direction: row-reverse;
   margin: 10px 220px;
+}
+
+.MuiImageListItem-standard {
+  height: 250px !important;
+  padding-bottom: 0 !important;
+  width: 250px !important;
 }
