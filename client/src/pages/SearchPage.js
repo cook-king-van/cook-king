@@ -4,10 +4,8 @@ import './SearchPage.css';
 import heart from '../images/Heart.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-// import res from '../utils/mockData';
 import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import api from '../utils/api';
 
@@ -21,25 +19,24 @@ export const SearchPage = (props) => {
   const currentUser = useSelector((state) => state.user);
 
   useEffect(() => {
-    ReqDataWithToken(state)
-    // console.log(currentUser.token)
+    ReqDataWithToken(state);
   }, [state]);
 
-
-
   const ReqDataWithToken = async (req) => {
-    const res =  await api.get(`/api/recipes/search?name=${req}`, {
+    const res = await api.get(`/api/recipes/search?name=${req}`, {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,
       },
     });
 
     try {
-      console.log("res",res.data);
-      if ( res.data !== 'There is no searching result') {
+      // console.log('res', res.data);
+
+      //checking the result vlues is existing in the database. if Not, just continue.
+      if (res.data !== 'There is no searching result') {
         setReqData(res.data.recipes);
-        setCurrentView(res.data.recipes.slice(0, pageSize)); 
-      } 
+        setCurrentView(res.data.recipes.slice(0, pageSize));
+      }
     } catch (error) {
       console.log('Error code ' + error);
     }
@@ -60,6 +57,7 @@ export const SearchPage = (props) => {
     }, 1000);
   };
 
+  //have to be fix in the future, cuz sorting entire currentView.
   const handleLatestButton = (list) => {
     const temp = [...list];
     setCurrentView(temp.sort((a, b) => b.heart - a.heart));
@@ -81,7 +79,7 @@ export const SearchPage = (props) => {
     );
   };
 
-  const ItemRender = ({filteredList}) => {
+  const ItemRender = ({ filteredList }) => {
     if (filteredList.length === 0) {
       return;
     }
@@ -116,6 +114,7 @@ export const SearchPage = (props) => {
           <button
             className='searchPage-button'
             onClick={() =>
+              //have to fix the button
               setCurrentView([...reqData.slice(0, currentPage + pageSize)])
             }
           >
@@ -132,8 +131,10 @@ export const SearchPage = (props) => {
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             <ItemRender filteredList={reqData} />
           </ImageList>
-          { currentView.length === reqData.length ? (
-            <h3 style={{ margin: '10px 120px' }}>Nothing More! or No result! </h3>
+          {currentView.length === reqData.length ? (
+            <h3 style={{ margin: '10px 120px' }}>
+              Nothing More! or No result!{' '}
+            </h3>
           ) : (
             <h3 className='search-tag'>Loading More...</h3>
           )}
