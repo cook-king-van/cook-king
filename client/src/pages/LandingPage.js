@@ -19,15 +19,6 @@ const LandingPage = () => {
   }, []);
 
   const ReqDataWithToken = async () => {
-    // .then((res) => {
-    //   // console.log(res.data)
-    //   setBranch(res.data.brunch)
-    //   setBest(res.data.best)
-    //   setSnack(res.data.snack);
-    // })
-    // .catch((err) => {
-    //   console.log("The error is " + err)
-    // })
     try {
       const res = await axios.get('/api/recipes/landing')
         setBranch(res.data.brunch)
