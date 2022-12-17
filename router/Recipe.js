@@ -17,7 +17,6 @@ const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
 router.get('/', UserValid, GetAllRecipe);
-router.get('/:recipeId', UserValid, GetSingleRecipe);
 router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
@@ -25,5 +24,6 @@ router.put('/like/:recipeId', UserValid, LikeRecipe);
 router.get('/landing', UserValid, GetLanding);
 router.get('/search', UserValid, SearchRecipe);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
+router.get('/:recipeId', UserValid, GetSingleRecipe);
 
 export default router;
