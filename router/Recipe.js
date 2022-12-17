@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
 router.get('/', UserValid, GetAllRecipe);
-// router.get('/:recipeId', GetSingleRecipe);
+router.get('/:recipeId', GetSingleRecipe);
 router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
