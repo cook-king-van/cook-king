@@ -13,6 +13,7 @@ import GetLanding from '../api/recipes/GetLanding';
 import UnlikeRecipe from '../api/recipes/UnlikeRecipe';
 import SearchRecipe from '../api/recipes/SearchRecipe';
 import GetSingleRecipe from '../api/recipes/GetSingleRecipe';
+import deleteRecipe from '../api/recipes/deleteRecipe';
 const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
@@ -25,5 +26,6 @@ router.put('/like/:recipeId', UserValid, LikeRecipe);
 router.get('/landing', GetLanding);
 router.get('/search', UserValid, SearchRecipe);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
+router.delete('/:recipeId',UserValid,userIdentify,deleteRecipe);
 
 export default router;
