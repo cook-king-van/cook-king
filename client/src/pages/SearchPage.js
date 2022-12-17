@@ -5,36 +5,55 @@ import heart from '../images/Heart.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import res from '../utils/mockData';
+import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export const SearchPage = (props) => {
   const pageSize = 7;
   const { state } = useLocation();
-  const [filteredList, setFilteredList] = useState([]);
   const [currentPage, setCurrentPage] = useState(pageSize);
   const [currentView, setCurrentView] = useState([]);
   const [hasMode, setHasMode] = useState(true);
+  const [reqData, setReqData] = useState([])
+  const currentUser = useSelector((state) => state.user);
 
 
   useEffect(() => {
-    setFilteredList(item)
-    setCurrentView(item.slice(0, pageSize));
+    ReqDataWithToken();
+    setCurrentView(reqData.slice(0, pageSize));
+    // console.log(currentUser.token)
   }, [state]);
+
+
+  const ReqDataWithToken = async () => {
+    await axios.get('/api/recipes/search?name=', {
+      headers: {
+        Authorization: `Bearer ${currentUser.token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data)
+      setReqData(res.data.recipes)
+      
+    })
+    .catch((err) => {
+      console.log("Error code " + err);
+    })
+  };  
   
-  
-  //filter the keywords
-  let item = res.filter((card) => card.caption.includes(state));
 
   //function for bring the next data from the reuslt
   const fetchMoreData = () => {
-    if (currentView.length >= filteredList.length) {
+    if (currentView.length >= reqData.length) {
       setHasMode(false);
       return;
     }
     //this two function have to be inside of a callback function, so will proejct to render at once.
     setTimeout(() => {
       setCurrentView(
-        currentView.concat(filteredList.slice(currentPage, currentPage + pageSize))
+        currentView.concat(reqData.slice(currentPage, currentPage + pageSize))
       );
       setCurrentPage((prev) => prev + 7);
     }, 1000);
@@ -50,13 +69,13 @@ export const SearchPage = (props) => {
     let eachItem = item.item;
     return (
       <>
-        <h5>{eachItem.caption}</h5>
+        <h5>{eachItem.recipeName}</h5>
         <div className='search-title'>
           <p style={{ alignItems: 'center', display: 'flex' }}>
             <img src={heart} alt=''></img>
-            {eachItem.heart}
+            {eachItem.likeCount}
           </p>
-          <p>{eachItem.user}</p>
+          {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
         </div>
       </>
     );
@@ -76,9 +95,10 @@ export const SearchPage = (props) => {
         {currentView.map((e, index) => (
           <ImageListItem key={index} className='search-card'>
             <img
-              src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={e.caption}
+            src={tempFood}
+              // src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
+              // srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={index}
               loading='lazy'
             />
             <ImageListItemBar position='below' title={<Card item={e} />} />
@@ -95,22 +115,22 @@ export const SearchPage = (props) => {
         <div className='button-container'>
           <button
             className='searchPage-button'
-            onClick={() => setCurrentView([...filteredList])}
+            onClick={() => setCurrentView([...reqData.slice(0, currentPage + pageSize)])}
           >
             Latest
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleLatestButton(item)}
+            onClick={() => handleLatestButton(reqData)}
           >
             Most View
           </button>
         </div>
         <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-            {itemRender(filteredList)}
+            {itemRender(reqData)}
           </ImageList>
-          {currentView.length === filteredList.length ? (
+          {currentView.length === reqData.length ? (
             <h3 style={{margin: "10px 120px"}}>Nothing More </h3> 
           ) : <h3 className='search-tag'>Loading More...</h3>}
         </div>
