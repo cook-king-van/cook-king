@@ -543,8 +543,8 @@
 }
 
 .CreateRecipe-postBtn {
-  background-color: var(--lightBackgroundColor);
-  border: 1px solid rgba(108, 93, 83, 0.8);
+  background-color: var(--lightColor);
+  border: 1px solid var(--primaryColor);
   color: #fff;
   border-radius: 5px;
   padding: 12px 50px;
@@ -553,6 +553,20 @@
 }
 
 .CreateRecipe-postBtn:hover {
+  background-color: var(--secondaryColor);
+  cursor: pointer;
+}
+
+.CreateRecipe-deleteBtn {
+  background-color: var(--lightBackgroundColor);
+  border: 1px solid rgba(108, 93, 83, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 50px;
+  font-size: 23px;
+}
+
+.CreateRecipe-deleteBtn:hover {
   background-color: rgba(159, 132, 115, 0.8);
   cursor: pointer;
 }
