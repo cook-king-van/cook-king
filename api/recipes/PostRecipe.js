@@ -102,15 +102,18 @@ const CreateRecipe = async (req, res) => {
 
     await addRecipeIdToTag(tagIds, recipe._id);
 
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       $push: {
-        recipes: recipe._id,
+        recipes: {
+          _id: recipe._id,
+          recipeName: recipe.recipeName,
+          recipeImage: recipe.recipeImage,
+          likeCount: recipe.likeCount,
+          updatedAt: recipe.updatedAt,
+        },
       },
     });
-    return res.status(200).json({
-      status: 200,
-      message: `Post Receipe`,
-    });
+    return res.status(200).json(updatedUser);
   } catch (e) {
     console.error(`Exception Error`);
     console.log(`error: ${e.message}`);
