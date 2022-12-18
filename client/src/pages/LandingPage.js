@@ -4,6 +4,7 @@ import NavBar from '../components/navbar/NavBar';
 import MainList from '../components/slideshow/MainList';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import api from '../utils/api';
 
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.user);
@@ -18,23 +19,16 @@ const LandingPage = () => {
   }, []);
 
   const ReqDataWithToken = async () => {
-    await axios.get('/api/recipes/landing', {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    })
-    .then((res) => {
-      console.log(res.data)
-      setBranch(res.data.brunch)
+    try {
+      const res = await axios.get('/api/recipes/landing')
+        setBranch(res.data.brunch)
       setBest(res.data.best)
       setSnack(res.data.snack);
-    })
+    } catch (error) {
+        console.log("error", error)
+    }
   };
 
-  // let eachData = () => {
-  //   Best.map((item, index) => {
-  //     return console.log(item, index)
-  // })}
 
   return (
     <section>
