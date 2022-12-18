@@ -3,7 +3,7 @@ const GetSingleRecipe = async (req, res) => {
   try {
     const Id = req.params.recipeId;
     const recipe = await Recipe.findById(Id)
-      .select('-userLike -createdAt -updatedAt -__v')
+      .select('-userLike -createdAt -updatedAt time -__v')
       .populate('userId', 'name -_id')
       .populate('categoriesId', 'categoriesName -_id')
       .populate('option', 'sort -_id')
