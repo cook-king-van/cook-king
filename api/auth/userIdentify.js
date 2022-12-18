@@ -5,7 +5,7 @@ const userIdentify = async (req, res,next) => {
         const userId = req.user._id;
         const recipe = await Recipe.findById(recipeId).select('userId -_id');
         if (userId !== recipe.userId.toString()) {
-          return res.status(403).send('Unauthorized');
+          return res.status(401).send('Unauthorized');
         }
         next();
   } catch (e) {
