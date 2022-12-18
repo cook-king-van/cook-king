@@ -25,5 +25,6 @@ router.put('/like/:recipeId', UserValid, LikeRecipe);
 router.get('/landing', UserValid, GetLanding);
 router.get('/search', UserValid, SearchRecipe);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
+router.delete('/:recipeId', UserValid, userIdentify, deleteRecipe);
 
 export default router;

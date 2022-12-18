@@ -18,7 +18,7 @@ import { Avatar } from '@mui/material';
 import MyCookingCard from '../components/MyCookingCard';
 import Carousel from 'react-multi-carousel';
 import { responsive } from '../utils/carousel';
-import { Divider } from 'semantic-ui-react';
+import RecipeDetailHeader from '../components/RecipeDetailHeader';
 
 const RecipeDetailPage = () => {
   const { id } = useParams();
@@ -71,17 +71,6 @@ const RecipeDetailPage = () => {
       splitName[i] = splitName[i][0]?.toUpperCase() + splitName[i].slice(1);
     }
     return splitName?.join(' ');
-  };
-
-  const detectTime = (time) => {
-    switch (time) {
-      case time === 120:
-        return '< 2 hrs';
-      case time === 999:
-        return '2 hrs >';
-      default:
-        return `< ${time} min`;
-    }
   };
 
   useEffect(() => {
@@ -147,68 +136,24 @@ const RecipeDetailPage = () => {
   return (
     <>
       <NavBar />
-      <div className='RecipeDetail-container'>
-        <div className='RecipeDetail-photoContainer'>
-          {isOwner && (
-            <button
-              className='RecipeDetail-editBtn'
-              onClick={() => editRecipe(_id)}>
-              edit
-            </button>
-          )}
-          {recipeImage ? (
-            <>
-              <img
-                src={recipeImage}
-                alt={recipeName}
-                className='RecipeDetail-mainphotoImg'
-              />
-              {isLoginMessage && showLoginMessage}
-              <span
-                className={
-                  likeCount?.toString()?.length < 4
-                    ? `RecipeDetail-shortLikeCount-${isLike}`
-                    : `RecipeDetail-likeCount-${isLike}`
-                }
-                onClick={() => {
-                  if (isAuthenticated) {
-                    if (isLike) {
-                      removeLike();
-                    } else {
-                      addLike();
-                    }
-                  } else {
-                    loginAlert();
-                  }
-                }}>
-                <i className='fa-solid fa-heart RecipeDetail-heartIcon'></i>
-                {likeCount?.toLocaleString()}
-              </span>
-            </>
-          ) : (
-            <div className='RecipeDetail-noMainPhoto'>No Image Found</div>
-          )}
-
-          <div className='RecipeDetail-titleContainer'>
-            <label className='RecipeDetail-title'>
-              {refineRecipeName(recipeName)}
-            </label>
-          </div>
-          <p className='RecipeDetail-border'></p>
-          <div className='RecipeDetail-recipeInfoContainer'>
-            <div>
-              <i className='fa-solid fa-user-group fa-2x RecipeDetail-servingIcon'></i>
-              <p className='RecipeDetail-serving'>
-                {size > 1 ? `${size} servings` : `${size} serving`}
-              </p>
-            </div>
-            <div>
-              <i className='fa-regular fa-clock fa-2x RecipeDetail-timeIcon'></i>
-              <p className='RecipeDetail-time'>{detectTime(time)}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <RecipeDetailHeader
+        isOwner={isOwner}
+        editRecipe={editRecipe}
+        _id={_id}
+        recipeImage={recipeImage}
+        recipeName={recipeName}
+        isLoginMessage={isLoginMessage}
+        showLoginMessage={showLoginMessage}
+        likeCount={likeCount}
+        isLike={isLike}
+        isAuthenticated={isAuthenticated}
+        refineRecipeName={refineRecipeName}
+        removeLike={removeLike}
+        addLike={addLike}
+        loginAlert={loginAlert}
+        size={size}
+        time={time}
+      />
       <div className='RecipeDetail-ingredientContainer'>
         <label className='RecipeDetail-ingredientTitle'>Ingredients</label>
         {ingredient?.length > 1 ? (
