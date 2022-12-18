@@ -140,7 +140,7 @@ const UserProfile = () => {
     <>
       <Navbar />
       {profileUpdateMsg ? updateProfileMsg : ''}
-      <section className='UserProfile-container'>
+      <div className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
             <Avatar
@@ -247,7 +247,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 };

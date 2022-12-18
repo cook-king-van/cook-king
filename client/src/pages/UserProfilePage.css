@@ -2,7 +2,7 @@
   background-color: rgb(223, 211, 195, 0.3);
   margin: 100px;
   margin-bottom: 20px;
-  width: 85vw;
+  /* width: 85vw; */
   border-radius: 5px;
   display: flex;
 }
@@ -10,6 +10,7 @@
 .UserProfile-innerContainer {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .UserProfile-topContainer {
@@ -19,7 +20,7 @@
 }
 
 .UserProfileEditSaveBtnContainer {
-  margin: 20px 20px auto auto;
+  margin: 20px 40px auto auto;
 }
 
 .UserProfile-editProfileBtn {
