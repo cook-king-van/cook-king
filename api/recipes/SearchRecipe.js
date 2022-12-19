@@ -1,5 +1,6 @@
 import Recipe from '../../models/recipe';
 import categories from '../../models/categories';
+// add recipe using Tag name
 let currentpage = 0;
 let remainNumber = 0;
 const SearchRecipe = async (req, res) => {
@@ -20,7 +21,6 @@ const SearchRecipe = async (req, res) => {
       .limit(resultPage);
     const recipes = [...FindRecipes];
     if (FindRecipes.length < resultPage) {
-      // add recipe using Tag name
       const addRecipeNumber = resultPage - FindRecipes.length;
       let skipNumber;
       if (currentpage) {
@@ -29,7 +29,6 @@ const SearchRecipe = async (req, res) => {
         currentpage = page;
         remainNumber = resultPage - FindRecipes.length;
       }
-      // const skipNumber;
       const TagRecipes = await categories.Tag.find({
         tagName: {
           $regex: name,
