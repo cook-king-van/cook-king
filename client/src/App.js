@@ -40,7 +40,7 @@ const App = () => {
       <Route path='/login-recovery' element={<LoginRecoveryPage />} />
       <Route path='/' element={<LandingPage />} exact />
       <Route path='/search' element={<SearchPage />} exact />
-      <Route path='/recipe/:id' element={<RecipeDetailPage />} exact />
+      <Route path='/recipe/:id' element={<RecipeDetailPage />} />
       <Route path='/404' element={<NotFoundPage />} />
       <Route path='*' element={<Navigate to='/404' replace />} />
       <Route element={<PrivateRoute />}>
