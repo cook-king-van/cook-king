@@ -529,8 +529,8 @@
 }
 
 .CreateRecipe-saveBtn {
-  background-color: var(--lightColor);
-  border: 1px solid rgba(92, 110, 86, 0.8);
+  background-color: var(--lightBackgroundColor);
+  border: 1px solid var(--brownBackgroundColor);
   color: #fff;
   border-radius: 5px;
   padding: 12px 50px;
@@ -538,7 +538,7 @@
 }
 
 .CreateRecipe-saveBtn:hover {
-  background-color: var(--secondaryColor);
+  background-color: #ba9c89;
   cursor: pointer;
 }
 
