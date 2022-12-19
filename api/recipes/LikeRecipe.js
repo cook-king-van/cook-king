@@ -8,7 +8,7 @@ const LikeRecipe = async (req, res) => {
     const ret = await Recipe.findOneAndUpdate(
       {
         _id: Id,
-        [`userLike.${userId}`]: {$in: [undefined, false]},
+        [`userLike.${userId}`]: { $in: [undefined, false] },
       },
       {
         $set: {
@@ -22,12 +22,12 @@ const LikeRecipe = async (req, res) => {
     if (!ret) {
       return res.status(403).send(`${userName} already liked ${Id} recipe`);
     }
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       $push: {
         likes: Id,
       },
     });
-    return res.status(200).send(`${userName} liked ${Id} recipe`);
+    return res.status(200).send(updatedUser);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);

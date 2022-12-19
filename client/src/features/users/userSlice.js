@@ -73,6 +73,18 @@ const usersSlice = createSlice({
     updateToken(state, action) {
       state.token = action.payload;
     },
+    getLatestUserInfoLoading(state, action) {
+      state.loading = true;
+      state.error = null;
+    },
+    getLatestUserInfoSuccess(state, action) {
+      state.loading = false;
+      state.userInfo = action.payload;
+    },
+    getLatestUserInfoFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -90,6 +102,9 @@ export const {
   userLoaded,
   userLoadedError,
   updateToken,
+  getLatestUserInfoLoading,
+  getLatestUserInfoSuccess,
+  getLatestUserInfoFailure,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -183,12 +198,25 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+export const getLatestUserInfo = (userInfo) => async (dispatch) => {
+  try {
+    dispatch(getLatestUserInfoLoading());
+    dispatch(getLatestUserInfoSuccess(userInfo));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(getLatestUserInfoFailure(message));
+  }
+};
+
 export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch(userUpdateLoading());
 
     const {
-      user: { userInfo, token },
+      user: { token },
     } = getState();
 
     const config = {
@@ -198,24 +226,15 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.put(`/api/users/${userInfo._id}`, user, config);
+    const { data } = await api.put('/api/users/', user, config);
 
     dispatch(userUpdateSuccess(data));
-    dispatch(userLoginSuccess(data));
-    const isRemember = localStorage.getItem('remember');
-    if (isRemember) {
-      localStorage.setItem('token', data.token);
-    } else {
-      sessionStorage.setItem('token', data.token);
-    }
+    dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout());
-    }
     dispatch(userUpdateFailure(message));
   }
 };

@@ -2,11 +2,13 @@ import axios from 'axios';
 
 // Create an instance of axios
 const api = axios.create({
-  baseURL: '',
+  baseURL: '/',
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+axios.defaults.baseURL = '';
 
 api.interceptors.request.use(
   (config) => {
