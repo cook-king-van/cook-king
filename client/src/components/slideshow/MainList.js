@@ -5,8 +5,6 @@ import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'semantic-ui-react';
 import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
-import tempFood2 from '../../images/TempFood2.png';
-import tempFood3 from '../../images/TempFood3.png';
 
 const MainList = ({ title, DataType }) => {
   //mock data
@@ -47,24 +45,24 @@ const MainList = ({ title, DataType }) => {
   );
 
   //entire slideContainer
-  const SlideCreator = ({ heart, user }) => {
+  const SlideCreator = () => {
     //each of the slide card
-    const SlideCard = (props) => {
+    const SlideCard = ({image, description}) => {
       return (
         <div className='MainList-item'>
           <Image
             draggable={false}
             style={{ width: '350px', height: '235px' }}
-            src={props.image.url}
-            key={props.image.caption}
+            src={image.url}
+            key={image.caption}
           />
-          <h3 className='MainList-h3'>{props.description}</h3>
+          <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
             <img src={heartImg} alt=''></img>
-              {props.image.heart}
+              {image.heart}
             </p>
-            <p>{props.image.user}</p>
+            <p>{image.user ? image.user.name : "No name"}</p>
           </div>
         </div>
       );
