@@ -114,18 +114,8 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
       user: { userInfo },
     } = getState();
 
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token');
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     const recipes = { ...recipe, id: userInfo._id };
-    await axios.post('/api/recipes/', recipes, config);
+    await api.post('/api/recipes/', recipes);
 
     dispatch(createRecipeSuccess());
     dispatch(loadUser());

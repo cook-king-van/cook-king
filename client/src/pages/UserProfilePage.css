@@ -2,21 +2,23 @@
   background-color: rgb(223, 211, 195, 0.3);
   margin: 100px;
   margin-bottom: 20px;
-  /* width: 85vw; */
   border-radius: 5px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .UserProfile-innerContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .UserProfile-topContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .UserProfileEditSaveBtnContainer {
@@ -25,6 +27,7 @@
 
 .UserProfile-editProfileBtn {
   padding: 10px 30px;
+  margin-bottom: 10px;
   background-color: var(--lightColor);
   color: #fff;
   font-size: 15px;
@@ -57,10 +60,12 @@
 .UserProfile-bottomContainer {
   margin-left: 40px;
   margin-right: 40px;
+  flex-wrap: wrap;
 }
 
 .UserProfile-bottomContainer {
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .UserProfile-cardContainer {

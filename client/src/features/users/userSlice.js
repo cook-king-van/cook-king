@@ -229,6 +229,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     const { data } = await api.put('/api/users/', user, config);
 
     dispatch(userUpdateSuccess(data));
+    dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message

@@ -1,5 +1,5 @@
 import React, { useState, useRef, Fragment, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar/NavBar';
 import './CreateRecipePage.css';
 
@@ -7,7 +7,6 @@ import RecipeBasicContent from '../components/RecipeBasicContent';
 import IngredientContent from '../components/IngredientContent';
 import RecipeStepContent from '../components/RecipeStepContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRecipe } from '../features/recipes/recipeSlice';
 
 import { usePrompt } from '../hooks/NavigationBlocker';
 
@@ -55,15 +54,12 @@ const EditRecipePage = () => {
   useEffect(() => {
     if (recipe) {
       const {
-        _id,
-        userId,
         time,
         tags,
         steps,
         size,
         recipeName,
         option,
-        likeCount,
         ingredient,
         categoriesId,
         recipeImage,
@@ -95,6 +91,8 @@ const EditRecipePage = () => {
       setSteps(allSteps);
       setCategory(categoriesId[0].categoriesName);
     }
+
+    // eslint-disable-next-line
   }, []);
 
   usePrompt(
