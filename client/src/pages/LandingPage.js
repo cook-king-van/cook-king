@@ -9,7 +9,7 @@ import api from '../utils/api';
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.user);
   const [Best, setBest] = useState([]);
-  const [branch, setBranch] = useState([]);
+  const [brunch, setbrunch] = useState([]);
   const [snack, setSnack] = useState([]);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const LandingPage = () => {
     try {
       const res = await axios.get('/api/recipes/landing')
       console.log(res)
-        setBranch(res.data.brunch)
+        setbrunch(res.data.brunch)
       setBest(res.data.best)
       setSnack(res.data.snack);
     } catch (error) {
@@ -37,7 +37,7 @@ const LandingPage = () => {
 
       <div>
         <MainList title="Today's Best" DataType = {Best} />
-        <MainList title="Branch" DataType = {branch} />
+        <MainList title="Brunch" DataType = {brunch} />
         <MainList title="Snack" DataType = {snack} />
       </div>
     </section>

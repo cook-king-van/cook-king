@@ -6,8 +6,10 @@ import { Image } from 'semantic-ui-react';
 import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
 import plus from '../../images/Plus.png';
+import { useNavigate } from 'react-router-dom';
 
 const MainList = ({ title, DataType }) => {
+  const navigate = useNavigate();
   //mock data
   const slideData = DataType.map((item) => {
     return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: item.recipeImage ? item.recipeImage : tempFood };
@@ -99,7 +101,7 @@ const MainList = ({ title, DataType }) => {
             className="MainList-plus"
             // key={image.caption}
           /> */}
-<i className="fa-solid fa-circle-plus fa-2xl"></i>
+<i className="fa-solid fa-circle-plus fa-2xl" onClick={() => {navigate('/search', {state: title})}}></i>
       </Carousel>
     );
   };
