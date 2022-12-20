@@ -85,3 +85,23 @@
 .MainList-custom-left-arrow {
   opacity: 1;
 }
+
+/* .MainList-plus {
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 60px auto;
+}
+.MainList-plus:hover {
+  cursor: pointer;
+} */
+
+.fa-circle-plus {
+  margin-top: 150px;
+  margin-left: 150px;
+  font-size: 4em !important;
+}
+
+.fa-circle-plus:hover {
+  cursor: pointer;
+}

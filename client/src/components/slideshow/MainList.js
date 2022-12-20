@@ -5,12 +5,14 @@ import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'semantic-ui-react';
 import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
+import plus from '../../images/Plus.png';
 
 const MainList = ({ title, DataType }) => {
   //mock data
   const slideData = DataType.map((item) => {
     return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: item.recipeImage ? item.recipeImage : tempFood };
     })
+    console.log(slideData)
     
     
 
@@ -18,7 +20,7 @@ const MainList = ({ title, DataType }) => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 5,
+      items: 4,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -80,7 +82,7 @@ const MainList = ({ title, DataType }) => {
         customRightArrow={<CustomRightArrow />}
         draggable={false}
       >
-        {slideData.slice(0, slideData.length).map((image) => {
+        {slideData.map((image) => {
           return (
             <SlideCard
               image={image}
@@ -91,6 +93,13 @@ const MainList = ({ title, DataType }) => {
             />
           );
         })}
+        {/* <Image
+            draggable={false}
+            src={plus}
+            className="MainList-plus"
+            // key={image.caption}
+          /> */}
+<i className="fa-solid fa-circle-plus fa-2xl"></i>
       </Carousel>
     );
   };
