@@ -358,7 +358,7 @@ const CreateRecipePage = () => {
       setDisablePrompt(true);
       setTimeout(() => {
         setCreateRecipeDoneMsg(false);
-        navigate('/');
+        navigate(-1);
       }, 2000);
     }
   };
