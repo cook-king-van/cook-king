@@ -21,6 +21,7 @@ const LandingPage = () => {
   const ReqDataWithToken = async () => {
     try {
       const res = await axios.get('/api/recipes/landing')
+      console.log(res)
         setBranch(res.data.brunch)
       setBest(res.data.best)
       setSnack(res.data.snack);
