@@ -23,6 +23,11 @@ const NavBar = (props) => {
     setShowLocalRecipeWarning(false);
   };
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    
+  }
+
   return (
     <section className='NavBar-headerContainer'>
       {showLocalRecipeWarning && (
@@ -76,7 +81,7 @@ const NavBar = (props) => {
         <Button variant='text' style={{ color: '#6C5D53' }}>
           Category
         </Button>
-        <form className='NavBar-searchBar'>
+        <form className='NavBar-searchBar' onSubmit={onFormSubmit}>
           <input
             type='text'
             placeholder='Search bar'
@@ -89,7 +94,7 @@ const NavBar = (props) => {
               type='button'
               className='NavBar-button'
               onClick={() => {
-                navigate('/search', { state: value });
+                navigate(`/search?name=${value}`, { state: value });
               }}
             >
               <i className='fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl'></i>

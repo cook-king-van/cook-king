@@ -101,7 +101,7 @@ const MainList = ({ title, DataType }) => {
             className="MainList-plus"
             // key={image.caption}
           /> */}
-<i className="fa-solid fa-circle-plus fa-2xl" onClick={() => {navigate('/search', {state: title})}}></i>
+<i className="fa-solid fa-circle-plus fa-2xl" onClick={() => {navigate(`/search?option=${title}`)}}></i>
       </Carousel>
     );
   };
