@@ -61,7 +61,7 @@ const RecipeStep = forwardRef((props, ref) => {
                                   {isStepsPhotoAdded[index] ? (
                                     <div className='CreateRecipe-instructionPhotoHolder'>
                                       <img
-                                        src={steps[index].imageUrl}
+                                        src={steps[index].stepImage}
                                         alt=''
                                         className='CreateRecipe-instructionPhotoImg'
                                       />

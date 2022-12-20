@@ -4,10 +4,13 @@ import NavBar from '../components/navbar/NavBar';
 import MainList from '../components/slideshow/MainList';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import api from '../utils/api';
 
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.user);
-  const [allData, setAllData] = useState([]);
+  const [Best, setBest] = useState([]);
+  const [branch, setBranch] = useState([]);
+  const [snack, setSnack] = useState([]);
 
   useEffect(() => {
     console.log(currentUser.token);
@@ -16,27 +19,25 @@ const LandingPage = () => {
   }, []);
 
   const ReqDataWithToken = async () => {
-    await axios.get('/api/recipes', {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    })
-    .then((res) => {
-      setAllData(res.data)
-    })
-  }
+    try {
+      const res = await axios.get('/api/recipes/landing')
+        setBranch(res.data.brunch)
+      setBest(res.data.best)
+      setSnack(res.data.snack);
+    } catch (error) {
+        console.log("error", error)
+    }
+  };
 
-  // let eachData = () => {
-  //   allData.map((item, index) => {
-  //     return console.log(item, index)
-  // })}
 
   return (
     <section>
       <NavBar />
 
       <div>
-        <MainList title="Today's Best" allData = {allData} />
+        <MainList title="Today's Best" DataType = {Best} />
+        <MainList title="Branch" DataType = {branch} />
+        <MainList title="Snack" DataType = {snack} />
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import '../pages/Auth.css';
 
 const AuthInputs = (props) => {
-  const { title, type, value, onChange, condition } = props;
+  const { title, type, name, value, onChange, condition } = props;
   return (
     <>
       <label className='Auth-email' htmlFor={title}>
@@ -11,7 +11,7 @@ const AuthInputs = (props) => {
         <div className='Auth-authInputValid'>
           <input
             type={type ?? title}
-            name={title}
+            name={name ?? title}
             value={value}
             onChange={onChange}
             className={condition ? 'Auth-authInputs' : 'Auth-authInputsError'}

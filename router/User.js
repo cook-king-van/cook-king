@@ -7,9 +7,9 @@ import GetUserById from '../api/users/GetUserById';
 
 const router = express.Router();
 
-router.get('/:userId/recipes', UserValid, UserRecipe);
+router.get('/:userId/recipes', UserRecipe);
 router.get('/:userId/likes', UserValid, UserLikeRecipe);
-router.put('/',UserValid,EditUserinfo);
+router.put('/', UserValid, EditUserinfo);
 router.get('/:userId', UserValid, GetUserById);
 
 export default router;

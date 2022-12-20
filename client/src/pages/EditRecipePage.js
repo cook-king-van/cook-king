@@ -1,35 +1,44 @@
 import React, { useState, useRef, Fragment, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar/NavBar';
 import './CreateRecipePage.css';
 
 import RecipeBasicContent from '../components/RecipeBasicContent';
 import IngredientContent from '../components/IngredientContent';
 import RecipeStepContent from '../components/RecipeStepContent';
-import { saveRecipeToLocal } from '../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRecipe } from '../features/recipes/recipeSlice';
 
 import { usePrompt } from '../hooks/NavigationBlocker';
 
-import {
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-} from '@mui/material';
+import { Alert } from '@mui/material';
 import Spinner from '../components/Spinner';
 
-const CreateRecipePage = () => {
-  const { state } = useLocation();
+const EditRecipePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const formData = new FormData();
+  const recipe = useSelector((state) => state.recipes.currentRecipe);
+  const recipeError = useSelector((state) => state.recipes.error);
+  const isLoading = useSelector((state) => state.recipes.loading);
 
-  const [recipeName, setRecipeName] = useState('');
+  useEffect(() => {
+    setError(recipeError);
+  }, [recipeError]);
+
+  const [isStepsPhotoAdded, setStepsPhotoAdded] = useState([false]);
+
+  const [error, setError] = useState('');
+
+  const hiddenFileInput = useRef(null);
+  const instructionFileInput = useRef([]);
+
+  const [addBorder, setAddBorder] = useState(false);
+  const [sameValueIndex, setSameValueIndex] = useState('');
+
+  const [updateRecipeDoneMsg, setUpdateRecipeDoneMsg] = useState(false);
+  const [deleteRecipeMsg, setDeleteRecipeMsg] = useState(false);
+  const [disablePrompt, setDisablePrompt] = useState(false);
+
+  const [recipename, setRecipeName] = useState('');
   const [mainPhoto, setMainPhoto] = useState('');
   const [isMainPhotoAdded, setIsMainPhotoAdded] = useState(false);
   const [time, setTime] = useState(0);
@@ -41,26 +50,56 @@ const CreateRecipePage = () => {
     { id: '1', stepImage: '', description: '' },
   ]);
   const [category, setCategory] = useState('');
-  const [isStepsPhotoAdded, setStepsPhotoAdded] = useState([false]);
 
-  const [error, setError] = useState('');
-  const [showRecipeWarningMsg, setShowRecipeWarningMsg] = useState(false);
+  useEffect(() => {
+    if (recipe) {
+      const {
+        time,
+        tags,
+        steps,
+        size,
+        recipeName,
+        option,
+        ingredient,
+        categoriesId,
+        recipeImage,
+      } = recipe;
+      setRecipeName(recipeName);
+      if (recipeImage) {
+        setMainPhoto(recipeImage);
+        setIsMainPhotoAdded(true);
+      }
+      setTime(time);
+      const allTags = tags.map((tag) => {
+        return tag.tagName;
+      });
+      setTags(allTags);
+      setServings(size);
+      setOption(option?.sort);
+      setIngredients(ingredient);
+      const stephotoAdd = steps.map((step, i) =>
+        step.stepImage !== '' ? true : false
+      );
+      const allSteps = steps.map((step) => {
+        return {
+          id: step.order.toString(),
+          description: step.description,
+          stepImage: step.stepImage || '',
+        };
+      });
+      setStepsPhotoAdded(stephotoAdd);
+      setSteps(allSteps);
+      setCategory(categoriesId[0].categoriesName);
+    }
 
-  const hiddenFileInput = useRef(null);
-  const instructionFileInput = useRef([]);
-
-  const [addBorder, setAddBorder] = useState(false);
-  const [sameValueIndex, setSameValueIndex] = useState('');
-
-  const [createRecipeDoneMsg, setCreateRecipeDoneMsg] = useState(false);
-  const [saveRecipeDoneMsg, setSaveRecipeDoneMsg] = useState(false);
-  const [disablePrompt, setDisablePrompt] = useState(false);
+    // eslint-disable-next-line
+  }, []);
 
   usePrompt(
     'Are you sure you want to leave this page? You have unsaved changes.',
     !disablePrompt &&
-      !createRecipeDoneMsg &&
-      (recipeName !== '' ||
+      !updateRecipeDoneMsg &&
+      (recipename !== '' ||
         mainPhoto !== '' ||
         time !== 0 ||
         tags.length !== 0 ||
@@ -101,46 +140,6 @@ const CreateRecipePage = () => {
     setAddBorder(false);
   };
 
-  const recipeError = useSelector((state) => state.recipes.error);
-  const isLoading = useSelector((state) => state.recipes.loading);
-
-  useEffect(() => {
-    if (state) {
-      const localRecipe = JSON.parse(state);
-      const {
-        recipeName,
-        recipeImage,
-        size,
-        option,
-        time,
-        categoryName,
-        tags,
-        ingredient,
-        step,
-      } = localRecipe;
-      setRecipeName(recipeName);
-      if (recipeImage) setIsMainPhotoAdded(true);
-      setMainPhoto(recipeImage);
-      setServings(size);
-      setOption(option);
-      setTime(time);
-      setCategory(categoryName);
-      setTags(tags);
-      setIngredients(ingredient);
-      const stephotoAdd = step.map((st, i) =>
-        st.stepImage !== '' ? true : false
-      );
-      setStepsPhotoAdded(stephotoAdd);
-      setSteps(step);
-      localStorage.removeItem('recipe');
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    setError(recipeError);
-  }, [recipeError]);
-
   const handleEditMainBtn = (e) => {
     hiddenFileInput.current.click();
   };
@@ -148,7 +147,6 @@ const CreateRecipePage = () => {
   const handleMainPhoto = (e) => {
     setIsMainPhotoAdded(true);
     const file = e.target.files[0];
-    formData.append('images', file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -277,7 +275,7 @@ const CreateRecipePage = () => {
   };
 
   const checkInputs = () => {
-    if (!recipeName) {
+    if (!recipename) {
       setError('Please enter recipe name.');
       return false;
     }
@@ -304,67 +302,36 @@ const CreateRecipePage = () => {
     return true;
   };
 
-  const saveRecipe = async () => {
-    console.log('saving recipe...');
-    const recipe = localStorage.getItem('recipe');
-    if (recipe) {
-      setShowRecipeWarningMsg(true);
-      return;
-    }
-    dispatch(
-      saveRecipeToLocal({
-        recipeName: recipeName,
-        time: Number(time),
-        option: option,
-        ingredient: ingredients,
-        categoryName: category,
-        size: Number(servings),
-        step: steps,
-        tags: tags,
-        recipeImage: mainPhoto,
-      })
-    );
-    setSaveRecipeDoneMsg(true);
-    setDisablePrompt(true);
-    setTimeout(() => {
-      setSaveRecipeDoneMsg(false);
-    }, 2000);
-  };
+  console.log('steps', steps);
 
-  const submitRecipe = async () => {
-    console.log('submitting recipe...');
+  const updateRecipe = async () => {
+    console.log('updating recipe...');
     if (!checkInputs()) {
       return;
     }
-
-    dispatch(
-      createRecipe({
-        recipeName: recipeName,
-        time: Number(time),
-        option: option,
-        ingredient: ingredients,
-        categoriesName: category,
-        size: Number(servings),
-        step: steps,
-        tags: tags,
-        recipeImage: mainPhoto,
-      })
-    );
+    //add dispatch update recipe action function here
     if (recipeError) {
       setError(recipeError);
       return;
     } else {
-      setCreateRecipeDoneMsg(true);
+      setUpdateRecipeDoneMsg(true);
       setDisablePrompt(true);
       setTimeout(() => {
-        setCreateRecipeDoneMsg(false);
-        navigate('/');
+        setUpdateRecipeDoneMsg(false);
+        navigate(-1);
       }, 2000);
     }
   };
 
-  const handleCloseWarningMsg = () => {
-    setShowRecipeWarningMsg(false);
+  const deleteRecipe = () => {
+    console.log('deleting recipe...');
+    //add dispatch delete recipe action function here
+    setDeleteRecipeMsg(true);
+    setDisablePrompt(true);
+    setTimeout(() => {
+      setDeleteRecipeMsg(false);
+      navigate(-1);
+    }, 2000);
   };
 
   const showErrorMessage = (
@@ -381,62 +348,30 @@ const CreateRecipePage = () => {
     </Alert>
   );
 
-  const showCreateRecipeDoneMsg = (
+  const showUpdateRecipeDoneMsg = (
     <Alert
       severity='success'
       color='info'
       className='CreateRecipe-createRecipeDoneMsg'>
-      Recipe created successfully!
+      Recipe updated successfully!
     </Alert>
   );
 
-  const showSaveRecipeDoneMsg = (
+  const showDeleteRecipeMsg = (
     <Alert
       severity='success'
       color='info'
       className='CreateRecipe-createRecipeDoneMsg'>
-      Recipe saved successfully!
+      Recipe deleted successfully!
     </Alert>
   );
 
   return (
     <>
-      {!isLoading && createRecipeDoneMsg ? showCreateRecipeDoneMsg : ''}
-      {saveRecipeDoneMsg && showSaveRecipeDoneMsg}
+      {!isLoading && updateRecipeDoneMsg ? showUpdateRecipeDoneMsg : ''}
+      {!isLoading && deleteRecipeMsg ? showDeleteRecipeMsg : ''}
       <Navbar />
       {error && showErrorMessage}
-      {showRecipeWarningMsg && (
-        <>
-          <Dialog
-            open={showRecipeWarningMsg}
-            onClose={handleCloseWarningMsg}
-            aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'>
-            <DialogTitle id='alert-dialog-title'>
-              {'You already have one recipe saved.'}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-description'>
-                Would you like to replace with current recipe? Your old recipe
-                will be deleted.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseWarningMsg} autoFocus>
-                Nevermind
-              </Button>
-              <Button
-                onClick={() => {
-                  localStorage.removeItem('recipe');
-                  handleCloseWarningMsg();
-                  saveRecipe();
-                }}>
-                Yes, Continue!
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
       {isLoading ? (
         <div className='CreateRecipe-spinnerContainer'>
           <div>
@@ -459,7 +394,7 @@ const CreateRecipePage = () => {
             mainPhoto={mainPhoto}
             removePhoto={removePhoto}
             handleMainPhoto={handleMainPhoto}
-            recipeName={recipeName}
+            recipeName={recipename}
             onRecipeNameChange={onRecipeNameChange}
             onChangeRecipeName={(recipeName) => setRecipeName(recipeName)}
             onTagsChange={(tag) => setTags(tag)}
@@ -491,11 +426,11 @@ const CreateRecipePage = () => {
             addInstruction={addInstruction}
           />
           <div className='CreateRecipe-submitBtnContainer'>
-            <button className='CreateRecipe-saveBtn' onClick={saveRecipe}>
-              Save
+            <button className='CreateRecipe-deleteBtn' onClick={deleteRecipe}>
+              Delete
             </button>
-            <button className='CreateRecipe-postBtn' onClick={submitRecipe}>
-              Post
+            <button className='CreateRecipe-postBtn' onClick={updateRecipe}>
+              Update
             </button>
           </div>
         </>
@@ -504,4 +439,4 @@ const CreateRecipePage = () => {
   );
 };
 
-export default CreateRecipePage;
+export default EditRecipePage;

@@ -7,19 +7,13 @@ const initialState = {
   isAuthenticated: false,
   userInfo: {},
   error: '',
-  isRemember: false,
   token: sessionStorage.getItem('token') || localStorage.getItem('token'),
-  recipes: [],
-  likes: [],
 };
 
 const usersSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateIsRemember(state, action) {
-      state.isRemember = action.payload;
-    },
     userLoginLoading(state, action) {
       state.loading = true;
     },
@@ -39,14 +33,15 @@ const usersSlice = createSlice({
       state.error = null;
       state.isRemember = false;
       state.isAuthenticated = false;
-      state.bio = {};
     },
     userRegisterLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userRegisterSuccess(state, action) {
       state.loading = false;
       state.userInfo = action.payload;
+      state.error = null;
     },
     userRegisterFailure(state, action) {
       state.loading = false;
@@ -54,10 +49,12 @@ const usersSlice = createSlice({
     },
     userUpdateLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
     userUpdateSuccess(state, action) {
       state.loading = false;
       state.bio = action.payload;
+      state.error = null;
     },
     userUpdateFailure(state, action) {
       state.loading = false;
@@ -73,31 +70,18 @@ const usersSlice = createSlice({
       state.userInfo = {};
       state.token = '';
     },
-    saveRecipe(state, action) {
-      state.recipe = action.payload;
+    updateToken(state, action) {
+      state.token = action.payload;
     },
-    resetRecipe(state, action) {
-      state.recipe = {};
-    },
-    userGetRecipesLoading(state, action) {
+    getLatestUserInfoLoading(state, action) {
       state.loading = true;
+      state.error = null;
     },
-    userGetRecipesSuccess(state, action) {
+    getLatestUserInfoSuccess(state, action) {
       state.loading = false;
-      state.recipes = [...state.recipes, action.payload];
+      state.userInfo = action.payload;
     },
-    userGetRecipesFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    userGetLikesLoading(state, action) {
-      state.loading = true;
-    },
-    userGetLikesSuccess(state, action) {
-      state.loading = false;
-      state.likes = [...state.likes, action.payload];
-    },
-    userGetLikesFailure(state, action) {
+    getLatestUserInfoFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -115,17 +99,12 @@ export const {
   userUpdateLoading,
   userUpdateSuccess,
   userUpdateFailure,
-  updateIsRemember,
   userLoaded,
   userLoadedError,
-  saveRecipe,
-  resetRecipe,
-  userGetRecipesLoading,
-  userGetRecipesSuccess,
-  userGetRecipesFailure,
-  userGetLikesLoading,
-  userGetLikesSuccess,
-  userGetLikesFailure,
+  updateToken,
+  getLatestUserInfoLoading,
+  getLatestUserInfoSuccess,
+  getLatestUserInfoFailure,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -148,13 +127,14 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
     );
 
     dispatch(userLoginSuccess(data));
+    dispatch(loadUser());
 
     // store the token in localStorage if checkbox is ticked
     if (isRemember) {
-      dispatch(updateIsRemember(true));
+      localStorage.setItem('remember', true);
       localStorage.setItem('token', data.token);
     } else {
-      dispatch(updateIsRemember(false));
+      localStorage.setItem('remember', false);
       sessionStorage.setItem('token', data.token);
     }
   } catch (error) {
@@ -172,7 +152,6 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   sessionStorage.removeItem('token');
   dispatch(userLogout());
-  dispatch(updateIsRemember(false));
   document.location.href = '/login';
 };
 
@@ -195,8 +174,8 @@ export const registerUser =
 
       dispatch(userRegisterSuccess(data));
       dispatch(userLoginSuccess(data));
-      dispatch(updateIsRemember(false));
 
+      localStorage.setItem('remember', true);
       localStorage.removeItem('token');
       sessionStorage.setItem('token', data.token);
     } catch (error) {
@@ -216,8 +195,19 @@ export const loadUser = () => async (dispatch) => {
     dispatch(userLoaded(res.data));
   } catch (error) {
     dispatch(userLoadedError());
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('token');
+  }
+};
+
+export const getLatestUserInfo = (userInfo) => async (dispatch) => {
+  try {
+    dispatch(getLatestUserInfoLoading());
+    dispatch(getLatestUserInfoSuccess(userInfo));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(getLatestUserInfoFailure(message));
   }
 };
 
@@ -226,7 +216,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateLoading());
 
     const {
-      users: { userInfo, isRemember, token },
+      user: { token },
     } = getState();
 
     const config = {
@@ -236,70 +226,39 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/users/${userInfo._id}`,
-      user,
-      config
-    );
+    const { data } = await api.put('/api/users/', user, config);
 
     dispatch(userUpdateSuccess(data));
-    dispatch(userLoginSuccess(data));
-    if (isRemember) {
-      localStorage.setItem('token', data.token);
-    } else {
-      sessionStorage.setItem('token', data.token);
-    }
+    dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout());
-    }
     dispatch(userUpdateFailure(message));
   }
 };
 
 export const saveRecipeToLocal = (recipe) => async (dispatch, getState) => {
-  dispatch(saveRecipe(recipe));
   localStorage.setItem('recipe', JSON.stringify(recipe));
 };
 
 export const resetRecipeLocal = () => async (dispatch, getState) => {
-  dispatch(resetRecipe());
+  localStorage.removeItem('recipe');
 };
 
-export const getUserRecipes = (recipeId) => async (dispatch, getState) => {
+export const getRefreshToken = () => async (dispatch) => {
   try {
-    dispatch(userGetRecipesLoading());
-
-    const { data } = await api.get(`/api/recipes/${recipeId}`);
-    dispatch(userGetRecipesSuccess(data));
+    const res = await axios.get('api/auth/token');
+    const { token } = res.data;
+    dispatch(updateToken(token));
+    const isRemember = localStorage.getItem('remember');
+    if (isRemember) {
+      localStorage.setItem('token', token);
+    } else {
+      sessionStorage.setItem('token', token);
+    }
   } catch (error) {
-    dispatch(
-      userGetRecipesFailure(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    );
-  }
-};
-
-export const getUserLikes = (recipeId) => async (dispatch, getState) => {
-  try {
-    dispatch(userGetLikesLoading());
-
-    const { data } = await api.get(`/api/recipes/${recipeId}`);
-    dispatch(userGetLikesSuccess(data));
-  } catch (error) {
-    dispatch(
-      userGetLikesFailure(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    );
+    dispatch(logout());
   }
 };

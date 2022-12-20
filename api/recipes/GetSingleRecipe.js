@@ -4,7 +4,7 @@ const GetSingleRecipe = async (req, res) => {
     const Id = req.params.recipeId;
     const recipe = await Recipe.findById(Id)
       .select('-userLike -createdAt -updatedAt -__v')
-      .populate('userId', 'name -_id')
+      .populate('userId', 'name profileImage _id')
       .populate('categoriesId', 'categoriesName -_id')
       .populate('option', 'sort -_id')
       .populate('tags', 'tagName -_id');

@@ -4,44 +4,61 @@ import './SearchPage.css';
 import heart from '../images/Heart.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import res from '../utils/mockData';
+import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
+import api from '../utils/api';
 
 export const SearchPage = (props) => {
   const pageSize = 7;
   const { state } = useLocation();
-  const [filteredList, setFilteredList] = useState([]);
   const [currentPage, setCurrentPage] = useState(pageSize);
   const [currentView, setCurrentView] = useState([]);
   const [hasMode, setHasMode] = useState(true);
-
+  const [reqData, setReqData] = useState([]);
+  const currentUser = useSelector((state) => state.user);
 
   useEffect(() => {
-    setFilteredList(item)
-    setCurrentView(item.slice(0, pageSize));
+    ReqDataWithToken(state);
   }, [state]);
-  
-  
-  //filter the keywords
-  let item = res.filter((card) => card.caption.includes(state));
+
+  const ReqDataWithToken = async (req) => {
+    const res = await api.get(`/api/recipes/search?name=${req}`, {
+      headers: {
+        Authorization: `Bearer ${currentUser.token}`,
+      },
+    });
+
+    try {
+      // console.log('res', res.data);
+
+      //checking the result vlues is existing in the database. if Not, just continue.
+      if (res.data !== 'There is no searching result') {
+        setReqData(res.data.recipes);
+        setCurrentView(res.data.recipes.slice(0, pageSize));
+      }
+    } catch (error) {
+      console.log('Error code ' + error);
+    }
+  };
 
   //function for bring the next data from the reuslt
   const fetchMoreData = () => {
-    if (currentView.length >= filteredList.length) {
+    if (currentView.length >= reqData.length) {
       setHasMode(false);
       return;
     }
     //this two function have to be inside of a callback function, so will proejct to render at once.
     setTimeout(() => {
       setCurrentView(
-        currentView.concat(filteredList.slice(currentPage, currentPage + pageSize))
+        currentView.concat(reqData.slice(currentPage, currentPage + pageSize))
       );
       setCurrentPage((prev) => prev + 7);
     }, 1000);
   };
 
+  //have to be fix in the future, cuz sorting entire currentView.
   const handleLatestButton = (list) => {
-
     const temp = [...list];
     setCurrentView(temp.sort((a, b) => b.heart - a.heart));
   };
@@ -50,35 +67,36 @@ export const SearchPage = (props) => {
     let eachItem = item.item;
     return (
       <>
-        <h5>{eachItem.caption}</h5>
+        <h5>{eachItem.recipeName}</h5>
         <div className='search-title'>
           <p style={{ alignItems: 'center', display: 'flex' }}>
             <img src={heart} alt=''></img>
-            {eachItem.heart}
+            {eachItem.likeCount}
           </p>
-          <p>{eachItem.user}</p>
+          {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
         </div>
       </>
     );
   };
 
-  const itemRender = (filteredList) => {
+  const ItemRender = ({ filteredList }) => {
     if (filteredList.length === 0) {
-      return
+      return;
     }
     return (
       <InfiniteScroll
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{display:'flex', flexWrap: 'wrap'}}
+        style={{ display: 'flex', flexWrap: 'wrap' }}
       >
         {currentView.map((e, index) => (
           <ImageListItem key={index} className='search-card'>
             <img
-              src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={e.caption}
+              src={tempFood}
+              // src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
+              // srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={index}
               loading='lazy'
             />
             <ImageListItemBar position='below' title={<Card item={e} />} />
@@ -95,24 +113,31 @@ export const SearchPage = (props) => {
         <div className='button-container'>
           <button
             className='searchPage-button'
-            onClick={() => setCurrentView([...filteredList])}
+            onClick={() =>
+              //have to fix the button
+              setCurrentView([...reqData.slice(0, currentPage + pageSize)])
+            }
           >
             Latest
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleLatestButton(item)}
+            onClick={() => handleLatestButton(reqData)}
           >
             Most View
           </button>
         </div>
         <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-            {itemRender(filteredList)}
+            <ItemRender filteredList={reqData} />
           </ImageList>
-          {currentView.length === filteredList.length ? (
-            <h3 style={{margin: "10px 120px"}}>Nothing More </h3> 
-          ) : <h3 className='search-tag'>Loading More...</h3>}
+          {currentView.length === reqData.length ? (
+            <h3 style={{ margin: '10px 120px' }}>
+              Nothing More! or No result!{' '}
+            </h3>
+          ) : (
+            <h3 className='search-tag'>Loading More...</h3>
+          )}
         </div>
       </div>
     </div>
