@@ -7,9 +7,10 @@ import { useLocation } from 'react-router-dom';
 import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
-import api from '../utils/api';
+// import api from '../utils/api';
 import gif from "../images/pusheen-eating-icegif.gif"
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const SearchPage = (props) => {
   const pageSize = 7;
@@ -24,9 +25,9 @@ export const SearchPage = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (String(currentUser.token) === "null") {
-      navigate('/login');
-    }
+    // if (String(currentUser.token) === "") {
+    //   navigate('/login');
+    // }
     ReqDataWithToken(state);
   }, [state]);
 
@@ -36,7 +37,7 @@ export const SearchPage = (props) => {
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
-    const res = await api.get(`/api/recipes/search?name=${req}`, {
+    const res = await axios.get(`/api/recipes/search?name=${req}`, {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,
       },

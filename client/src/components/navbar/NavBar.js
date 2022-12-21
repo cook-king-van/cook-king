@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../images/logo.png';
 import './NavBar.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import {
   Dialog,
@@ -10,23 +11,50 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Menu,
+  MenuItem,
+  Fade,
 } from '@mui/material';
 
 const NavBar = (props) => {
   const { searchItem } = props;
   const [value, setValue] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const navigate = useNavigate();
-
+  const [cateogriesList, setCategoriesList] = useState([]);
 
   const [showLocalRecipeWarning, setShowLocalRecipeWarning] = useState(false);
   const handleCloseWarningMsg = () => {
     setShowLocalRecipeWarning(false);
   };
 
+  useEffect(() => {
+    // console.log(currentUser.token);
+    ReqCategories();
+    // eachData();
+  }, []);
+
+  const ReqCategories = async () => {
+    try {
+      const res = await axios.get('/api/recipes/categories');
+      console.log(res.data);
+      setCategoriesList(res.data);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   const onFormSubmit = (e) => {
     e.preventDefault();
-    
-  }
+  };
+
+  const categoryHandleButton = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const categoryHandleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <section className='NavBar-headerContainer'>
@@ -36,7 +64,8 @@ const NavBar = (props) => {
             open={showLocalRecipeWarning}
             onClose={handleCloseWarningMsg}
             aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'>
+            aria-describedby='alert-dialog-description'
+          >
             <DialogTitle id='alert-dialog-title'>
               {'You have one recipe saved.'}
             </DialogTitle>
@@ -52,7 +81,8 @@ const NavBar = (props) => {
                   handleCloseWarningMsg();
                   localStorage.removeItem('recipe');
                 }}
-                autoFocus>
+                autoFocus
+              >
                 Delete my saved recipe
               </Button>
               <Button
@@ -62,7 +92,8 @@ const NavBar = (props) => {
                   navigate('/create-recipe', {
                     state: localRecipe,
                   });
-                }}>
+                }}
+              >
                 Yes, Continue!
               </Button>
             </DialogActions>
@@ -78,9 +109,45 @@ const NavBar = (props) => {
       />
 
       <div className='NavBar-navMid'>
-        <Button variant='text' style={{ color: '#6C5D53' }}>
+        <Button
+          id='fade-button'
+          aria-controls={open ? 'fade-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={categoryHandleButton}
+          style={{ color: '#6C5D53' }}
+        >
           Category
+          <i className="fa-solid fa-caret-down"></i>
         </Button>
+        <Menu
+          id='fade-menu'
+          MenuListProps={{
+            'aria-labelledby': 'fade-button',
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={categoryHandleClose}
+          TransitionComponent={Fade}
+        >
+          {cateogriesList.map((item, index) => {
+            if (index === cateogriesList.length -1) {
+              return;
+            }
+            // console.log(item);
+            return (
+              <MenuItem
+                key={index}
+                onClick={() =>
+                  navigate(`/search?category=${item.categoriesName}`)
+                }
+                style={{ color: '#6C5D53',  }}
+              >
+                {item.categoriesName.toUpperCase()}
+              </MenuItem>
+            );
+          })}
+        </Menu>
         <form className='NavBar-searchBar' onSubmit={onFormSubmit}>
           <input
             type='text'
@@ -113,7 +180,8 @@ const NavBar = (props) => {
             } else {
               navigate('/create-recipe');
             }
-          }}>
+          }}
+        >
           {
             <i className='fa-sharp fa-solid NavBar-fa-white fa-pencil fa-2xl'></i>
           }
@@ -122,7 +190,8 @@ const NavBar = (props) => {
           className='NavBar-buttonIcon'
           onClick={() => {
             navigate('/profile');
-          }}>
+          }}
+        >
           <i className='fa-solid NavBar-fa-white fa-user fa-2xl'></i>
         </button>
       </div>

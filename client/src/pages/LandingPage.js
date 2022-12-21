@@ -15,7 +15,6 @@ const LandingPage = () => {
   useEffect(() => {
     console.log(currentUser.token);
     ReqDataWithToken();
-    // eachData();
   }, []);
 
   const ReqDataWithToken = async () => {

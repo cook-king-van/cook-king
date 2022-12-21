@@ -12,11 +12,14 @@ const MainList = ({ title, DataType }) => {
   const navigate = useNavigate();
   //mock data
   const slideData = DataType.map((item) => {
-    return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: item.recipeImage ? item.recipeImage : tempFood };
-    })
-    console.log(slideData)
-    
-    
+    return {
+      caption: item.recipeName,
+      heart: item.likeCount,
+      user: item.userId,
+      url: item.recipeImage ? item.recipeImage : tempFood,
+    };
+  });
+  console.log(slideData);
 
   const responsive = {
     superLargeDesktop: {
@@ -51,7 +54,7 @@ const MainList = ({ title, DataType }) => {
   //entire slideContainer
   const SlideCreator = () => {
     //each of the slide card
-    const SlideCard = ({image, description}) => {
+    const SlideCard = ({ image, description }) => {
       return (
         <div className='MainList-item'>
           <Image
@@ -63,10 +66,10 @@ const MainList = ({ title, DataType }) => {
           <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
-            <img src={heartImg} alt=''></img>
+              <img src={heartImg} alt=''></img>
               {image.heart}
             </p>
-            <p>{image.user ? image.user.name : "No name"}</p>
+            <p>{image.user ? image.user.name : 'No name'}</p>
           </div>
         </div>
       );
@@ -101,7 +104,12 @@ const MainList = ({ title, DataType }) => {
             className="MainList-plus"
             // key={image.caption}
           /> */}
-<i className="fa-solid fa-circle-plus fa-2xl" onClick={() => {navigate(`/search?option=${title}`)}}></i>
+        <i
+          className='fa-solid fa-circle-plus fa-2xl'
+          onClick={() => {
+            navigate(`/search?option=${title}`);
+          }}
+        ></i>
       </Carousel>
     );
   };
