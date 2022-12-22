@@ -18,6 +18,7 @@ import RecipeDetailHeader from '../components/RecipeDetailHeader';
 import RecipeDetailIngredients from '../components/RecipeDetail/RecipeDetailIngredients';
 import RecipeDetailSteps from '../components/RecipeDetailSteps';
 import RecipeDetailAuthor from '../components/RecipeDetailAuthor';
+import RecipeDetailTags from '../components/RecipeDetailTags';
 
 const RecipeDetailPage = () => {
   const { id } = useParams();
@@ -144,6 +145,9 @@ const RecipeDetailPage = () => {
         loginAlert={loginAlert}
         size={size}
         time={time}
+        tags={tags}
+        option={option}
+        categoriesId={categoriesId}
       />
       <RecipeDetailIngredients
         ingredient={ingredient}
@@ -164,6 +168,7 @@ const RecipeDetailPage = () => {
         tabView3={tabView3}
         steps={steps}
       />
+      <RecipeDetailTags tags={tags} />
       <RecipeDetailAuthor
         userId={userId}
         recipes={recipes}

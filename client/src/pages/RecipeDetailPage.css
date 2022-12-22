@@ -169,6 +169,54 @@
   margin-top: 50px;
 }
 
+.RecipeDetail-tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.RecipeDetail-tag {
+  background-color: rgba(156, 179, 149, 0.6);
+  display: inline-block;
+  padding: 0.4rem 0.55rem;
+  border-radius: 20px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.RecipeDetail-optionCategoryContainer {
+  display: flex;
+}
+
+.RecipeDetail-option {
+  color: var(--darkGrayColor);
+  font-size: 18px;
+  margin-left: -10px;
+  margin-top: 5px;
+}
+
+.RecipeDetail-category {
+  color: var(--darkGrayColor);
+  font-size: 18px;
+  margin-left: -5px;
+  margin-top: 5px;
+}
+
+.RecipeDetail-utensilsIcon {
+  color: var(--darkGrayColor);
+}
+
+.RecipeDetail-globeIcon {
+  color: var(--darkGrayColor);
+}
+
+/* Tags */
+.RecipeDetail-tagTitle {
+  font-size: 23px;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
 /* Ingredients */
 .RecipeDetail-ingredientContainer {
   display: flex;
