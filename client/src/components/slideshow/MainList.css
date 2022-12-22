@@ -53,6 +53,7 @@
 }
 .MainList-reactMultiCarouselList{
   position: unset !important;
+  height: 380px;
 }
 
 .MainList-custom-right-arrow {

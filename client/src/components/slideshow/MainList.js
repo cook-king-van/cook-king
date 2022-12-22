@@ -16,7 +16,7 @@ const MainList = ({ title, DataType }) => {
       caption: item.recipeName,
       heart: item.likeCount,
       user: item.userId,
-      url: item.recipeImage ? item.recipeImage : tempFood,
+      url: item.recipeImage ?? tempFood,
     };
   });
   console.log(slideData);
@@ -69,7 +69,7 @@ const MainList = ({ title, DataType }) => {
               <img src={heartImg} alt=''></img>
               {image.heart}
             </p>
-            <p>{image.user ? image.user.name : 'No name'}</p>
+            <p>{image.user.name ?? 'No name'}</p>
           </div>
         </div>
       );
