@@ -98,18 +98,28 @@ const MainList = ({ title, DataType }) => {
             />
           );
         })}
-        {/* <Image
-            draggable={false}
-            src={plus}
-            className="MainList-plus"
-            // key={image.caption}
-          /> */}
-        <i
+        {slideData.length === 0 ? (
+          <i
+            className='fa-solid fa-circle-plus fa-2xl'
+            id='zeroLength'
+            onClick={() => {
+              navigate(`/search?option=${title}`);
+            }}
+          ></i>
+        ) : (
+          <i
+            className='fa-solid fa-circle-plus fa-2xl'
+            onClick={() => {
+              navigate(`/search?option=${title}`);
+            }}
+          ></i>
+        )}
+        {/* <i
           className='fa-solid fa-circle-plus fa-2xl'
           onClick={() => {
             navigate(`/search?option=${title}`);
           }}
-        ></i>
+        ></i> */}
       </Carousel>
     );
   };
