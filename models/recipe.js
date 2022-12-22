@@ -39,12 +39,10 @@ const recipes = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  categoriesId: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Categories',
-    },
-  ], //N:M relation
+  categoriesId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Categories',
+  },
   recipeName: {
     type: String,
     required: true,
