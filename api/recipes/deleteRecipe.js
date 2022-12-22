@@ -13,7 +13,7 @@ const DeleteRecipe = async (req, res) => {
     // Removing recipe id from categories
     await categories.Categories.findByIdAndUpdate(categoryId, {
       $pull: {
-        recipeId: recipeId,
+        recipeList: recipeId,
       },
     });
 
@@ -32,6 +32,7 @@ const DeleteRecipe = async (req, res) => {
             recipeId: recipeId,
           },
         });
+        // if tag is empty after deleting recipe id, then remove that tag.
       });
     }
 
@@ -50,7 +51,7 @@ const DeleteRecipe = async (req, res) => {
     if (!recipes) {
       return res.status(400).send(`There is no recipe`);
     }
-    return res.send(`Recipe deleted`);
+    return res.send(recipeId);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
