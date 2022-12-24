@@ -7,7 +7,11 @@ import { useLocation } from 'react-router-dom';
 import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
-import api from '../utils/api';
+// import api from '../utils/api';
+import gif from "../images/pusheen-eating-icegif.gif"
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Spinner from '../components/Spinner';
 
 export const SearchPage = (props) => {
   const pageSize = 7;
@@ -17,20 +21,31 @@ export const SearchPage = (props) => {
   const [hasMode, setHasMode] = useState(true);
   const [reqData, setReqData] = useState([]);
   const currentUser = useSelector((state) => state.user);
+  const [Loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // if (String(currentUser.token) === "") {
+    //   navigate('/login');
+    // }
     ReqDataWithToken(state);
   }, [state]);
 
+  useEffect(() => {
+    console.log(Loading);
+  }, [Loading]);
+
   const ReqDataWithToken = async (req) => {
-    const res = await api.get(`/api/recipes/search?name=${req}`, {
+    setLoading(true);
+    const res = await axios.get(`/api/recipes/search?name=${req}`, {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,
       },
     });
 
     try {
-      // console.log('res', res.data);
+      console.log('res', res.data);
 
       //checking the result vlues is existing in the database. if Not, just continue.
       if (res.data !== 'There is no searching result') {
@@ -40,6 +55,7 @@ export const SearchPage = (props) => {
     } catch (error) {
       console.log('Error code ' + error);
     }
+    setLoading(false);
   };
 
   //function for bring the next data from the reuslt
@@ -57,10 +73,11 @@ export const SearchPage = (props) => {
     }, 1000);
   };
 
-  //have to be fix in the future, cuz sorting entire currentView.
-  const handleLatestButton = (list) => {
+
+  const handleButtonEvent = (list, type) => {
     const temp = [...list];
-    setCurrentView(temp.sort((a, b) => b.heart - a.heart));
+    console.log(temp)
+    setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
   const Card = (item) => {
@@ -122,23 +139,29 @@ export const SearchPage = (props) => {
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleLatestButton(reqData)}
+            onClick={() => handleButtonEvent(reqData, "likeCount")}
           >
             Most View
           </button>
-        </div>
-        <div className='search-container'>
+          <button
+            className='searchPage-button'
+            onClick={() => handleButtonEvent(reqData, "CookingTime")}
+          >
+            Cooking Time
+          </button>
+        </div >
+        {Loading === true ? <div className='search-loading'><Spinner /></div> : <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             <ItemRender filteredList={reqData} />
           </ImageList>
           {currentView.length === reqData.length ? (
             <h3 style={{ margin: '10px 120px' }}>
-              Nothing More! or No result!{' '}
+              Nothing More! or No result!
             </h3>
           ) : (
             <h3 className='search-tag'>Loading More...</h3>
           )}
-        </div>
+        </div>}
       </div>
     </div>
   );

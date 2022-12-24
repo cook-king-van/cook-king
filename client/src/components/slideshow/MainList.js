@@ -5,20 +5,27 @@ import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'semantic-ui-react';
 import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
+import plus from '../../images/Plus.png';
+import { useNavigate } from 'react-router-dom';
 
 const MainList = ({ title, DataType }) => {
+  const navigate = useNavigate();
   //mock data
   const slideData = DataType.map((item) => {
-    return { caption: item.recipeName, heart: item.likeCount, user: item.userId, url: item.recipeImage ? item.recipeImage : tempFood };
-    })
-    
-    
+    return {
+      caption: item.recipeName,
+      heart: item.likeCount,
+      user: item.userId,
+      url: item.recipeImage ?? tempFood,
+    };
+  });
+  console.log(slideData);
 
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 5,
+      items: 4,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -47,7 +54,7 @@ const MainList = ({ title, DataType }) => {
   //entire slideContainer
   const SlideCreator = () => {
     //each of the slide card
-    const SlideCard = ({image, description}) => {
+    const SlideCard = ({ image, description }) => {
       return (
         <div className='MainList-item'>
           <Image
@@ -59,10 +66,10 @@ const MainList = ({ title, DataType }) => {
           <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
             <p style={{ alignItems: 'center', display: 'flex' }}>
-            <img src={heartImg} alt=''></img>
+              <img src={heartImg} alt=''></img>
               {image.heart}
             </p>
-            <p>{image.user ? image.user.name : "No name"}</p>
+            <p>{image.user.name ?? 'No name'}</p>
           </div>
         </div>
       );
@@ -80,7 +87,7 @@ const MainList = ({ title, DataType }) => {
         customRightArrow={<CustomRightArrow />}
         draggable={false}
       >
-        {slideData.slice(0, slideData.length).map((image) => {
+        {slideData.map((image) => {
           return (
             <SlideCard
               image={image}
@@ -91,6 +98,28 @@ const MainList = ({ title, DataType }) => {
             />
           );
         })}
+        {slideData.length === 0 ? (
+          <i
+            className='fa-solid fa-circle-plus fa-2xl'
+            id='zeroLength'
+            onClick={() => {
+              navigate(`/search?option=${title}`);
+            }}
+          ></i>
+        ) : (
+          <i
+            className='fa-solid fa-circle-plus fa-2xl'
+            onClick={() => {
+              navigate(`/search?option=${title}`);
+            }}
+          ></i>
+        )}
+        {/* <i
+          className='fa-solid fa-circle-plus fa-2xl'
+          onClick={() => {
+            navigate(`/search?option=${title}`);
+          }}
+        ></i> */}
       </Carousel>
     );
   };

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import NavBar from '../components/navbar/NavBar';
 import MainList from '../components/slideshow/MainList';
@@ -9,35 +8,34 @@ import api from '../utils/api';
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.user);
   const [Best, setBest] = useState([]);
-  const [branch, setBranch] = useState([]);
+  const [brunch, setbrunch] = useState([]);
   const [snack, setSnack] = useState([]);
 
   useEffect(() => {
     console.log(currentUser.token);
     ReqDataWithToken();
-    // eachData();
   }, []);
 
   const ReqDataWithToken = async () => {
     try {
-      const res = await axios.get('/api/recipes/landing')
-        setBranch(res.data.brunch)
-      setBest(res.data.best)
-      setSnack(res.data.snack);
+      const res = await axios.get('/api/recipes/landing');
+      const { brunch, best, snack } = res.data;
+      setbrunch(brunch);
+      setBest(best);
+      setSnack(snack);
     } catch (error) {
-        console.log("error", error)
+      console.log('error', error);
     }
   };
-
 
   return (
     <section>
       <NavBar />
 
       <div>
-        <MainList title="Today's Best" DataType = {Best} />
-        <MainList title="Branch" DataType = {branch} />
-        <MainList title="Snack" DataType = {snack} />
+        <MainList title="Today's Best" DataType={Best} />
+        <MainList title='Brunch' DataType={brunch} />
+        <MainList title='Snack' DataType={snack} />
       </div>
     </section>
   );
