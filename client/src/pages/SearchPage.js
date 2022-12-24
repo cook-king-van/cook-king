@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import gif from "../images/pusheen-eating-icegif.gif"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from '../components/Spinner';
 
 export const SearchPage = (props) => {
   const pageSize = 7;
@@ -148,8 +149,8 @@ export const SearchPage = (props) => {
           >
             Cooking Time
           </button>
-        </div>
-        {Loading === true ? <img src={gif} /> : <div className='search-container'>
+        </div >
+        {Loading === true ? <div className='search-loading'><Spinner /></div> : <div className='search-container'>
           <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
             <ItemRender filteredList={reqData} />
           </ImageList>
