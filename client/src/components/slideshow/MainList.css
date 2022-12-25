@@ -20,12 +20,6 @@
 	flex-direction: column;
 	justify-content: center;
 }
-/* 
-.react-multi-carousel-item {
-  display: flex;
-    align-self: center;
-    justify-content: center;
-} */
 
 
 .MainList-slideContainer {
@@ -48,6 +42,9 @@
   margin: 10px;
 }
 
+.MainList-item:hover {
+  cursor: pointer;
+}
 
 /* they are inside of the Carousel library */
 .MainList-image_item {

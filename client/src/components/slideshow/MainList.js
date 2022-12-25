@@ -17,9 +17,9 @@ const MainList = ({ title, DataType }) => {
       heart: item.likeCount,
       user: item.userId,
       url: item.recipeImage ?? tempFood,
+      id: item._id
     };
   });
-  console.log(slideData);
 
   const responsive = {
     superLargeDesktop: {
@@ -55,8 +55,9 @@ const MainList = ({ title, DataType }) => {
   const SlideCreator = () => {
     //each of the slide card
     const SlideCard = ({ image, description }) => {
+      console.log(image)
       return (
-        <div className='MainList-item'>
+        <div className='MainList-item' onClick={() => {navigate(`/recipe/${image.id}`)}}>
           <Image
             draggable={false}
             style={{ width: '350px', height: '235px' }}

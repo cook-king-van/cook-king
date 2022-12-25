@@ -8,13 +8,13 @@ const GetLanding = async (req, res) => {
       $orderby: { likeCount: -1 },
     })
       .limit(5)
-      .select('recipeName likeCount recipeImage time userId')
+      .select('recipeName likeCount recipeImage time userId _id')
       .populate('userId', 'name -_id');
     const supplyRecipe = await Recipe.find({
       $orderby: { likeCount: -1, createdAt: -1 },
     })
       .limit(5)
-      .select('recipeName likeCount recipeImage time userId')
+      .select('recipeName likeCount recipeImage time userId _id')
       .populate('userId', 'name -_id');
     const best = BestRecipe.concat(supplyRecipe).slice(0, 5);
     const OptionRecipes = await categories.Option.find()
