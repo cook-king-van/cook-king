@@ -152,7 +152,6 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   sessionStorage.removeItem('token');
   dispatch(userLogout());
-  document.location.href = '/login';
 };
 
 export const registerUser =
