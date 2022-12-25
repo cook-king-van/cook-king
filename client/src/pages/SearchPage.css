@@ -23,6 +23,10 @@
   overflow: hidden;
 }
 
+.search-card:hover {
+  cursor: pointer;
+}
+
 .search-title {
   padding: 0;
   margin: 0;

@@ -7,8 +7,6 @@ import { useLocation } from 'react-router-dom';
 import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
-// import api from '../utils/api';
-import gif from "../images/pusheen-eating-icegif.gif"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
@@ -108,11 +106,10 @@ export const SearchPage = (props) => {
         style={{ display: 'flex', flexWrap: 'wrap' }}
       >
         {currentView.map((e, index) => (
-          <ImageListItem key={index} className='search-card'>
+          <ImageListItem key={index} className='search-card' onClick={() => {navigate(`/recipe/${e._id}`)}}>
             <img
-              src={tempFood}
-              // src={`${e.url}?w=164&h=164&fit=crop&auto=format`}
-              // srcSet={`${e.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              src={e.recipeImage}
+              style={{width:"186px", height:"150px"}}
               alt={index}
               loading='lazy'
             />

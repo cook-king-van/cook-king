@@ -17,7 +17,8 @@ const MainList = ({ title, DataType }) => {
       heart: item.likeCount,
       user: item.userId,
       url: item.recipeImage ?? tempFood,
-      id: item._id
+      id: item._id,
+      cookingTime: item.time,
     };
   });
 
@@ -25,7 +26,7 @@ const MainList = ({ title, DataType }) => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 4,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -55,9 +56,14 @@ const MainList = ({ title, DataType }) => {
   const SlideCreator = () => {
     //each of the slide card
     const SlideCard = ({ image, description }) => {
-      console.log(image)
+      console.log(image);
       return (
-        <div className='MainList-item' onClick={() => {navigate(`/recipe/${image.id}`)}}>
+        <div
+          className='MainList-item'
+          onClick={() => {
+            navigate(`/recipe/${image.id}`);
+          }}
+        >
           <Image
             draggable={false}
             style={{ width: '350px', height: '235px' }}
@@ -66,11 +72,24 @@ const MainList = ({ title, DataType }) => {
           />
           <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
-            <p style={{ alignItems: 'center', display: 'flex' }}>
+            <p
+              className='userText'
+              style={{ alignItems: 'center', display: 'flex' }}
+            >
               <img src={heartImg} alt=''></img>
               {image.heart}
             </p>
-            <p>{image.user.name ?? 'No name'}</p>
+            <p
+              className='userText'
+              style={{ alignItems: 'center', display: 'flex' }}
+            >
+              <i
+                className='fa-regular fa-clock fa-xl RecipeDetail-timeIcon'
+                style={{ margin: '0 5px' }}
+              ></i>
+              {image.cookingTime}
+            </p>
+            <p className='userText'>{image.user.name ?? 'No name'}</p>
           </div>
         </div>
       );
@@ -80,6 +99,7 @@ const MainList = ({ title, DataType }) => {
       <Carousel
         ssr
         partialVisible
+        // infinite
         itemClass='MainList-image_item'
         responsive={responsive}
         arrows={true}
@@ -115,12 +135,6 @@ const MainList = ({ title, DataType }) => {
             }}
           ></i>
         )}
-        {/* <i
-          className='fa-solid fa-circle-plus fa-2xl'
-          onClick={() => {
-            navigate(`/search?option=${title}`);
-          }}
-        ></i> */}
       </Carousel>
     );
   };
