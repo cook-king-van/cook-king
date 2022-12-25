@@ -8,7 +8,7 @@ import Navbar from '../components/navbar/NavBar';
 import { Avatar, Alert } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
-import { updateUserProfile } from '../features/users/userSlice';
+import { logout, updateUserProfile } from '../features/users/userSlice';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,10 @@ const UserProfile = () => {
       setCookingList(currentUser?.userInfo?.recipes);
       setLikes(currentUser?.userInfo?.likes);
     }
-  }, [currentUser.userInfo, dispatch]);
+    if (!currentUser?.isAuthenticated) {
+      navigate('/login');
+    }
+  }, [currentUser.userInfo, currentUser?.isAuthenticated, dispatch, navigate]);
 
   useEffect(() => {
     if (isEditProfileName === '') {
@@ -123,6 +126,10 @@ const UserProfile = () => {
     navigate(`/recipe/${recipeId}`);
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   const updateProfileMsg = (
     <Alert
       severity='success'
@@ -185,13 +192,13 @@ const UserProfile = () => {
               <button
                 className='UserProfile-editProfileBtn'
                 onClick={showEditBtns}>
-                Edit
+                E d i t
               </button>
               <button
                 className='UserProfile-saveProfileBtn'
                 disabled={!showUpdate}
                 onClick={handleUpdateProfile}>
-                Save
+                S a v e
               </button>
             </div>
           </div>
@@ -245,6 +252,9 @@ const UserProfile = () => {
                   ))
                 : noRecipeMsg}
             </div>
+            <button className='UserProfile-logoutBtn' onClick={handleLogout}>
+              L o g o u t
+            </button>
           </div>
         </div>
       </div>
