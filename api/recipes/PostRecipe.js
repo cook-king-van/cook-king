@@ -113,7 +113,7 @@ const CreateRecipe = async (req, res) => {
         },
       },
     });
-    return res.status(200).json(updatedUser);
+    return res.status(200).json(recipe);
   } catch (e) {
     console.error(`Exception Error`);
     console.log(`error: ${e.message}`);

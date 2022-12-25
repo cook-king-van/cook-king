@@ -83,6 +83,20 @@ const recipeSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    deleteRecipeLoading(state, action) {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteRecipeSuccess(state, action) {
+      state.loading = false;
+      state.recipes = state.recipes.filter(
+        (recipe) => recipe._id !== action.payload
+      );
+    },
+    deleteRecipeFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -102,6 +116,9 @@ export const {
   getAuthorRecipesLoading,
   getAuthorRecipesSuccess,
   getAuthorRecipesFailure,
+  deleteRecipeLoading,
+  deleteRecipeSuccess,
+  deleteRecipeFailure,
 } = recipeSlice.actions;
 
 export default recipeSlice.reducer;
@@ -115,9 +132,9 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
     } = getState();
 
     const recipes = { ...recipe, id: userInfo._id };
-    await api.post('/api/recipes/', recipes);
+    const { data } = await api.post('/api/recipes/', recipes);
 
-    dispatch(createRecipeSuccess());
+    dispatch(createRecipeSuccess(data));
     dispatch(loadUser());
   } catch (error) {
     const message =
@@ -187,6 +204,23 @@ export const getAuthorRecipes = (userId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch(
       getAuthorRecipesFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+};
+
+export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
+  try {
+    dispatch(deleteRecipeLoading());
+    const { data } = await api.delete(`/api/recipes/${recipeId}`);
+    dispatch(deleteRecipeSuccess(data));
+    dispatch(loadUser());
+  } catch (error) {
+    dispatch(
+      deleteRecipeFailure(
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message

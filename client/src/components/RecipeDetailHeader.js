@@ -18,6 +18,8 @@ const RecipeDetailHeader = (props) => {
     loginAlert,
     size,
     time,
+    option,
+    categoriesId,
   } = props;
 
   const detectTime = (time) => {
@@ -80,6 +82,19 @@ const RecipeDetailHeader = (props) => {
         </div>
         <p className='RecipeDetail-border'></p>
         <div className='RecipeDetail-recipeInfoContainer'>
+          <div>
+            <i className='fa-solid fa-utensils fa-2x RecipeDetail-utensilsIcon'></i>
+            <p className='RecipeDetail-option'>
+              {refineRecipeName(option?.sort)}
+            </p>
+          </div>
+
+          <div>
+            <i className='fa-solid fa-globe fa-2x RecipeDetail-globeIcon'></i>
+            <p className='RecipeDetail-category'>
+              {refineRecipeName(categoriesId?.categoriesName)}
+            </p>
+          </div>
           <div>
             <i className='fa-solid fa-user-group fa-2x RecipeDetail-servingIcon'></i>
             <p className='RecipeDetail-serving'>
