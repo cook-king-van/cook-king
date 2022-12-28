@@ -71,10 +71,9 @@ export const SearchPage = (props) => {
     }, 1000);
   };
 
-
   const handleButtonEvent = (list, type) => {
     const temp = [...list];
-    console.log(temp)
+    console.log(temp);
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
@@ -106,10 +105,16 @@ export const SearchPage = (props) => {
         style={{ display: 'flex', flexWrap: 'wrap' }}
       >
         {currentView.map((e, index) => (
-          <ImageListItem key={index} className='search-card' onClick={() => {navigate(`/recipe/${e._id}`)}}>
+          <ImageListItem
+            key={index}
+            className='search-card'
+            onClick={() => {
+              navigate(`/recipe/${e._id}`);
+            }}
+          >
             <img
               src={e.recipeImage}
-              style={{width:"186px", height:"150px"}}
+              style={{ width: '186px', height: '150px' }}
               alt={index}
               loading='lazy'
             />
@@ -136,29 +141,35 @@ export const SearchPage = (props) => {
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, "likeCount")}
+            onClick={() => handleButtonEvent(reqData, 'likeCount')}
           >
             Most View
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, "CookingTime")}
+            onClick={() => handleButtonEvent(reqData, 'CookingTime')}
           >
             Cooking Time
           </button>
-        </div >
-        {Loading === true ? <div className='search-loading'><Spinner /></div> : <div className='search-container'>
-          <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-            <ItemRender filteredList={reqData} />
-          </ImageList>
-          {currentView.length === reqData.length ? (
-            <h3 style={{ margin: '10px 120px' }}>
-              Nothing More! or No result!
-            </h3>
-          ) : (
-            <h3 className='search-tag'>Loading More...</h3>
-          )}
-        </div>}
+        </div>
+        {Loading === true ? (
+          <div className='search-loading'>
+            <Spinner />
+          </div>
+        ) : (
+          <div className='search-container'>
+            <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
+              <ItemRender filteredList={reqData} />
+            </ImageList>
+            {currentView.length === reqData.length ? (
+              <h3 style={{ margin: '10px 120px' }}>
+                Nothing More! or No result!
+              </h3>
+            ) : (
+              <h3 className='search-tag'>Loading More...</h3>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
