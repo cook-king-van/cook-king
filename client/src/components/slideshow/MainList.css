@@ -20,12 +20,6 @@
 	flex-direction: column;
 	justify-content: center;
 }
-/* 
-.react-multi-carousel-item {
-  display: flex;
-    align-self: center;
-    justify-content: center;
-} */
 
 
 .MainList-slideContainer {
@@ -48,10 +42,17 @@
   margin: 10px;
 }
 
+.MainList-item:hover {
+  cursor: pointer;
+}
+
+.MainList-item {
+  width: 350px;
+}
 
 /* they are inside of the Carousel library */
 .MainList-image_item {
-  margin: 40px 40px 20px;
+  margin: 50px 55px 20px;
   position: unset;
   height: fit-content;
   max-width: 350px;
@@ -113,4 +114,9 @@
 
 .fa-circle-plus:hover {
   cursor: pointer;
+}
+
+.userText {
+  color: var(--darkGrayColor);
+  font-size: 18px;
 }
