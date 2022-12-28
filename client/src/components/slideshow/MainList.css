@@ -20,6 +20,12 @@
 	flex-direction: column;
 	justify-content: center;
 }
+/* 
+.react-multi-carousel-item {
+  display: flex;
+    align-self: center;
+    justify-content: center;
+} */
 
 
 .MainList-slideContainer {
@@ -53,6 +59,8 @@
 }
 .MainList-reactMultiCarouselList{
   position: unset !important;
+  height: 380px;
+  max-height: 380px;
 }
 
 .MainList-custom-right-arrow {
@@ -84,4 +92,25 @@
 }
 .MainList-custom-left-arrow {
   opacity: 1;
+}
+
+#zeroLength {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  font-size: 4em !important;
+  margin-top: 190px;
+  margin-right: 212px;
+  margin: 0;
+  
+}
+
+.fa-circle-plus {
+  margin-top: 150px;
+  margin-left: 150px;
+  font-size: 4em !important;
+}
+
+.fa-circle-plus:hover {
+  cursor: pointer;
 }

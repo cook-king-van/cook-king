@@ -1,12 +1,13 @@
 import React from 'react';
 import '../pages/UserProfilePage.css';
+import '../pages/RecipeDetailPage.css';
 import cheesecake from '../images/chocoholic_cheesecake.jpeg';
 
 const MyCookingCard = (props) => {
-  const { recipe, onClick } = props;
+  const { recipe, onClick, className } = props;
   const { recipeName, likeCount, recipeImage, updatedAt, userId } = recipe;
   return (
-    <div className='UserProfile-cardContainer' onClick={onClick}>
+    <div className={className || `UserProfile-cardContainer`} onClick={onClick}>
       <img
         src={recipeImage ?? cheesecake}
         alt='cheese cake'

@@ -25,6 +25,7 @@
 .Auth-logo {
   width: 300px;
   height: 110px;
+  cursor: pointer;
 }
 
 .Auth-authTitle {
