@@ -3,7 +3,6 @@ import User from '../../models/user';
 const EditUserinfo = async (req, res) => {
   try {
     const userId = req.user._id;
-    const userName = req.user.name;
     const { name, description, profileImage } = req.body;
     const nameRet = await User.findOne({
       name: name,
@@ -16,7 +15,7 @@ const EditUserinfo = async (req, res) => {
       description,
       profileImage,
     });
-    return res.status(200).send(`${userName} profile updated`);
+    return res.status(200).send(user);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);

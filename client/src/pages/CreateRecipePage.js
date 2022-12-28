@@ -27,6 +27,7 @@ const CreateRecipePage = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const formData = new FormData();
 
   const [recipeName, setRecipeName] = useState('');
   const [mainPhoto, setMainPhoto] = useState('');
@@ -147,6 +148,7 @@ const CreateRecipePage = () => {
   const handleMainPhoto = (e) => {
     setIsMainPhotoAdded(true);
     const file = e.target.files[0];
+    formData.append('images', file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -356,7 +358,7 @@ const CreateRecipePage = () => {
       setDisablePrompt(true);
       setTimeout(() => {
         setCreateRecipeDoneMsg(false);
-        navigate('/');
+        navigate(-1);
       }, 2000);
     }
   };

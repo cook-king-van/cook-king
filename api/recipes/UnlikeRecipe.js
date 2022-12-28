@@ -22,12 +22,12 @@ const UnlikeRecipe = async (req, res) => {
     if (!ret) {
       return res.status(403).send(`${userName} already unliked ${Id} recipe`);
     }
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       $pull: {
         likes: Id,
       },
     });
-    return res.status(200).send(`${userName} unliked ${Id} recipe`);
+    return res.status(200).send(updatedUser);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);

@@ -8,10 +8,10 @@ const GetUser = async (req, res) => {
       .populate('recipes', 'recipeName recipeImage likeCount updatedAt')
       .populate({
         path: 'likes',
-        select: ['recipeName', 'likeCount', 'recipeImage','userId'],
+        select: ['recipeName', 'likeCount', 'recipeImage', 'userId'],
         populate: {
           path: 'userId',
-          select:'name -_id'
+          select: 'name -_id',
         },
       });
     return res.send(user);

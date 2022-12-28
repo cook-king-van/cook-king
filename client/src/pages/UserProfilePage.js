@@ -6,16 +6,16 @@ import MyCookingCard from '../components/MyCookingCard';
 import Navbar from '../components/navbar/NavBar';
 
 import { Avatar, Alert } from '@mui/material';
-import { Loader } from 'semantic-ui-react';
 
 import { useNavigate } from 'react-router-dom';
+import { logout, updateUserProfile } from '../features/users/userSlice';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user);
   const botUser = 'a user';
-  const userImage = currentUser?.userInfo?.userImageUrl;
+  const userImage = currentUser?.userInfo?.profileImage;
 
   const [userName, setUserName] = useState('');
   const [intro, setIntro] = useState('');
@@ -44,7 +44,10 @@ const UserProfile = () => {
       setCookingList(currentUser?.userInfo?.recipes);
       setLikes(currentUser?.userInfo?.likes);
     }
-  }, [currentUser.userInfo, dispatch]);
+    if (!currentUser?.isAuthenticated) {
+      navigate('/login');
+    }
+  }, [currentUser.userInfo, currentUser?.isAuthenticated, dispatch, navigate]);
 
   useEffect(() => {
     if (isEditProfileName === '') {
@@ -106,15 +109,25 @@ const UserProfile = () => {
 
   const handleUpdateProfile = () => {
     setProfileUpdateMsg(true);
+    dispatch(
+      updateUserProfile({
+        name: userName,
+        description: intro,
+        profileImage: selectedFile || userImage,
+      })
+    );
     setTimeout(() => {
       setProfileUpdateMsg(false);
     }, 3000);
     setShowUpdate(false);
-    // send updates to the server
   };
 
   const recipeOnClick = (e, recipeId) => {
     navigate(`/recipe/${recipeId}`);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   const updateProfileMsg = (
@@ -130,13 +143,11 @@ const UserProfile = () => {
     <p className='UserProfile-noRecipeMsg'>There's no recipe to display</p>
   );
 
-  return currentUser.loading ? (
-    <Loader />
-  ) : (
+  return (
     <>
       <Navbar />
       {profileUpdateMsg ? updateProfileMsg : ''}
-      <section className='UserProfile-container'>
+      <div className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
             <Avatar
@@ -181,13 +192,13 @@ const UserProfile = () => {
               <button
                 className='UserProfile-editProfileBtn'
                 onClick={showEditBtns}>
-                Edit
+                E d i t
               </button>
               <button
                 className='UserProfile-saveProfileBtn'
                 disabled={!showUpdate}
                 onClick={handleUpdateProfile}>
-                Save
+                S a v e
               </button>
             </div>
           </div>
@@ -215,9 +226,9 @@ const UserProfile = () => {
             </label>
             <div className='UserProfile-myItemsContainer'>
               {cookingList.length > 0
-                ? cookingList.map((recipe, i) => (
+                ? cookingList?.map((recipe, i) => (
                     <MyCookingCard
-                      key={recipe._id}
+                      key={recipe?._id}
                       recipe={recipe}
                       onClick={(e) => recipeOnClick(e, recipe._id)}
                     />
@@ -241,9 +252,12 @@ const UserProfile = () => {
                   ))
                 : noRecipeMsg}
             </div>
+            <button className='UserProfile-logoutBtn' onClick={handleLogout}>
+              L o g o u t
+            </button>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 };

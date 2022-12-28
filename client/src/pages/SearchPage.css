@@ -20,6 +20,7 @@
   background-color: rgba(217, 217, 217, 0.2);
   border-bottom: 1px solid #898787;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .search-title {
@@ -57,10 +58,24 @@ margin: 15px;
 }
 
 .infinite-scroll-component {
-  padding: 0 100px;
+  padding-left: 100px;
+  overflow: hidden !important;
 }
 .search-tag {
   display: flex;
   flex-direction: row-reverse;
   margin: 10px 220px;
+}
+
+.MuiImageListItem-standard {
+  height: 250px !important;
+  padding-bottom: 0 !important;
+  width: 250px !important;
+}
+.search-loading {
+  display: flex;
+  max-width: 100%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
 }

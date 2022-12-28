@@ -15,7 +15,6 @@ import SearchRecipe from '../api/recipes/SearchRecipe';
 import GetSingleRecipe from '../api/recipes/GetSingleRecipe';
 import deleteRecipe from '../api/recipes/deleteRecipe';
 import updateRecipe from '../api/recipes/updateRecipe';
-
 const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);

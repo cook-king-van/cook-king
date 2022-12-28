@@ -61,6 +61,10 @@ const LoginPage = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
+  const goBackToMain = () => {
+    navigate('/');
+  };
+
   const showAlert = (
     <Alert
       //uncomment if you don't want icon in your alert
@@ -77,7 +81,7 @@ const LoginPage = () => {
 
   const loginScreen = (
     <form className='Auth-authForm' onSubmit={handleSubmit} noValidate={true}>
-      <img src={logo} alt='Logo' className='Auth-logo' />
+      <img src={logo} alt='Logo' className='Auth-logo' onClick={goBackToMain} />
       <AuthInputs
         title='email'
         value={email}
