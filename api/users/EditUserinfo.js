@@ -4,7 +4,13 @@ const EditUserinfo = async (req, res) => {
   try {
     const userId = req.user._id;
     const { name, description, profileImage } = req.body;
-    const user = await User.findByIdAndUpdate(userId, {
+    const nameRet = await User.findOne({
+      name: name,
+    });
+    if (nameRet) {
+      return res.status(403).send(`Name already exist`);
+    }
+    await User.findByIdAndUpdate(userId, {
       name,
       description,
       profileImage,

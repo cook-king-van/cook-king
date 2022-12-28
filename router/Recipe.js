@@ -13,21 +13,21 @@ import GetLanding from '../api/recipes/GetLanding';
 import UnlikeRecipe from '../api/recipes/UnlikeRecipe';
 import SearchRecipe from '../api/recipes/SearchRecipe';
 import GetSingleRecipe from '../api/recipes/GetSingleRecipe';
-import DeleteRecipe from '../api/recipes/DeleteRecipe';
-import GetAllCategories from '../api/recipes/GetAllCategories';
+import deleteRecipe from '../api/recipes/deleteRecipe';
+import updateRecipe from '../api/recipes/updateRecipe';
 const router = express.Router();
 
 router.post('/', UserValid, CreateRecipe);
 router.get('/', UserValid, GetAllRecipe);
-router.get('/categories', GetAllCategories);
 router.get('/best', UserValid, todayBestReceipeSort);
 router.get('/:sort/tag', UserValid, optionSort);
 router.get('/:sort/category', UserValid, categorySort);
 router.put('/like/:recipeId', UserValid, LikeRecipe);
-router.get('/landing', GetLanding);
-router.get('/search', SearchRecipe);
+router.get('/landing', UserValid, GetLanding);
+router.get('/search', UserValid, SearchRecipe);
+router.get('/:recipeId', UserValid, GetSingleRecipe);
 router.put('/unlike/:recipeId', UserValid, UnlikeRecipe);
-router.get('/:recipeId', GetSingleRecipe);
-router.delete('/:recipeId', UserValid, userIdentify, DeleteRecipe);
+router.delete('/:recipeId', UserValid, userIdentify, deleteRecipe);
+router.put('/:recipeId', UserValid, userIdentify, updateRecipe);
 
 export default router;
