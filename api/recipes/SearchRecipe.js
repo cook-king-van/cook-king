@@ -1,8 +1,6 @@
 import Recipe from '../../models/recipe';
 import categories from '../../models/categories';
-// add recipe using Tag name
-let currentpage = 0;
-let remain = 0;
+
 const searchOption = async (option, page, resultPage) => {
   const recipe = await categories.Option.find({
     sort: option,
@@ -20,7 +18,7 @@ const searchOption = async (option, page, resultPage) => {
     .select('-__v -_id -sort');
   return recipe;
 };
-const searchName = async (name, page, resultPage) => {
+const searchName = async (name, page, resultPage, currentpage, remain) => {
   const FindRecipes = await Recipe.find({
     // Using regex include name
     recipeName: {
@@ -42,7 +40,7 @@ const searchName = async (name, page, resultPage) => {
       currentpage = page;
       remain = addRecipeNumber;
     }
-    console.log(page,currentpage, remain);
+    console.log(page, currentpage, remain);
     const TagRecipes = await categories.Tag.find({
       tagName: {
         $regex: name,
@@ -87,12 +85,12 @@ const searchCategory = async (category, page, resultPage) => {
   return recipe;
 };
 
-const searchQuery = async (query, page, resultPage) => {
+const searchQuery = async (query, page, resultPage, currentpage, remain) => {
   const name = query.name;
   const option = query.option;
   const category = query.category;
   if (name) {
-    return await searchName(name, page, resultPage);
+    return await searchName(name, page, resultPage, currentpage, remain);
   } else if (option) {
     return await searchOption(option, page, resultPage);
   } else {
@@ -102,14 +100,21 @@ const searchQuery = async (query, page, resultPage) => {
 
 const SearchRecipe = async (req, res) => {
   try {
+    const { currentpage = 0, remain = 0 } = req.body;
     const query = req.query;
     const page = req.query.page - 1;
     const resultPage = 9; // config number
-    const recipes = await searchQuery(query, page, resultPage);
+    const recipes = await searchQuery(
+      query,
+      page,
+      resultPage,
+      currentpage,
+      remain
+    );
     if (recipes.length === 0) {
       return res.status(203).send('There is no searching result');
     }
-    return res.status(200).send({ recipes });
+    return res.status(200).send({ recipes, currentpage,remain });
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
