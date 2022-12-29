@@ -16,7 +16,7 @@ const searchOption = async (option, page, resultPage) => {
       limit: resultPage,
     })
     .select('-__v -_id -sort');
-  return recipe;
+  return recipe[0].recipeId;
 };
 const searchName = async (name, page, resultPage, currentpage, remain) => {
   const FindRecipes = await Recipe.find({
@@ -40,7 +40,6 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
       currentpage = page;
       remain = addRecipeNumber;
     }
-    console.log(page, currentpage, remain);
     const TagRecipes = await categories.Tag.find({
       tagName: {
         $regex: name,
@@ -68,7 +67,7 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
 };
 
 const searchCategory = async (category, page, resultPage) => {
-  const recipe = await categories.Categories.find({
+  const recipe = await categories.Categories.findOne({
     categoriesName: category,
   })
     .populate({
@@ -82,7 +81,7 @@ const searchCategory = async (category, page, resultPage) => {
       limit: resultPage,
     })
     .select('-__v -_id -categoriesName');
-  return recipe;
+  return recipe.recipeList;
 };
 
 const searchQuery = async (query, page, resultPage, currentpage, remain) => {
