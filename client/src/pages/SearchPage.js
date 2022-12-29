@@ -84,6 +84,9 @@ export const SearchPage = (props) => {
             <img src={heart} alt=''></img>
             {eachItem.likeCount}
           </p>
+          <p> <i
+                className='fa-regular fa-clock MainList-timeIcon'
+                style={{ margin: '0 5px' }}></i> {eachItem.time}</p>
           {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
         </div>
       </>
