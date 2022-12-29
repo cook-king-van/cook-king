@@ -1,22 +1,16 @@
 .searchPage-container {
-  max-width: 80%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.search-container {
-  /* border: 1px solid black; */
-  max-width: 100%;
-  margin: auto;
-  /* display: flex; */
-  justify-content: center;
-  /* overflow: auto; */
+.Search-contentContainer {
+  padding: 20px !important;
 }
 
 .search-card {
-  /* box-shadow: 2px 2px 2px grey; */
   margin: 2rem;
   padding: 2rem;
-  /* background-color: var(--lightBackgroundColor); */
   background-color: rgba(217, 217, 217, 0.2);
   border-bottom: 1px solid #898787;
   border-radius: 10px;
@@ -35,7 +29,6 @@
 }
 
 .searchPage-button {
-  /* position: absolute; */
 width: 176px;
 height: 57px;
 border: none;
@@ -45,7 +38,7 @@ margin: 15px;
 }
 
 .button-container {
-  padding: 0 100px;
+  padding: 20px;
 }
 
 .searchPage-button:hover {
@@ -53,9 +46,7 @@ margin: 15px;
 }
 
 .MuiImageList-root {
-  /* display: -ms-flexbox; */
   display: flex !important;
-  /* -ms-flex-wrap: wrap; */
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
@@ -82,4 +73,22 @@ margin: 15px;
   margin: auto;
   justify-content: center;
   align-items: center;
+}
+
+.Search-heartIcon {
+  color: var(--lightColor);
+  margin-right: 5px;
+}
+
+.Search-userText {
+  font-size: 16px;
+  align-items: center;
+  display: flex;
+  color: var(--brownColor);
+}
+
+.Search-cardImage {
+  width: 186px !important;
+  height: 150px !important;
+  border-radius: 5px !important;
 }

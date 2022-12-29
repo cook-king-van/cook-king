@@ -186,6 +186,10 @@
   margin-bottom: 5px;
 }
 
+.RecipeDetail-tag:hover {
+  cursor: pointer;
+}
+
 .RecipeDetail-optionCategoryContainer {
   display: flex;
 }

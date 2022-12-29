@@ -21,7 +21,6 @@ const recipeSlice = createSlice({
     },
     createRecipeSuccess(state, action) {
       state.loading = false;
-      state.recipes = [...state.recipes, action.payload];
       state.error = null;
     },
     createRecipeFailure(state, action) {
@@ -89,9 +88,6 @@ const recipeSlice = createSlice({
     },
     deleteRecipeSuccess(state, action) {
       state.loading = false;
-      state.recipes = state.recipes.filter(
-        (recipe) => recipe._id !== action.payload
-      );
     },
     deleteRecipeFailure(state, action) {
       state.loading = false;
@@ -149,7 +145,7 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
     const recipes = { ...recipe, id: userInfo._id };
     const { data } = await api.post('/api/recipes/', recipes);
 
-    dispatch(createRecipeSuccess(data));
+    dispatch(createRecipeSuccess());
     dispatch(loadUser());
   } catch (error) {
     const message =
@@ -231,7 +227,7 @@ export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
   try {
     dispatch(deleteRecipeLoading());
     const { data } = await api.delete(`/api/recipes/${recipeId}`);
-    dispatch(deleteRecipeSuccess(data));
+    dispatch(deleteRecipeSuccess());
     dispatch(loadUser());
   } catch (error) {
     dispatch(
@@ -250,10 +246,12 @@ export const getAllRecipies = () => async (dispatch, getState) => {
     const { data } = await axios.get('/api/recipes/landing');
     dispatch(getAllRecipiesSuccess(data));
   } catch (error) {
-    dispatch(getAllRecipiesFailure(
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    ))
+    dispatch(
+      getAllRecipiesFailure(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
   }
 };
