@@ -35,6 +35,7 @@ const UserProfile = () => {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const [hasError, isHasError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     if (currentUser?.userInfo?.name) {
@@ -117,9 +118,25 @@ const UserProfile = () => {
   };
 
   const handleUpdateProfile = () => {
+    const pattern = /\s/g;
+    if (!!userName?.trim() === false) {
+      setErrorMsg('Enter a username.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 3000);
+      return;
+    }
+    if (userName.trim().match(pattern)) {
+      setErrorMsg('There is a space in the name.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 3000);
+      return;
+    }
+    setErrorMsg(false);
     dispatch(
       updateUserProfile({
-        name: userName,
+        name: userName.trim(),
         description: intro,
         profileImage: selectedFile || userImage,
       })
@@ -151,6 +168,12 @@ const UserProfile = () => {
     </Alert>
   );
 
+  const displayInternalErrorMsg = (
+    <Alert severity='error' className='UserProfile-profileUpdateMsg'>
+      {errorMsg}
+    </Alert>
+  );
+
   const updateProfileMsg = (
     <Alert severity='info' className='UserProfile-profileUpdateMsg'>
       Profile updated successfully!
@@ -166,6 +189,7 @@ const UserProfile = () => {
       <Navbar />
       {profileUpdateMsg ? updateProfileMsg : ''}
       {hasError ? displayErrorMsg : ''}
+      {errorMsg ? displayInternalErrorMsg : ''}
       <div className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
