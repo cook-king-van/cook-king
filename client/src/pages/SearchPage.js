@@ -130,7 +130,7 @@ export const SearchPage = () => {
           <button
             className='searchPage-button'
             onClick={() => handleButtonEvent(reqData, 'likeCount')}>
-            Most View
+            Most Liked
           </button>
           <button
             className='searchPage-button'
