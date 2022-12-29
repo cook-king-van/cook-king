@@ -30,7 +30,7 @@ const RecipeDetailHeader = (props) => {
           <button
             className='RecipeDetail-editBtn'
             onClick={() => editRecipe(_id)}>
-            edit
+            Edit
           </button>
         )}
         {recipeImage ? (

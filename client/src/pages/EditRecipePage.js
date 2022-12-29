@@ -7,7 +7,7 @@ import RecipeBasicContent from '../components/RecipeBasicContent';
 import IngredientContent from '../components/IngredientContent';
 import RecipeStepContent from '../components/RecipeStepContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteRecipe } from '../features/recipes/recipeSlice';
+import { deleteRecipe, updateRecipe } from '../features/recipes/recipeSlice';
 
 import { usePrompt } from '../hooks/NavigationBlocker';
 
@@ -308,7 +308,19 @@ const EditRecipePage = () => {
     if (!checkInputs()) {
       return;
     }
-    //add dispatch update recipe action function here
+    dispatch(
+      updateRecipe(recipe._id, {
+        recipeName: recipename,
+        time: Number(time),
+        option: option,
+        ingredient: ingredients,
+        categoriesName: category,
+        size: Number(servings),
+        step: steps,
+        tags: tags,
+        recipeImage: mainPhoto,
+      })
+    );
     if (recipeError) {
       setError(recipeError);
       return;
