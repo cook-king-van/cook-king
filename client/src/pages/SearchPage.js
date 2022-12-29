@@ -28,6 +28,7 @@ export const SearchPage = (props) => {
     //   navigate('/login');
     // }
     ReqDataWithToken(state);
+    console.log(state)
   }, [state]);
 
   useEffect(() => {
@@ -36,11 +37,7 @@ export const SearchPage = (props) => {
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
-    const res = await axios.get(`/api/recipes/search?name=${req}`, {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    });
+    const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
 
     try {
       console.log('res', res.data);
@@ -73,7 +70,6 @@ export const SearchPage = (props) => {
 
   const handleButtonEvent = (list, type) => {
     const temp = [...list];
-    console.log(temp);
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
@@ -87,6 +83,9 @@ export const SearchPage = (props) => {
             <img src={heart} alt=''></img>
             {eachItem.likeCount}
           </p>
+          <p> <i
+                className='fa-regular fa-clock MainList-timeIcon'
+                style={{ margin: '0 5px' }}></i> {eachItem.time}</p>
           {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
         </div>
       </>
@@ -147,7 +146,7 @@ export const SearchPage = (props) => {
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'CookingTime')}
+            onClick={() => handleButtonEvent(reqData, 'time')}
           >
             Cooking Time
           </button>

@@ -19,6 +19,7 @@ import RecipeDetailIngredients from '../components/RecipeDetail/RecipeDetailIngr
 import RecipeDetailSteps from '../components/RecipeDetailSteps';
 import RecipeDetailAuthor from '../components/RecipeDetailAuthor';
 import RecipeDetailTags from '../components/RecipeDetailTags';
+import refineRecipeName from '../lib/refineRecipeName';
 
 const RecipeDetailPage = () => {
   const { id } = useParams();
@@ -52,14 +53,6 @@ const RecipeDetailPage = () => {
   const [isLike, setIsLike] = useState(false);
   const [isLoginMessage, setIsLoginMessage] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-
-  const refineRecipeName = (recipeName) => {
-    const splitName = recipeName?.split(' ');
-    for (let i = 0; i < splitName?.length; i++) {
-      splitName[i] = splitName[i][0]?.toUpperCase() + splitName[i].slice(1);
-    }
-    return splitName?.join(' ');
-  };
 
   useEffect(() => {
     dispatch(getRecipe(id));

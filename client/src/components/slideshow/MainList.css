@@ -16,11 +16,10 @@
 
 .MainList-slideShow {
   align-items: center;
-	/* display: flex; */
-	flex-direction: column;
-	justify-content: center;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
 }
-
 
 .MainList-slideContainer {
   background: rgba(217, 217, 217, 0.2);
@@ -29,7 +28,6 @@
   position: relative;
   border-radius: 10px;
   box-shadow: 2px 2px 2px grey;
-
 }
 
 .MainList-h3 {
@@ -42,12 +40,27 @@
   margin: 10px;
 }
 
+.MainList-item {
+  width: 350px;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  background: rgba(237, 230, 221, 0.37);
+  border-radius: 5px;
+  box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
+    5px 5px 9px rgba(94, 104, 121, 0.3);
+  transform: translateZ(0);
+  transition: transform 0.2s ease-out;
+}
+
 .MainList-item:hover {
+  opacity: 0.9;
+  transform: scale(1.007);
   cursor: pointer;
 }
 
-.MainList-item {
-  width: 350px;
+.MainList-heartIcon {
+  color: var(--lightColor);
+  margin-right: 5px;
 }
 
 /* they are inside of the Carousel library */
@@ -56,9 +69,8 @@
   position: unset;
   height: fit-content;
   max-width: 350px;
-
 }
-.MainList-reactMultiCarouselList{
+.MainList-reactMultiCarouselList {
   position: unset !important;
   height: 380px;
   max-height: 380px;
@@ -75,8 +87,8 @@
   opacity: 0.8;
   cursor: pointer;
   transform: rotate(-45deg);
-
-}.MainList-custom-right-arrow:hover {
+}
+.MainList-custom-right-arrow:hover {
   opacity: 2;
 }
 .MainList-custom-left-arrow {
@@ -95,28 +107,43 @@
   opacity: 1;
 }
 
-#zeroLength {
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  font-size: 4em !important;
-  margin-top: 190px;
-  margin-right: 212px;
-  margin: 0;
-  
-}
-
-.fa-circle-plus {
-  margin-top: 150px;
-  margin-left: 150px;
-  font-size: 4em !important;
-}
-
 .fa-circle-plus:hover {
   cursor: pointer;
 }
 
-.userText {
+.MainList-seeMorePlusSign {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 350px;
+}
+
+.MainList-plusSign {
+  transform: translateZ(0);
+  transition: transform 0.2s ease-out;
+}
+
+.MainList-plusSign:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.MainList-userText {
+  font-size: 16px;
+  align-items: center;
+  display: flex;
+  color: var(--brownColor);
+}
+
+.MainList-cardImage {
+  width: 350px;
+  height: 235px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.MainList-timeIcon {
   color: var(--darkGrayColor);
-  font-size: 18px;
 }
