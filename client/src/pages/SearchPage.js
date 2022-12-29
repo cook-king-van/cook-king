@@ -134,7 +134,7 @@ export const SearchPage = () => {
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'CookingTime')}>
+            onClick={() => handleButtonEvent(reqData, 'time')}>
             Cooking Time
           </button>
         </div>
