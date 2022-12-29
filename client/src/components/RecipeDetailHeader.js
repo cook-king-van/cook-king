@@ -34,7 +34,7 @@ const RecipeDetailHeader = (props) => {
           </button>
         )}
         {recipeImage ? (
-          <>
+          <div className='RecipeDetail-likeContainer'>
             <img
               src={recipeImage}
               alt={recipeName}
@@ -61,7 +61,7 @@ const RecipeDetailHeader = (props) => {
               <i className='fa-solid fa-heart RecipeDetail-heartIcon'></i>
               {likeCount?.toLocaleString()}
             </span>
-          </>
+          </div>
         ) : (
           <div className='RecipeDetail-noMainPhoto'>No Image Found</div>
         )}
