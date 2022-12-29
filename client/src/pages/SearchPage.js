@@ -78,9 +78,13 @@ export const SearchPage = () => {
             <i className='fa-solid fa-heart Search-heartIcon'></i>
             {eachItem.likeCount}
           </p>
-          {eachItem.userId ? (
-            <p className='Search-userText'>{eachItem.userId.name}</p>
-          ) : null}
+          <p>
+            <i
+              className='fa-regular fa-clock MainList-timeIcon'
+              style={{ margin: '0 5px' }}></i>{' '}
+            {eachItem.time}
+          </p>
+          {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
         </div>
       </>
     );
@@ -133,11 +137,11 @@ export const SearchPage = () => {
           <button
             className='searchPage-button'
             onClick={() => handleButtonEvent(reqData, 'likeCount')}>
-            Most View
+            Most Liked
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'CookingTime')}>
+            onClick={() => handleButtonEvent(reqData, 'time')}>
             Cooking Time
           </button>
         </div>

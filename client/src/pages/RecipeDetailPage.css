@@ -139,29 +139,28 @@
   color: var(--darkGrayColor);
 }
 
-.RecipeDetail-serving {
+.RecipeDetail-text {
   color: var(--darkGrayColor);
   font-size: 18px;
-  margin-left: -19px;
-  margin-top: 5px;
 }
 
 .RecipeDetail-timeIcon {
   color: var(--darkGrayColor);
 }
 
-.RecipeDetail-time {
-  color: var(--darkGrayColor);
-  font-size: 18px;
-  margin-left: -25px;
-  margin-top: 5px;
-}
-
 .RecipeDetail-recipeInfoContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 50px 30px;
+  margin-top: 30px;
+}
+
+.RecipeDetail-recipeInfoItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
 }
 
 .RecipeDetail-border {
@@ -192,20 +191,6 @@
 
 .RecipeDetail-optionCategoryContainer {
   display: flex;
-}
-
-.RecipeDetail-option {
-  color: var(--darkGrayColor);
-  font-size: 18px;
-  margin-left: -10px;
-  margin-top: 5px;
-}
-
-.RecipeDetail-category {
-  color: var(--darkGrayColor);
-  font-size: 18px;
-  margin-left: -5px;
-  margin-top: 5px;
 }
 
 .RecipeDetail-utensilsIcon {
