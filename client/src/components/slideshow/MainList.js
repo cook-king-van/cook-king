@@ -3,10 +3,9 @@ import './MainList.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'semantic-ui-react';
-import heartImg from '../../images/Heart.png';
 import tempFood from '../../images/tempFood.png';
-import plus from '../../images/Plus.png';
 import { useNavigate } from 'react-router-dom';
+import detectTime from '../../lib/detectTime';
 
 const MainList = ({ title, DataType }) => {
   const navigate = useNavigate();
@@ -56,40 +55,31 @@ const MainList = ({ title, DataType }) => {
   const SlideCreator = () => {
     //each of the slide card
     const SlideCard = ({ image, description }) => {
-      console.log(image);
       return (
         <div
           className='MainList-item'
           onClick={() => {
             navigate(`/recipe/${image.id}`);
-          }}
-        >
+          }}>
           <Image
             draggable={false}
-            style={{ width: '350px', height: '235px' }}
+            className='MainList-cardImage'
             src={image.url}
             key={image.caption}
           />
           <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
-            <p
-              className='userText'
-              style={{ alignItems: 'center', display: 'flex' }}
-            >
-              <img src={heartImg} alt=''></img>
+            <p className='MainList-userText'>
+              <i className='fa-solid fa-heart MainList-heartIcon'></i>
               {image.heart}
             </p>
-            <p
-              className='userText'
-              style={{ alignItems: 'center', display: 'flex' }}
-            >
+            <p className='MainList-userText'>
               <i
-                className='fa-regular fa-clock fa-xl RecipeDetail-timeIcon'
-                style={{ margin: '0 5px' }}
-              ></i>
-              {image.cookingTime}
+                className='fa-regular fa-clock MainList-timeIcon'
+                style={{ margin: '0 5px' }}></i>
+              {detectTime(image.cookingTime)}
             </p>
-            <p className='userText'>{image.user.name ?? 'No name'}</p>
+            <p className='MainList-userText'>{image.user.name ?? 'No name'}</p>
           </div>
         </div>
       );
@@ -106,8 +96,7 @@ const MainList = ({ title, DataType }) => {
         className='MainList-reactMultiCarouselList'
         customLeftArrow={<CustomLeftArrow />}
         customRightArrow={<CustomRightArrow />}
-        draggable={false}
-      >
+        draggable={false}>
         {slideData.map((image) => {
           return (
             <SlideCard
@@ -117,27 +106,37 @@ const MainList = ({ title, DataType }) => {
               user={image.user}
               key={image.caption}
             />
+            // <MyCookingCard
+            //   id={image.id}
+            //   recipe={{
+            //     recipeName: image.caption,
+            //     likeCount: image.heart,
+            //     recipeImage: image.url,
+            //     userId: image.user,
+            //   }}
+            // />
           );
         })}
         {slideData.length === 0 ? (
-          <i
-            className='fa-solid fa-circle-plus fa-2xl'
-            id='zeroLength'
-            onClick={() => {
-              navigate(`/search?option=${title}`, {
-                state: { type: 'option', value: title },
-              });
-            }}
-          ></i>
+          <div className='MainList-seeMorePlusSign'>
+            <i
+              className='fa-solid fa-circle-plus fa-3x MainList-plusSign'
+              onClick={() => {
+                navigate(`/search?option=${title}`, {
+                  state: { type: 'option', value: title },
+                });
+              }}></i>
+          </div>
         ) : (
-          <i
-            className='fa-solid fa-circle-plus fa-2xl'
-            onClick={() => {
-              navigate(`/search?option=${title}`, {
-                state: { type: 'option', value: title },
-              });
-            }}
-          ></i>
+          <div className='MainList-seeMorePlusSign'>
+            <i
+              className='fa-solid fa-circle-plus fa-3x MainList-plusSign'
+              onClick={() => {
+                navigate(`/search?option=${title}`, {
+                  state: { type: 'option', value: title },
+                });
+              }}></i>
+          </div>
         )}
       </Carousel>
     );
@@ -146,7 +145,9 @@ const MainList = ({ title, DataType }) => {
   return (
     <>
       <div>
-        <h1 className='MainList-h1'>{title[0].toUpperCase() + title.slice(1)}</h1>
+        <h1 className='MainList-h1'>
+          {title[0].toUpperCase() + title.slice(1)}
+        </h1>
       </div>
 
       <div className='MainList-slideShow'>
