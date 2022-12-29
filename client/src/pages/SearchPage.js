@@ -70,7 +70,6 @@ export const SearchPage = (props) => {
 
   const handleButtonEvent = (list, type) => {
     const temp = [...list];
-    console.log(temp);
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
@@ -147,7 +146,7 @@ export const SearchPage = (props) => {
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'CookingTime')}
+            onClick={() => handleButtonEvent(reqData, 'time')}
           >
             Cooking Time
           </button>
