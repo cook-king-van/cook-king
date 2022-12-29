@@ -16,7 +16,7 @@ import {
   Fade,
 } from '@mui/material';
 
-const NavBar = () => {
+const NavBar = ({ searchValue }) => {
   const [value, setValue] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -60,8 +60,7 @@ const NavBar = () => {
             open={showLocalRecipeWarning}
             onClose={handleCloseWarningMsg}
             aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'
-          >
+            aria-describedby='alert-dialog-description'>
             <DialogTitle id='alert-dialog-title'>
               {'You have one recipe saved.'}
             </DialogTitle>
@@ -77,8 +76,7 @@ const NavBar = () => {
                   handleCloseWarningMsg();
                   localStorage.removeItem('recipe');
                 }}
-                autoFocus
-              >
+                autoFocus>
                 Delete my saved recipe
               </Button>
               <Button
@@ -88,8 +86,7 @@ const NavBar = () => {
                   navigate('/create-recipe', {
                     state: localRecipe,
                   });
-                }}
-              >
+                }}>
                 Yes, Continue!
               </Button>
             </DialogActions>
@@ -111,8 +108,7 @@ const NavBar = () => {
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
           onClick={categoryHandleButton}
-          style={{ color: '#6C5D53' }}
-        >
+          style={{ color: '#6C5D53' }}>
           Category
           <i className='fa-solid fa-caret-down'></i>
         </Button>
@@ -124,8 +120,7 @@ const NavBar = () => {
           anchorEl={anchorEl}
           open={open}
           onClose={categoryHandleClose}
-          TransitionComponent={Fade}
-        >
+          TransitionComponent={Fade}>
           {cateogriesList.map((item, index) => {
             if (index === cateogriesList.length - 1) {
               return null;
@@ -138,8 +133,7 @@ const NavBar = () => {
                     state: { type: 'category', value: item.categoriesName },
                   })
                 }
-                style={{ color: '#6C5D53' }}
-              >
+                style={{ color: '#6C5D53' }}>
                 {item.categoriesName.toUpperCase()}
               </MenuItem>
             );
@@ -149,6 +143,7 @@ const NavBar = () => {
           <input
             type='text'
             placeholder='Search bar'
+            value={searchValue}
             className='NavBar-bar'
             onChange={(e) => setValue(e.target.value)}
           />
@@ -157,9 +152,10 @@ const NavBar = () => {
               type='submit'
               className='NavBar-button'
               onClick={() => {
-                navigate(`/search?name=${value}`, { state: { type: 'name', value: value } });
-              }}
-            >
+                navigate(`/search?name=${value}`, {
+                  state: { type: 'name', value: value },
+                });
+              }}>
               <i className='fa-solid NavBar-fa-white fa-magnifying-glass fa-2xl'></i>
             </button>
           </div>
@@ -176,8 +172,7 @@ const NavBar = () => {
             } else {
               navigate('/create-recipe');
             }
-          }}
-        >
+          }}>
           {
             <i className='fa-sharp fa-solid NavBar-fa-white fa-pencil fa-2xl'></i>
           }
@@ -186,8 +181,7 @@ const NavBar = () => {
           className='NavBar-buttonIcon'
           onClick={() => {
             navigate('/profile');
-          }}
-        >
+          }}>
           <i className='fa-solid NavBar-fa-white fa-user fa-2xl'></i>
         </button>
       </div>

@@ -1,55 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from '../components/navbar/NavBar';
 import './SearchPage.css';
-import heart from '../images/Heart.png';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import tempFood from '../images/tempFood.png';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
 
-export const SearchPage = (props) => {
+export const SearchPage = () => {
   const pageSize = 7;
   const { state } = useLocation();
   const [currentPage, setCurrentPage] = useState(pageSize);
   const [currentView, setCurrentView] = useState([]);
   const [hasMode, setHasMode] = useState(true);
   const [reqData, setReqData] = useState([]);
-  const currentUser = useSelector((state) => state.user);
   const [Loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (String(currentUser.token) === "") {
-    //   navigate('/login');
-    // }
     ReqDataWithToken(state);
-    console.log(state)
   }, [state]);
 
-  useEffect(() => {
-    console.log(Loading);
-  }, [Loading]);
+  useEffect(() => {}, [Loading]);
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
     const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
 
     try {
-      console.log('res', res.data);
-
       //checking the result vlues is existing in the database. if Not, just continue.
       if (res.data !== 'There is no searching result') {
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
       }
-    } catch (error) {
-      console.log('Error code ' + error);
-    }
+    } catch (error) {}
     setLoading(false);
   };
 
@@ -70,7 +56,6 @@ export const SearchPage = (props) => {
 
   const handleButtonEvent = (list, type) => {
     const temp = [...list];
-    console.log(temp);
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
@@ -78,13 +63,17 @@ export const SearchPage = (props) => {
     let eachItem = item.item;
     return (
       <>
-        <h5>{eachItem.recipeName}</h5>
+        <h4>{eachItem.recipeName}</h4>
         <div className='search-title'>
-          <p style={{ alignItems: 'center', display: 'flex' }}>
-            <img src={heart} alt=''></img>
+          <p
+            style={{ alignItems: 'center', display: 'flex' }}
+            className='Search-userText'>
+            <i className='fa-solid fa-heart Search-heartIcon'></i>
             {eachItem.likeCount}
           </p>
-          {eachItem.userId ? <p>{eachItem.userId.name}</p> : <p>null</p>}
+          {eachItem.userId ? (
+            <p className='Search-userText'>{eachItem.userId.name}</p>
+          ) : null}
         </div>
       </>
     );
@@ -96,22 +85,21 @@ export const SearchPage = (props) => {
     }
     return (
       <InfiniteScroll
+        className='Search-contentContainer'
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{ display: 'flex', flexWrap: 'wrap' }}
-      >
+        style={{ display: 'flex', flexWrap: 'wrap' }}>
         {currentView.map((e, index) => (
           <ImageListItem
             key={index}
             className='search-card'
             onClick={() => {
               navigate(`/recipe/${e._id}`);
-            }}
-          >
+            }}>
             <img
               src={e.recipeImage}
-              style={{ width: '186px', height: '150px' }}
+              className='Search-cardImage'
               alt={index}
               loading='lazy'
             />
@@ -124,7 +112,7 @@ export const SearchPage = (props) => {
 
   return (
     <div>
-      <NavBar searchItem={state} />
+      <NavBar searchItem={state} searchValue={state.value} />
       <div className='searchPage-container'>
         <div className='button-container'>
           <button
@@ -132,20 +120,17 @@ export const SearchPage = (props) => {
             onClick={() =>
               //have to fix the button
               setCurrentView([...reqData.slice(0, currentPage + pageSize)])
-            }
-          >
+            }>
             Latest
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'likeCount')}
-          >
+            onClick={() => handleButtonEvent(reqData, 'likeCount')}>
             Most View
           </button>
           <button
             className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'CookingTime')}
-          >
+            onClick={() => handleButtonEvent(reqData, 'CookingTime')}>
             Cooking Time
           </button>
         </div>
@@ -158,11 +143,7 @@ export const SearchPage = (props) => {
             <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
               <ItemRender filteredList={reqData} />
             </ImageList>
-            {currentView.length === reqData.length ? (
-              <h3 style={{ margin: '10px 120px' }}>
-                Nothing More! or No result!
-              </h3>
-            ) : (
+            {currentView.length !== reqData.length ?? (
               <h3 className='search-tag'>Loading More...</h3>
             )}
           </div>
