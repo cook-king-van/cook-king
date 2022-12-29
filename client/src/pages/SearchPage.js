@@ -28,6 +28,7 @@ export const SearchPage = (props) => {
     //   navigate('/login');
     // }
     ReqDataWithToken(state);
+    console.log(state)
   }, [state]);
 
   useEffect(() => {
@@ -36,11 +37,7 @@ export const SearchPage = (props) => {
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
-    const res = await axios.get(`/api/recipes/search?name=${req}`, {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    });
+    const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
 
     try {
       console.log('res', res.data);

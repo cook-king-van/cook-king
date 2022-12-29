@@ -124,14 +124,18 @@ const MainList = ({ title, DataType }) => {
             className='fa-solid fa-circle-plus fa-2xl'
             id='zeroLength'
             onClick={() => {
-              navigate(`/search?option=${title}`);
+              navigate(`/search?option=${title}`, {
+                state: { type: 'option', value: title },
+              });
             }}
           ></i>
         ) : (
           <i
             className='fa-solid fa-circle-plus fa-2xl'
             onClick={() => {
-              navigate(`/search?option=${title}`);
+              navigate(`/search?option=${title}`, {
+                state: { type: 'option', value: title },
+              });
             }}
           ></i>
         )}
@@ -142,7 +146,7 @@ const MainList = ({ title, DataType }) => {
   return (
     <>
       <div>
-        <h1 className='MainList-h1'>{title}</h1>
+        <h1 className='MainList-h1'>{title[0].toUpperCase() + title.slice(1)}</h1>
       </div>
 
       <div className='MainList-slideShow'>

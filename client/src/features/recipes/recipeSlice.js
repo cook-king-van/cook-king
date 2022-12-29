@@ -5,7 +5,7 @@ import { loadUser } from '../users/userSlice';
 
 const initialState = {
   loading: false,
-  recipes: [],
+  recipes: { best: [], brunch: [], dinner: [], snack: [] },
   currentRecipe: {},
   authorRecipes: [],
   error: '',
@@ -97,6 +97,18 @@ const recipeSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    getAllRecipiesLoading(state, action) {
+      state.loading = true;
+      state.error = null;
+    },
+    getAllRecipiesSuccess(state, action) {
+      state.loading = false;
+      state.recipes = action.payload;
+    },
+    getAllRecipiesFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -119,6 +131,9 @@ export const {
   deleteRecipeLoading,
   deleteRecipeSuccess,
   deleteRecipeFailure,
+  getAllRecipiesLoading,
+  getAllRecipiesSuccess,
+  getAllRecipiesFailure,
 } = recipeSlice.actions;
 
 export default recipeSlice.reducer;
@@ -226,5 +241,19 @@ export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
           : error.message
       )
     );
+  }
+};
+
+export const getAllRecipies = () => async (dispatch, getState) => {
+  try {
+    dispatch(getAllRecipiesLoading());
+    const { data } = await axios.get('/api/recipes/landing');
+    dispatch(getAllRecipiesSuccess(data));
+  } catch (error) {
+    dispatch(getAllRecipiesFailure(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    ))
   }
 };

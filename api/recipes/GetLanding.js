@@ -37,8 +37,8 @@ const GetLanding = async (req, res) => {
     return res.send({
       best,
       brunch: OptionRecipes[0].recipeId,
-      snack: OptionRecipes[1].recipeId,
-      dinner: OptionRecipes[2].recipeId,
+      dinner: OptionRecipes[1].recipeId,
+      snack: OptionRecipes[2].recipeId,
     });
   } catch (e) {
     console.error(`Exception Error`);
