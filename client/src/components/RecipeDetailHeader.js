@@ -73,28 +73,28 @@ const RecipeDetailHeader = (props) => {
         </div>
         <p className='RecipeDetail-border'></p>
         <div className='RecipeDetail-recipeInfoContainer'>
-          <div>
+          <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-utensils fa-2x RecipeDetail-utensilsIcon'></i>
-            <p className='RecipeDetail-option'>
+            <p className='RecipeDetail-text'>
               {refineRecipeName(option?.sort)}
             </p>
           </div>
 
-          <div>
+          <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-globe fa-2x RecipeDetail-globeIcon'></i>
-            <p className='RecipeDetail-category'>
+            <p className='RecipeDetail-text'>
               {refineRecipeName(categoriesId?.categoriesName)}
             </p>
           </div>
-          <div>
+          <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-user-group fa-2x RecipeDetail-servingIcon'></i>
-            <p className='RecipeDetail-serving'>
+            <p className='RecipeDetail-text'>
               {size > 1 ? `${size} servings` : `${size} serving`}
             </p>
           </div>
-          <div>
+          <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-regular fa-clock fa-2x RecipeDetail-timeIcon'></i>
-            <p className='RecipeDetail-time'>{detectTime(time)}</p>
+            <p className='RecipeDetail-text'>{detectTime(time)}</p>
           </div>
         </div>
       </div>

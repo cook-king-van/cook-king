@@ -28,10 +28,17 @@ export const SearchPage = () => {
   const ReqDataWithToken = async (req) => {
     setLoading(true);
     const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
-
+    console.log(res.data)
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
-      if (res.data !== 'There is no searching result') {
+      if (req.type === "option") {
+        setReqData(res.data.recipes[0].recipeId);
+        setCurrentView(res.data.recipes[0].recipeId.slice(0, pageSize));
+      } else if (res.data !== 'There is no searching result') {
+        setReqData(res.data.recipes);
+        setCurrentView(res.data.recipes.slice(0, pageSize));
+      } else if (req.type === "category") {
+        console.log()
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
       }
