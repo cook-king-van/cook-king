@@ -8,6 +8,13 @@
   padding: 20px !important;
 }
 
+.search-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-card {
   margin: 2rem;
   padding: 1rem;
@@ -63,9 +70,9 @@
   overflow: hidden !important;
 }
 .search-tag {
-  display: flex;
-  /* justify-content: center; */
-  margin: 40px 480px;
+  /* display: flex;
+  justify-content: center; */
+  margin: 40px 0px;
 }
 
 .MuiImageListItem-standard {

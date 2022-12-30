@@ -22,6 +22,7 @@ export const SearchPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(state)
     ReqDataWithToken(state);
   }, [state]);
 
@@ -34,8 +35,8 @@ export const SearchPage = () => {
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
       if (req.type === 'option') {
-        setReqData(res.data.recipes[0].recipeId);
-        setCurrentView(res.data.recipes[0].recipeId.slice(0, pageSize));
+        setReqData(res.data.recipes);
+        setCurrentView(res.data.recipes.slice(0, pageSize));
       } else if (res.data !== 'There is no searching result') {
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
