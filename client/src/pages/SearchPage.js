@@ -38,7 +38,6 @@ export const SearchPage = () => {
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
       } else if (req.type === "category") {
-        console.log()
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
       }

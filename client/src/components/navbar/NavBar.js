@@ -143,7 +143,8 @@ const NavBar = ({ searchValue }) => {
           <input
             type='text'
             placeholder='Search bar'
-            value={searchValue}
+            // if set the value as a searchNalue, it will not let you change the value insdie of input.
+            // value={searchValue}
             className='NavBar-bar'
             onChange={(e) => setValue(e.target.value)}
           />

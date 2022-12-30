@@ -10,7 +10,8 @@
 
 .search-card {
   margin: 2rem;
-  padding: 2rem;
+  padding: 1rem;
+  padding-left: 1rem;
   background-color: rgba(217, 217, 217, 0.2);
   border-bottom: 1px solid #898787;
   border-radius: 10px;
@@ -63,9 +64,9 @@ margin: 15px;
 }
 
 .MuiImageListItem-standard {
-  height: 250px !important;
+  height: 300px !important;
   padding-bottom: 0 !important;
-  width: 250px !important;
+  width: 300px !important;
 }
 .search-loading {
   display: flex;
@@ -88,7 +89,7 @@ margin: 15px;
 }
 
 .Search-cardImage {
-  width: 186px !important;
+  width: 265px !important;
   height: 150px !important;
   border-radius: 5px !important;
 }
