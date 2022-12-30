@@ -33,7 +33,7 @@ const NavBar = ({ searchValue }) => {
     if (searchValue) {
       setValue(searchValue);
     }
-  }, []);
+  }, [searchValue]);
 
   const ReqCategories = async () => {
     try {
