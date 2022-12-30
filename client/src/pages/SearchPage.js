@@ -30,8 +30,12 @@ export const SearchPage = () => {
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
-    const value = req.value === 'todayBest' ? 'best' : req.value;
-    const res = await axios.get(`/api/recipes/search?${req.type}=${value}`);
+    let res = null;
+    if (req.value === 'todayBest') {
+      res = await axios.get(`/api/recipes/best`);
+    } else {
+      res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
+    }
     console.log(res.data);
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
