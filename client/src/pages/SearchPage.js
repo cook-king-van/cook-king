@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
+import detectTime from '../lib/detectTime';
 
 export const SearchPage = () => {
   const pageSize = 7;
@@ -83,7 +84,7 @@ export const SearchPage = () => {
             <i
               className='fa-regular fa-clock MainList-timeIcon'
               style={{ margin: '0 5px' }}></i>{' '}
-            {eachItem.time}
+            {detectTime(eachItem.time)}
           </p>
           {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
         </div>
