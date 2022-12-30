@@ -153,9 +153,11 @@ export const SearchPage = () => {
             <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
               <ItemRender filteredList={reqData} />
             </ImageList>
-            {currentView.length !== reqData.length ?? (
+            {console.log(currentView, reqData)}
+            {currentView.length !== reqData.length ? 
               <h3 className='search-tag'>Loading More...</h3>
-            )}
+              : <h3 className='search-tag'>Nothing more!</h3>
+            }
           </div>
         )}
       </div>

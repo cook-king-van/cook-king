@@ -59,8 +59,8 @@ margin: 15px;
 }
 .search-tag {
   display: flex;
-  flex-direction: row-reverse;
-  margin: 10px 220px;
+  /* justify-content: center; */
+  margin: 40px 480px;
 }
 
 .MuiImageListItem-standard {
