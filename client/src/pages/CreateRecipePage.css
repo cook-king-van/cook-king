@@ -285,9 +285,22 @@
   width: 80%;
   text-indent: 7px;
   font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
   color: var(--brownColor);
   outline: none;
   margin-top: 10px;
+}
+
+.CreateRecipe-ingredientNameInput::placeholder {
+  color: #bdbdbd;
+}
+
+.CreateRecipe-ingredientNameInput:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
+.CreateRecipe-ingredientNameInput::-ms-input-placeholder {
+  color: #bdbdbd;
 }
 
 .CreateRecipe-ingredientNameInput:focus {
@@ -302,9 +315,22 @@
   width: 80%;
   text-indent: 7px;
   font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
   color: var(--brownColor);
   outline: none;
   margin-top: 10px;
+}
+
+.CreateRecipe-ingredientMeasureInput::placeholder {
+  color: #bdbdbd;
+}
+
+.CreateRecipe-ingredientMeasureInput:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
+.CreateRecipe-ingredientMeasureInput::-ms-input-placeholder {
+  color: #bdbdbd;
 }
 
 .CreateRecipe-ingredientMeasureInput:focus {
