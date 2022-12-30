@@ -89,7 +89,7 @@ const RecipeDetailHeader = (props) => {
           <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-user-group fa-2x RecipeDetail-servingIcon'></i>
             <p className='RecipeDetail-text'>
-              {size > 1 ? `${size} servings` : `${size} serving`}
+              {!size ? '' : size > 1 ? `${size} servings` : `${size} serving`}
             </p>
           </div>
           <div className='RecipeDetail-recipeInfoItem'>
