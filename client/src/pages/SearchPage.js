@@ -133,7 +133,7 @@ export const SearchPage = () => {
 
   return (
     <div>
-      <NavBar searchItem={state} />
+      <NavBar searchItem={state} searchValue={state.value} />
       <div className='searchPage-container'>
         <div className='button-container'>
           <button
