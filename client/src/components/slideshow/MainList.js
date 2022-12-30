@@ -18,6 +18,7 @@ const MainList = ({ title, DataType }) => {
       url: item.recipeImage ?? tempFood,
       id: item._id,
       cookingTime: item.time,
+      updatedAt: item.updatedAt,
     };
   });
 
@@ -69,17 +70,26 @@ const MainList = ({ title, DataType }) => {
           />
           <h3 className='MainList-h3'>{description}</h3>
           <div className='MainList-cardInfo'>
-            <p className='MainList-userText'>
-              <i className='fa-solid fa-heart MainList-heartIcon'></i>
-              {image.heart}
-            </p>
-            <p className='MainList-userText'>
-              <i
-                className='fa-regular fa-clock MainList-timeIcon'
-                style={{ margin: '0 5px' }}></i>
-              {detectTime(image.cookingTime)}
-            </p>
-            <p className='MainList-userText'>{image.user.name ?? 'No name'}</p>
+            <div className='MainList-cardInfoBox'>
+              <p className='MainList-userText'>
+                <i className='fa-solid fa-heart MainList-heartIcon'></i>
+                {image.heart}
+              </p>
+              <p className='MainList-userText'>
+                <i
+                  className='fa-regular fa-clock MainList-timeIcon'
+                  style={{ margin: '0 5px' }}></i>
+                {detectTime(image.cookingTime)}
+              </p>
+            </div>
+            <div className='MainList-cardBox'>
+              <p className='MainList-userText'>
+                {image.user.name ?? 'No name'}
+              </p>
+              <p className='MainList-userText'>
+                {image.updatedAt.split('T')[0] || image.createdAt}
+              </p>
+            </div>
           </div>
         </div>
       );

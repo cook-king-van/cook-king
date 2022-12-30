@@ -133,6 +133,13 @@ const UserProfile = () => {
       }, 3000);
       return;
     }
+    if (userName.length > 15) {
+      setErrorMsg('Username cannot be longer than 15 characters.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 3000);
+      return;
+    }
     setErrorMsg(false);
     dispatch(
       updateUserProfile({
