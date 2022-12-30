@@ -60,7 +60,8 @@ const MainList = ({ title, DataType }) => {
           className='MainList-item'
           onClick={() => {
             navigate(`/recipe/${image.id}`);
-          }}>
+          }}
+        >
           <Image
             draggable={false}
             className='MainList-cardImage'
@@ -76,7 +77,8 @@ const MainList = ({ title, DataType }) => {
             <p className='MainList-userText'>
               <i
                 className='fa-regular fa-clock MainList-timeIcon'
-                style={{ margin: '0 5px' }}></i>
+                style={{ margin: '0 5px' }}
+              ></i>
               {detectTime(image.cookingTime)}
             </p>
             <p className='MainList-userText'>{image.user.name ?? 'No name'}</p>
@@ -96,7 +98,8 @@ const MainList = ({ title, DataType }) => {
         className='MainList-reactMultiCarouselList'
         customLeftArrow={<CustomLeftArrow />}
         customRightArrow={<CustomRightArrow />}
-        draggable={false}>
+        draggable={false}
+      >
         {slideData.map((image) => {
           return (
             <SlideCard
@@ -125,17 +128,20 @@ const MainList = ({ title, DataType }) => {
                 navigate(`/search?option=${title}`, {
                   state: { type: 'option', value: title },
                 });
-              }}></i>
+              }}
+            ></i>
           </div>
         ) : (
           <div className='MainList-seeMorePlusSign'>
             <i
               className='fa-solid fa-circle-plus fa-3x MainList-plusSign'
               onClick={() => {
-                navigate(`/search?option=${title}`, {
-                  state: { type: 'option', value: title },
+                const value = title === "today's Best" ? 'todayBest' : title;
+                navigate(`/search?option=${value}`, {
+                  state: { type: 'option', value },
                 });
-              }}></i>
+              }}
+            ></i>
           </div>
         )}
       </Carousel>
