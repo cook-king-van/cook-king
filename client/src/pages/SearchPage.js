@@ -47,8 +47,6 @@ export const SearchPage = () => {
     setLoading(false);
   };
 
-  console.log('is clicked', isClicked);
-
   //function for bring the next data from the reuslt
   const fetchMoreData = () => {
     if (currentView.length >= reqData.length) {
