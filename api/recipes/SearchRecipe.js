@@ -7,7 +7,7 @@ const searchOption = async (option, page, resultPage) => {
   })
     .populate({
       path: 'recipeId',
-      select: ['recipeName', 'likeCount', 'recipeImage', 'time'],
+      select: ['recipeName', 'likeCount', 'recipeImage', 'time', 'updatedAt'],
       populate: {
         path: 'userId',
         select: 'name -_id',
@@ -26,7 +26,7 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
       $options: 'i',
     },
   })
-    .select('recipeName recipeImage likeCount userId time')
+    .select('recipeName recipeImage likeCount userId time updatedAt')
     .populate('userId', 'name -_id')
     .skip(resultPage * page)
     .limit(resultPage);
@@ -49,7 +49,7 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
       .select('recipeId -_id')
       .populate({
         path: 'recipeId',
-        select: ['recipeName', 'likeCount', 'recipeImage', 'time'],
+        select: ['recipeName', 'likeCount', 'recipeImage', 'time', 'updatedAt'],
         populate: {
           path: 'userId',
           select: 'name -_id',
@@ -72,7 +72,7 @@ const searchCategory = async (category, page, resultPage) => {
   })
     .populate({
       path: 'recipeList',
-      select: ['recipeName', 'likeCount', 'recipeImage', 'time'],
+      select: ['recipeName', 'likeCount', 'recipeImage', 'time', 'updatedAt'],
       populate: {
         path: 'userId',
         select: 'name -_id',
@@ -113,7 +113,7 @@ const SearchRecipe = async (req, res) => {
     if (recipes.length === 0) {
       return res.status(203).send('There is no searching result');
     }
-    return res.status(200).send({ recipes, currentpage,remain });
+    return res.status(200).send({ recipes, currentpage, remain });
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);

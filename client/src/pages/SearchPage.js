@@ -72,26 +72,27 @@ export const SearchPage = () => {
   const Card = (item) => {
     let eachItem = item.item;
     return (
-      <>
-        <h4>{eachItem.recipeName}</h4>
-        <div className='search-title'>
-          <p
-            style={{ alignItems: 'center', display: 'flex' }}
-            className='Search-userText'
-          >
-            <i className='fa-solid fa-heart Search-heartIcon'></i>
+      <div className='search-title'>
+        <h4 className='search-recipeName'>{eachItem.recipeName}</h4>
+        <div className='search-infoBox'>
+          <p className='search-userText'>
+            <i className='fa-solid fa-heart search-heartIcon'></i>
             {eachItem.likeCount}
           </p>
-          <p>
-            <i
-              className='fa-regular fa-clock MainList-timeIcon'
-              style={{ margin: '0 5px' }}
-            ></i>{' '}
+          <p className='search-userText'>
+            <i className='fa-regular fa-clock search-timeIcon'></i>
             {detectTime(eachItem.time)}
           </p>
-          {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
         </div>
-      </>
+        <div className='search-userInfoBox'>
+          <p className='search-userText'>
+            {eachItem?.userId && eachItem?.userId?.name}
+          </p>
+          <p className='search-userText'>
+            {eachItem?.updatedAt?.split('T')[0] || eachItem?.createdAt}
+          </p>
+        </div>
+      </div>
     );
   };
 
@@ -105,16 +106,14 @@ export const SearchPage = () => {
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{ display: 'flex', flexWrap: 'wrap' }}
-      >
+        style={{ display: 'flex', flexWrap: 'wrap' }}>
         {currentView.map((e, index) => (
           <ImageListItem
             key={index}
             className='search-card'
             onClick={() => {
               navigate(`/recipe/${e._id}`);
-            }}
-          >
+            }}>
             <img
               src={e.recipeImage}
               className='Search-cardImage'
@@ -130,7 +129,7 @@ export const SearchPage = () => {
 
   return (
     <div>
-      <NavBar searchItem={state} searchValue={state.value} />
+      <NavBar searchItem={state} />
       <div className='searchPage-container'>
         <div className='button-container'>
           <button
@@ -142,8 +141,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 0 ? true : false))
               );
-            }}
-          >
+            }}>
             Latest
           </button>
           <button
@@ -154,8 +152,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 1 ? true : false))
               );
-            }}
-          >
+            }}>
             Most Liked
           </button>
           <button
@@ -166,8 +163,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 2 ? true : false))
               );
-            }}
-          >
+            }}>
             Cooking Time
           </button>
         </div>
@@ -181,10 +177,8 @@ export const SearchPage = () => {
               <ItemRender filteredList={reqData} />
             </ImageList>
             {console.log(currentView, reqData)}
-            {currentView.length !== reqData.length ? (
+            {currentView.length !== reqData.length && (
               <h3 className='search-tag'>Loading More...</h3>
-            ) : (
-              <h3 className='search-tag'>Nothing more!</h3>
             )}
           </div>
         )}
