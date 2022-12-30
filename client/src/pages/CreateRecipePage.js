@@ -320,20 +320,13 @@ const CreateRecipePage = () => {
       setShowRecipeWarningMsg(true);
       return;
     }
-    const inputValidation = await checkInputs();
-    if (!inputValidation) {
-      return;
-    }
     setError('');
-    const realIngredients = ingredients.filter(
-      (ingredient) => !!ingredient.name?.trim() && !!ingredient.measure?.trim()
-    );
     dispatch(
       saveRecipeToLocal({
         recipeName: recipeName,
         time: Number(time),
         option: option,
-        ingredient: realIngredients,
+        ingredient: ingredients,
         categoryName: category,
         size: Number(servings),
         step: steps,
