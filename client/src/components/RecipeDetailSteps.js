@@ -59,27 +59,47 @@ const RecipeDetailSteps = (props) => {
                 <>
                   <div className='RecipeDetail-stepTextBox'>
                     <div className='RecipeDetail-stepNumber'>{i + 1}</div>
-                    <p className='RecipeDetail-stepText'>{step.description}</p>
+                    <p className='RecipeDetail-stepText'>
+                      {step.description || 'No description provided'}
+                    </p>
                   </div>
-                  {isTabView1On && (
-                    <img
-                      src={step.stepImage}
-                      alt='no img available'
-                      className='RecipeDetail-stepPhoto'
-                    />
-                  )}
+                  {isTabView1On ? (
+                    step.stepImage ? (
+                      <img
+                        src={step.stepImage}
+                        alt='no img available'
+                        className='RecipeDetail-stepPhoto'
+                      />
+                    ) : (
+                      <div className='RecipeDetail-stepPhotoNoPhoto'>
+                        <p className='RecipeDetail-stepPhotoNoPhotoText'>
+                          No Image Found
+                        </p>
+                      </div>
+                    )
+                  ) : null}
                 </>
               ) : (
                 <div className='RecipeDetail-tabView3Box'>
                   <div className='RecipeDetail-tabView3TextBox'>
                     <div className='RecipeDetail-stepNumber'>{i + 1}</div>
-                    <p className='RecipeDetail-stepText'>{step.description}</p>
+                    <p className='RecipeDetail-stepText'>
+                      {step.description || 'No description provided'}
+                    </p>
                   </div>
-                  <img
-                    src={step.stepImage}
-                    alt='no img available'
-                    className='RecipeDetail-tabView3stepPhoto'
-                  />
+                  {step.stepImage ? (
+                    <img
+                      src={step.stepImage}
+                      alt='no img available'
+                      className='RecipeDetail-tabView3stepPhoto'
+                    />
+                  ) : (
+                    <div className='RecipeDetail-tabView3stepPhotoNoneBox'>
+                      <p className='RecipeDetail-tabView3stepPhotoNoneText'>
+                        No Image Found
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

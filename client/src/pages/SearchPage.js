@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
+import detectTime from '../lib/detectTime';
 
 export const SearchPage = () => {
   const pageSize = 7;
@@ -16,6 +17,7 @@ export const SearchPage = () => {
   const [hasMode, setHasMode] = useState(true);
   const [reqData, setReqData] = useState([]);
   const [Loading, setLoading] = useState(false);
+  const [isClicked, setIsClicked] = useState([false, false, false]);
 
   const navigate = useNavigate();
 
@@ -28,10 +30,10 @@ export const SearchPage = () => {
   const ReqDataWithToken = async (req) => {
     setLoading(true);
     const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
-    console.log(res.data)
+    console.log(res.data);
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
-      if (req.type === "option") {
+      if (req.type === 'option') {
         setReqData(res.data.recipes[0].recipeId);
         setCurrentView(res.data.recipes[0].recipeId.slice(0, pageSize));
       } else if (res.data !== 'There is no searching result') {
@@ -81,7 +83,7 @@ export const SearchPage = () => {
             <i
               className='fa-regular fa-clock MainList-timeIcon'
               style={{ margin: '0 5px' }}></i>{' '}
-            {eachItem.time}
+            {detectTime(eachItem.time)}
           </p>
           {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
         </div>
@@ -126,21 +128,37 @@ export const SearchPage = () => {
       <div className='searchPage-container'>
         <div className='button-container'>
           <button
-            className='searchPage-button'
-            onClick={() =>
+            className={`searchPage-button
+              ${isClicked[0] && 'searchPage-button-clicked'}`}
+            onClick={() => {
               //have to fix the button
-              setCurrentView([...reqData.slice(0, currentPage + pageSize)])
-            }>
+              setCurrentView([...reqData.slice(0, currentPage + pageSize)]);
+              setIsClicked(
+                isClicked.map((data, i) => (i === 0 ? true : false))
+              );
+            }}>
             Latest
           </button>
           <button
-            className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'likeCount')}>
+            className={`searchPage-button
+            ${isClicked[1] && 'searchPage-button-clicked'}`}
+            onClick={() => {
+              handleButtonEvent(reqData, 'likeCount');
+              setIsClicked(
+                isClicked.map((data, i) => (i === 1 ? true : false))
+              );
+            }}>
             Most Liked
           </button>
           <button
-            className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'time')}>
+            className={`searchPage-button
+            ${isClicked[2] && 'searchPage-button-clicked'}`}
+            onClick={() => {
+              handleButtonEvent(reqData, 'time');
+              setIsClicked(
+                isClicked.map((data, i) => (i === 2 ? true : false))
+              );
+            }}>
             Cooking Time
           </button>
         </div>

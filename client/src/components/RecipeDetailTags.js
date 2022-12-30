@@ -14,14 +14,18 @@ const RecipeDetailTags = ({ tags }) => {
     <div className='RecipeDetail-ingredientContainer'>
       <label className='RecipeDetail-tagTitle'>Tags</label>
       <div className='RecipeDetail-tagsContainer'>
-        {tags?.map((tag) => (
-          <div
-            key={tag._id}
-            className='RecipeDetail-tag'
-            onClick={() => handleTagSearch(tag?.tagName)}>
-            #{tag?.tagName}
-          </div>
-        ))}
+        {tags ? (
+          tags?.map((tag) => (
+            <div
+              key={tag._id}
+              className='RecipeDetail-tag'
+              onClick={() => handleTagSearch(tag?.tagName)}>
+              #{tag?.tagName}
+            </div>
+          ))
+        ) : (
+          <div className='RecipeDetail-noTagText'>No Tags Found</div>
+        )}
       </div>
     </div>
   );

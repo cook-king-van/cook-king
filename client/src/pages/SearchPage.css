@@ -30,12 +30,17 @@
 }
 
 .searchPage-button {
-width: 176px;
-height: 57px;
-border: none;
-background: var(--lightGreenColor);
-border-radius: 5px;
-margin: 15px;
+  width: 176px;
+  height: 57px;
+  border: none;
+  background: var(--lightGreenColor);
+  border-radius: 5px;
+  margin: 15px;
+  letter-spacing: 3px;
+}
+
+.searchPage-button-clicked {
+  background: var(--lightColor);
 }
 
 .button-container {

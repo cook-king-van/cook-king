@@ -14,6 +14,7 @@ const MakingTag = async (tags) => {
         },
         {
           upsert: true,
+          new: true,
         }
       );
       return newTag._id;
@@ -94,6 +95,7 @@ const CreateRecipe = async (req, res) => {
         recipeId: recipe._id,
       },
     });
+
     await Categories.Categories.findByIdAndUpdate(findCategory._id, {
       $push: {
         recipeList: recipe._id,
@@ -102,18 +104,24 @@ const CreateRecipe = async (req, res) => {
 
     await addRecipeIdToTag(tagIds, recipe._id);
 
-    const updatedUser = await User.findByIdAndUpdate(userId, {
-      $push: {
-        recipes: {
-          _id: recipe._id,
-          recipeName: recipe.recipeName,
-          recipeImage: recipe.recipeImage,
-          likeCount: recipe.likeCount,
-          updatedAt: recipe.updatedAt,
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          recipes: {
+            _id: recipe._id,
+            recipeName: recipe.recipeName,
+            recipeImage: recipe.recipeImage,
+            likeCount: recipe.likeCount,
+            updatedAt: recipe.updatedAt,
+          },
         },
       },
-    });
-    return res.status(200).json(recipe);
+      {
+        new: true,
+      }
+    );
+    return res.status(200).json(updatedUser);
   } catch (e) {
     console.error(`Exception Error`);
     console.log(`error: ${e.message}`);

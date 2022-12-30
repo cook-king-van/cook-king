@@ -4,6 +4,7 @@ import './UserProfilePage.css';
 import EditPencilButton from '../components/EditPencilButton';
 import MyCookingCard from '../components/MyCookingCard';
 import Navbar from '../components/navbar/NavBar';
+import { usePrompt } from '../hooks/NavigationBlocker';
 
 import { Avatar, Alert } from '@mui/material';
 
@@ -16,6 +17,7 @@ const UserProfile = () => {
   const currentUser = useSelector((state) => state.user);
   const botUser = 'a user';
   const userImage = currentUser?.userInfo?.profileImage;
+  const error = currentUser.error;
 
   const [userName, setUserName] = useState('');
   const [intro, setIntro] = useState('');
@@ -31,6 +33,9 @@ const UserProfile = () => {
   const [selectedFile, setSelectedFile] = useState('');
   const [profileUpdateMsg, setProfileUpdateMsg] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+
+  const [hasError, isHasError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     if (currentUser?.userInfo?.name) {
@@ -63,6 +68,11 @@ const UserProfile = () => {
     isEditIntro,
     showUpdate,
   ]);
+
+  usePrompt(
+    'Are you sure you want to leave this page? You have unsaved changes.',
+    showUpdate && (userName !== '' || intro !== '' || selectedFile !== '')
+  );
 
   const hiddenFileInput = React.useRef(null);
 
@@ -108,14 +118,36 @@ const UserProfile = () => {
   };
 
   const handleUpdateProfile = () => {
-    setProfileUpdateMsg(true);
+    const pattern = /\s/g;
+    if (!!userName?.trim() === false) {
+      setErrorMsg('Enter a username.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 3000);
+      return;
+    }
+    if (userName.trim().match(pattern)) {
+      setErrorMsg('There is a space in the name.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 3000);
+      return;
+    }
+    setErrorMsg(false);
     dispatch(
       updateUserProfile({
-        name: userName,
+        name: userName.trim(),
         description: intro,
         profileImage: selectedFile || userImage,
       })
     );
+
+    if (error) {
+      isHasError(true);
+      return;
+    }
+    setProfileUpdateMsg(true);
+
     setTimeout(() => {
       setProfileUpdateMsg(false);
     }, 3000);
@@ -130,11 +162,20 @@ const UserProfile = () => {
     dispatch(logout());
   };
 
+  const displayErrorMsg = (
+    <Alert severity='error' className='UserProfile-profileUpdateMsg'>
+      An error has occured!
+    </Alert>
+  );
+
+  const displayInternalErrorMsg = (
+    <Alert severity='error' className='UserProfile-profileUpdateMsg'>
+      {errorMsg}
+    </Alert>
+  );
+
   const updateProfileMsg = (
-    <Alert
-      severity='success'
-      color='info'
-      className='UserProfile-profileUpdateMsg'>
+    <Alert severity='info' className='UserProfile-profileUpdateMsg'>
       Profile updated successfully!
     </Alert>
   );
@@ -147,6 +188,8 @@ const UserProfile = () => {
     <>
       <Navbar />
       {profileUpdateMsg ? updateProfileMsg : ''}
+      {hasError ? displayErrorMsg : ''}
+      {errorMsg ? displayInternalErrorMsg : ''}
       <div className='UserProfile-container'>
         <div className='UserProfile-innerContainer'>
           <div className='UserProfile-topContainer'>
