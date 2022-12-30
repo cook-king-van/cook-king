@@ -142,8 +142,9 @@ const MainList = ({ title, DataType }) => {
             <i
               className='fa-solid fa-circle-plus fa-3x MainList-plusSign'
               onClick={() => {
-                navigate(`/search?option=${title}`, {
-                  state: { type: 'option', value: title },
+                const value = title === "today's Best" ? 'todayBest' : title;
+                navigate(`/search?option=${value}`, {
+                  state: { type: 'option', value },
                 });
               }}></i>
           </div>

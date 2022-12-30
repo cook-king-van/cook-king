@@ -22,7 +22,7 @@ export const SearchPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(state)
+    console.log(state);
     ReqDataWithToken(state);
   }, [state]);
 
@@ -30,7 +30,8 @@ export const SearchPage = () => {
 
   const ReqDataWithToken = async (req) => {
     setLoading(true);
-    const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
+    const value = req.value === 'todayBest' ? 'best' : req.value;
+    const res = await axios.get(`/api/recipes/search?${req.type}=${value}`);
     console.log(res.data);
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
@@ -40,7 +41,7 @@ export const SearchPage = () => {
       } else if (res.data !== 'There is no searching result') {
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
-      } else if (req.type === "category") {
+      } else if (req.type === 'category') {
         setReqData(res.data.recipes);
         setCurrentView(res.data.recipes.slice(0, pageSize));
       }
@@ -76,14 +77,16 @@ export const SearchPage = () => {
         <div className='search-title'>
           <p
             style={{ alignItems: 'center', display: 'flex' }}
-            className='Search-userText'>
+            className='Search-userText'
+          >
             <i className='fa-solid fa-heart Search-heartIcon'></i>
             {eachItem.likeCount}
           </p>
           <p>
             <i
               className='fa-regular fa-clock MainList-timeIcon'
-              style={{ margin: '0 5px' }}></i>{' '}
+              style={{ margin: '0 5px' }}
+            ></i>{' '}
             {detectTime(eachItem.time)}
           </p>
           {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
@@ -102,14 +105,16 @@ export const SearchPage = () => {
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{ display: 'flex', flexWrap: 'wrap' }}>
+        style={{ display: 'flex', flexWrap: 'wrap' }}
+      >
         {currentView.map((e, index) => (
           <ImageListItem
             key={index}
             className='search-card'
             onClick={() => {
               navigate(`/recipe/${e._id}`);
-            }}>
+            }}
+          >
             <img
               src={e.recipeImage}
               className='Search-cardImage'
@@ -137,7 +142,8 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 0 ? true : false))
               );
-            }}>
+            }}
+          >
             Latest
           </button>
           <button
@@ -148,7 +154,8 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 1 ? true : false))
               );
-            }}>
+            }}
+          >
             Most Liked
           </button>
           <button
@@ -159,7 +166,8 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 2 ? true : false))
               );
-            }}>
+            }}
+          >
             Cooking Time
           </button>
         </div>
@@ -173,10 +181,11 @@ export const SearchPage = () => {
               <ItemRender filteredList={reqData} />
             </ImageList>
             {console.log(currentView, reqData)}
-            {currentView.length !== reqData.length ? 
+            {currentView.length !== reqData.length ? (
               <h3 className='search-tag'>Loading More...</h3>
-              : <h3 className='search-tag'>Nothing more!</h3>
-            }
+            ) : (
+              <h3 className='search-tag'>Nothing more!</h3>
+            )}
           </div>
         )}
       </div>

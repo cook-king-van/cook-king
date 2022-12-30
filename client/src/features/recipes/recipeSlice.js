@@ -148,7 +148,6 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
 
     dispatch(createRecipeSuccess());
     dispatch(getLatestUserInfo(data));
-    // dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -228,7 +227,7 @@ export const getAuthorRecipes = (userId) => async (dispatch, getState) => {
 export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
   try {
     dispatch(deleteRecipeLoading());
-    const { data } = await api.delete(`/api/recipes/${recipeId}`);
+    await api.delete(`/api/recipes/${recipeId}`);
     dispatch(deleteRecipeSuccess());
     dispatch(loadUser());
   } catch (error) {
