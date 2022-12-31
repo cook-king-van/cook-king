@@ -84,16 +84,34 @@ const searchCategory = async (category, page, resultPage) => {
   return recipe.recipeList;
 };
 
+const searchBest = async (page, resultPage) => {
+  const recipe = await Recipe.find({
+    $orderby: { createdAt: 1 },
+  })
+    .sort({ likeCount: -1 })
+    .skip(resultPage * page)
+    .limit(resultPage)
+    .select('recipeName likeCount recipeImage time')
+    .populate({
+      path: 'userId',
+      select: 'name -_id',
+    });
+  return recipe;
+};
+
 const searchQuery = async (query, page, resultPage, currentpage, remain) => {
   const name = query.name;
   const option = query.option;
   const category = query.category;
+  const best = query.best;
   if (name) {
     return await searchName(name, page, resultPage, currentpage, remain);
   } else if (option) {
     return await searchOption(option, page, resultPage);
-  } else {
+  } else if (category) {
     return await searchCategory(category, page, resultPage);
+  } else if(best !== undefined){
+    return await searchBest(page, resultPage);
   }
 };
 
@@ -101,6 +119,7 @@ const SearchRecipe = async (req, res) => {
   try {
     const { currentpage = 0, remain = 0 } = req.body;
     const query = req.query;
+    console.log(query.best);
     const page = req.query.page - 1;
     const resultPage = 9; // config number
     const recipes = await searchQuery(
@@ -110,10 +129,10 @@ const SearchRecipe = async (req, res) => {
       currentpage,
       remain
     );
-    if (recipes.length === 0) {
+    if (recipes === undefined || recipes.length === 0) {
       return res.status(203).send('There is no searching result');
     }
-    return res.status(200).send({ recipes, currentpage,remain });
+    return res.status(200).send({ recipes, currentpage, remain });
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
