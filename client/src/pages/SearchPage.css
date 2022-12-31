@@ -8,9 +8,16 @@
   padding: 20px !important;
 }
 
+.search-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-card {
   margin: 2rem;
-  padding: 2rem;
+  padding: 1rem;
   background-color: rgba(217, 217, 217, 0.2);
   border-bottom: 1px solid #898787;
   border-radius: 10px;
@@ -19,22 +26,29 @@
 
 .search-card:hover {
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .search-title {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  margin: 2px 0;
 }
 
 .searchPage-button {
-width: 176px;
-height: 57px;
-border: none;
-background: var(--lightGreenColor);
-border-radius: 5px;
-margin: 15px;
+  width: 176px;
+  height: 57px;
+  border: none;
+  background: var(--lightGreenColor);
+  border-radius: 5px;
+  margin: 15px;
+  letter-spacing: 3px;
+}
+
+.searchPage-button-clicked {
+  background: var(--lightColor);
 }
 
 .button-container {
@@ -57,15 +71,13 @@ margin: 15px;
   overflow: hidden !important;
 }
 .search-tag {
-  display: flex;
-  flex-direction: row-reverse;
-  margin: 10px 220px;
+  margin: 40px 0px;
 }
 
 .MuiImageListItem-standard {
-  height: 250px !important;
+  height: 300px !important;
   padding-bottom: 0 !important;
-  width: 250px !important;
+  width: 300px !important;
 }
 .search-loading {
   display: flex;
@@ -75,20 +87,44 @@ margin: 15px;
   align-items: center;
 }
 
-.Search-heartIcon {
+.search-heartIcon {
   color: var(--lightColor);
   margin-right: 5px;
 }
 
-.Search-userText {
-  font-size: 14px;
+.search-timeIcon {
+  color: var(--darkGrayColor);
+  margin-right: 5px;
+}
+
+.search-userText {
+  font-size: 15px;
   align-items: center;
   display: flex;
   color: var(--brownColor);
+  margin-right: 15px;
 }
 
 .Search-cardImage {
-  width: 186px !important;
+  width: 265px !important;
   height: 150px !important;
   border-radius: 5px !important;
+}
+
+.search-infoBox {
+  display: flex;
+  justify-content: flex-start;
+  margin: 2px 0;
+}
+
+.search-userInfoBox {
+  display: flex;
+  justify-content: space-between;
+  color: var(--brownColor);
+}
+
+.search-recipeName {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import api from '../../utils/api';
-import { loadUser } from '../users/userSlice';
+import { getLatestUserInfo, loadUser } from '../users/userSlice';
 
 const initialState = {
   loading: false,
@@ -144,9 +144,10 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
 
     const recipes = { ...recipe, id: userInfo._id };
     const { data } = await api.post('/api/recipes/', recipes);
+    console.log('data', data);
 
     dispatch(createRecipeSuccess());
-    dispatch(loadUser());
+    dispatch(getLatestUserInfo(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -226,7 +227,7 @@ export const getAuthorRecipes = (userId) => async (dispatch, getState) => {
 export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
   try {
     dispatch(deleteRecipeLoading());
-    const { data } = await api.delete(`/api/recipes/${recipeId}`);
+    await api.delete(`/api/recipes/${recipeId}`);
     dispatch(deleteRecipeSuccess());
     dispatch(loadUser());
   } catch (error) {

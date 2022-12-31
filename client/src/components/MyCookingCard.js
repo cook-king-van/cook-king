@@ -23,7 +23,7 @@ const MyCookingCard = (props) => {
           <p className='UserProfile-likes'>{likeCount}</p>
         </div>
         <p className='UserProfile-likesDate'>
-          {updatedAt ? updatedAt.split('T')[0] : userId?.name}
+          {updatedAt ? updatedAt?.split('T')[0] : userId?.name}
         </p>
       </div>
     </div>

@@ -276,7 +276,7 @@ const CreateRecipePage = () => {
     setStepsPhotoAdded(photoStatus);
   };
 
-  const checkInputs = () => {
+  const checkInputs = async () => {
     if (!recipeName) {
       setError('Please enter recipe name.');
       return false;
@@ -301,6 +301,15 @@ const CreateRecipePage = () => {
       setError('Please add ingredients.');
       return false;
     }
+
+    const noMeasure = ingredients.find(
+      (ingredient) => ingredient.name && !!ingredient.measure?.trim() === false
+    );
+
+    if (noMeasure) {
+      setError('Measurement is missing for ingredients.');
+      return false;
+    }
     return true;
   };
 
@@ -311,6 +320,7 @@ const CreateRecipePage = () => {
       setShowRecipeWarningMsg(true);
       return;
     }
+    setError('');
     dispatch(
       saveRecipeToLocal({
         recipeName: recipeName,
@@ -333,16 +343,20 @@ const CreateRecipePage = () => {
 
   const submitRecipe = async () => {
     console.log('submitting recipe...');
-    if (!checkInputs()) {
+    const inputValidation = await checkInputs();
+    if (!inputValidation) {
       return;
     }
-
+    setError('');
+    const realIngredients = ingredients.filter(
+      (ingredient) => !!ingredient.name?.trim() && !!ingredient.measure?.trim()
+    );
     dispatch(
       createRecipe({
         recipeName: recipeName,
         time: Number(time),
         option: option,
-        ingredient: ingredients,
+        ingredient: realIngredients,
         categoriesName: category,
         size: Number(servings),
         step: steps,

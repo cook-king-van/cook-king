@@ -30,11 +30,11 @@ const RecipeDetailHeader = (props) => {
           <button
             className='RecipeDetail-editBtn'
             onClick={() => editRecipe(_id)}>
-            edit
+            Edit
           </button>
         )}
         {recipeImage ? (
-          <>
+          <div className='RecipeDetail-likeContainer'>
             <img
               src={recipeImage}
               alt={recipeName}
@@ -61,7 +61,7 @@ const RecipeDetailHeader = (props) => {
               <i className='fa-solid fa-heart RecipeDetail-heartIcon'></i>
               {likeCount?.toLocaleString()}
             </span>
-          </>
+          </div>
         ) : (
           <div className='RecipeDetail-noMainPhoto'>No Image Found</div>
         )}
@@ -89,7 +89,7 @@ const RecipeDetailHeader = (props) => {
           <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-user-group fa-2x RecipeDetail-servingIcon'></i>
             <p className='RecipeDetail-text'>
-              {size > 1 ? `${size} servings` : `${size} serving`}
+              {!size ? '' : size > 1 ? `${size} servings` : `${size} serving`}
             </p>
           </div>
           <div className='RecipeDetail-recipeInfoItem'>

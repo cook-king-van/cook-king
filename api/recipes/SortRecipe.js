@@ -3,14 +3,14 @@ import categories from '../../models/categories';
 export const todayBestReceipeSort = async (req, res) => {
   try {
     const start = new Date() - 86400000;
-    const recipe = await Recipe.find({
+    const recipes = await Recipe.find({
       createdAt: { $gte: start }, // Today's best
       $orderby: { likeCount: -1, createdAt: -1 },
-    }).limit(5);
-    if (!recipe) {
+    }).limit(15);
+    if (!recipes) {
       return res.status(403).send('No items');
     }
-    return res.status(200).send(recipe);
+    return res.status(200).send({ recipes, currentPage: 0, remain: 0 });
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);

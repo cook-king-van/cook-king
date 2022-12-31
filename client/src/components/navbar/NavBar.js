@@ -30,7 +30,10 @@ const NavBar = ({ searchValue }) => {
 
   useEffect(() => {
     ReqCategories();
-  }, []);
+    if (searchValue) {
+      setValue(searchValue);
+    }
+  }, [searchValue]);
 
   const ReqCategories = async () => {
     try {
@@ -143,7 +146,7 @@ const NavBar = ({ searchValue }) => {
           <input
             type='text'
             placeholder='Search bar'
-            value={searchValue}
+            value={value}
             className='NavBar-bar'
             onChange={(e) => setValue(e.target.value)}
           />

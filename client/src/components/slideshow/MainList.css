@@ -36,8 +36,19 @@
 
 .MainList-cardInfo {
   display: flex;
+  flex-direction: column;
+}
+
+.MainList-cardInfoBox {
+  display: flex;
+  justify-content: flex-start;
+  margin: 3px 10px;
+}
+
+.MainList-cardBox {
+  display: flex;
   justify-content: space-between;
-  margin: 10px;
+  margin: 3px 10px;
 }
 
 .MainList-item {
@@ -48,13 +59,10 @@
   border-radius: 5px;
   box-shadow: -5px -5px 9px rgba(255, 255, 255, 0.45),
     5px 5px 9px rgba(94, 104, 121, 0.3);
-  transform: translateZ(0);
-  transition: transform 0.2s ease-out;
 }
 
 .MainList-item:hover {
-  opacity: 0.9;
-  transform: scale(1.007);
+  opacity: 0.8;
   cursor: pointer;
 }
 
@@ -135,6 +143,7 @@
   align-items: center;
   display: flex;
   color: var(--brownColor);
+  margin-right: 10px;
 }
 
 .MainList-cardImage {
