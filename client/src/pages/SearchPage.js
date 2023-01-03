@@ -73,6 +73,11 @@ export const SearchPage = () => {
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
   };
 
+  const handleCookingEvent = (list, type) => {
+    const temp = [...list];
+    setCurrentView(temp.sort((a, b) => a[type] - b[type]));
+  };
+
   const Card = (item) => {
     let eachItem = item.item;
     return (
@@ -163,7 +168,7 @@ export const SearchPage = () => {
             className={`searchPage-button
             ${isClicked[2] && 'searchPage-button-clicked'}`}
             onClick={() => {
-              handleButtonEvent(reqData, 'time');
+              handleCookingEvent(reqData, 'time');
               setIsClicked(
                 isClicked.map((data, i) => (i === 2 ? true : false))
               );
