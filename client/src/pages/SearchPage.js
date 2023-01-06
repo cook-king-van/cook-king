@@ -20,7 +20,7 @@ export const SearchPage = () => {
   const [Loading, setLoading] = useState(false);
   const [isClicked, setIsClicked] = useState([false, false, false]);
   const [pageNumber, setPageNumber] = useState(1);
-  // let pageNumber = 1;
+  const [backupView, setBackupView] = useState([])
 
   const navigate = useNavigate();
 
@@ -40,7 +40,6 @@ export const SearchPage = () => {
       setType('best');
       // console.log("rese", res.data);
     } else {
-      console.log('resBefore', req, pageNumber);
       res = await axios.get(
         `/api/recipes/search?${req.type}=${req.value}&page=${pageNumber}`
       );
@@ -62,8 +61,11 @@ export const SearchPage = () => {
         // setReqData(res.data.recipes);
         setCurrentView(res.data.recipes);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
+    setBackupView(res.data.recipes);
   };
 
   //function for bring the next data from the reuslt
@@ -83,10 +85,12 @@ export const SearchPage = () => {
       setTimeout(() => {
         setCurrentView(currentView.concat(nextPage.data.recipes));
         setPageNumber((prev) => prev + 1);
+        setBackupView(currentView.concat(nextPage.data.recipes));
       }, 1000);
     } catch (error) {
       console.log(error);
     }
+
   };
 
   const handleSortEvent = (list, type) => {
@@ -169,7 +173,7 @@ export const SearchPage = () => {
             className={`searchPage-button
               ${isClicked[0] && 'searchPage-button-clicked'}`}
             onClick={() => {
-              // setCurrentView(currentView.sort((a, b) => a.createdAt - b.createdAt));
+              setCurrentView(backupView);
               setIsClicked(
                 isClicked.map((data, i) => (i === 0 ? true : false))
               );
