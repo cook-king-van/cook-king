@@ -20,45 +20,42 @@ export const SearchPage = () => {
   const [Loading, setLoading] = useState(false);
   const [isClicked, setIsClicked] = useState([false, false, false]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [backupView, setBackupView] = useState([])
+  const [backupView, setBackupView] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(state);
-    ReqDataWithToken(state, pageNumber);
+    setCurrentView([]);
+    ReqDataWithToken(state);
   }, [state]);
 
   useEffect(() => {}, [Loading]);
 
-  const ReqDataWithToken = async (req, pageNumber) => {
+  const ReqDataWithToken = async (req) => {
     // setCurrentView([])
     setLoading(true);
     let res = null;
     if (req.value === 'todayBest') {
-      res = await axios.get(`/api/recipes/search?best&page${pageNumber}`);
+      res = await axios.get(`/api/recipes/search?best&page${1}`);
       setType('best');
-      // console.log("rese", res.data);
     } else {
       res = await axios.get(
-        `/api/recipes/search?${req.type}=${req.value}&page=${pageNumber}`
+        `/api/recipes/search?${req.type}=${req.value}&page=${1}`
       );
-      setType(req.type)
+      setType(req.type);
     }
-    console.log('res', res);
+    // console.log('res', res);
     try {
-
       //checking the result vlues is existing in the database. if Not, just continue.
       if (res.data === 'There is no searching result') {
-        setCurrentView([])
+        setCurrentView([]);
       } else if (req.type === 'option') {
         console.log('option', res.data.recipes);
         setCurrentView(res.data.recipes);
       } else if (res.data !== 'name') {
-        // setReqData(res.data.recipes);
         setCurrentView(res.data.recipes);
       } else if (req.type === 'category') {
-        // setReqData(res.data.recipes);
         setCurrentView(res.data.recipes);
       }
     } catch (error) {
@@ -90,7 +87,6 @@ export const SearchPage = () => {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   const handleSortEvent = (list, type) => {
@@ -217,7 +213,12 @@ export const SearchPage = () => {
             </ImageList>
             {console.log('current', currentView)}
             {currentView.length === 0 && (
-              <h3 className="search-tag">Nothing more or No result!</h3>
+              <h3 className='search-tag'>There are No result!</h3>
+            )}
+            {hasMode === false ? (
+              <h3 className='search-tag'>No more results!</h3>
+            ) : (
+              <h3 className='search-tag'>Loading more results!</h3>
             )}
           </div>
         )}

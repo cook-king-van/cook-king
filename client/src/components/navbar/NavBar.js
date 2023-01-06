@@ -131,10 +131,14 @@ const NavBar = ({ searchValue }) => {
             return (
               <MenuItem
                 key={index}
-                onClick={() =>
+                onClick={() => {
                   navigate(`/search?category=${item.categoriesName}`, {
                     state: { type: 'category', value: item.categoriesName },
-                  })
+                  });
+                  categoryHandleClose()
+                }
+                  
+                  
                 }
                 style={{ color: '#6C5D53' }}>
                 {item.categoriesName.toUpperCase()}
