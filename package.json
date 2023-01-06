@@ -8,7 +8,8 @@
     "start": "node --experimental-modules --es-module-specifier-resolution=node server.js",
     "server": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
