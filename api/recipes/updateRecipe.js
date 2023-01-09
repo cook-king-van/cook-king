@@ -1,36 +1,5 @@
 import Recipe from '../../models/recipe';
-const clear = async (recipeId) => {
-  const recipe = await Recipe.findById(recipeId);
-  const optionId = recipe.option;
-  const tagIds = recipe.tags;
-  const categoryId = recipe.categoriesId;
-  // Removing recipe id from categories
-  await categories.Categories.findByIdAndUpdate(categoryId, {
-    $pull: {
-      recipeList: recipeId,
-    },
-  });
-
-  // Removing recipe id from options
-  await categories.Option.findByIdAndUpdate(optionId, {
-    $pull: {
-      recipeId: recipeId,
-    },
-  });
-
-  // Removing recipe id from tags
-  if (tagIds.length) {
-    tagIds.forEach(async (tag) => {
-      await categories.Tag.findByIdAndUpdate(tag, {
-        $pull: {
-          recipeId: recipeId,
-        },
-      });
-      // if tag is empty after deleting recipe id, then remove that tag.
-    });
-  }
-};
-
+import categories from '../../models/categories';
 const MakingTag = async (tags) => {
   const tagIds = await Promise.all(
     tags.map(async (tag) => {
@@ -50,7 +19,6 @@ const MakingTag = async (tags) => {
   );
   return tagIds;
 };
-
 async function addRecipeIdToTag(tagIds, recipeId) {
   await Promise.all(
     tagIds.map(async (tagId) => {
@@ -62,11 +30,74 @@ async function addRecipeIdToTag(tagIds, recipeId) {
     })
   );
 }
+const UpdateAll = async (recipeId, option, tag, category) => {
+  const recipe = await Recipe.findById(recipeId);
+  const optionId = recipe.option;
+  const tagIds = recipe.tags;
+  const categoryId = recipe.categoriesId;
+  const findOption = await categories.Option.findById(optionId);
+  const findCategory = await categories.Categories.findById(categoryId);
+  // If option name has changed
+  if (findOption.sort !== option) {
+    // remove from option list
+    await categories.Option.findByIdAndUpdate(optionId, {
+      $pull: {
+        recipeList: recipeId,
+      },
+    });
+
+    const newOption = await categories.Option.findOne({
+      sort: option,
+    });
+
+    await categories.Option.findByIdAndUpdate(newOption._id, {
+      $push: {
+        recipeList: recipeId,
+      },
+    });
+
+    await Recipe.findByIdAndUpdate(recipeId, {
+      option: newOption._id,
+    });
+  }
+  // If category name has changed
+  if (findCategory.categoriesName !== category) {
+    await categories.Categories.findByIdAndUpdate(categoryId, {
+      $pull: {
+        recipeList: recipeId,
+      },
+    });
+
+    const newCategory = await categories.Categories.findOne({
+      categoriesName: category,
+    });
+    await categories.Categories.findByIdAndUpdate(newCategory._id, {
+      $push: {
+        recipeList: recipeId,
+      },
+    });
+    await Recipe.findByIdAndUpdate(recipeId, {
+      categoriesId: newCategory._id,
+    });
+  }
+
+  // Removing recipe id from tags
+  if (tag.length) {
+    tagIds.forEach(async (tag) => {
+      await categories.Tag.findOne({
+        $pull: {
+          tagName: tag,
+        },
+      });
+    });
+    await MakingTag(tag);
+    await addRecipeIdToTag(tagIds, recipeId);
+  }
+};
 
 const updateRecipe = async (req, res) => {
   try {
     const recipeId = req.params.recipeId;
-    clear(recipeId);
     const user = req.user.name;
     const {
       recipeName,
@@ -78,6 +109,7 @@ const updateRecipe = async (req, res) => {
       size,
       tags,
     } = req.body;
+    UpdateAll(recipeId, option, tags, categoriesName);
     if (!recipeName) {
       return res.status(400).send({ message: 'Please enter recipe name.' });
     }
