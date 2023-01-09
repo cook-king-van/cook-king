@@ -7,79 +7,123 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
+import detectTime from '../lib/detectTime';
+import { current } from '@reduxjs/toolkit';
 
 export const SearchPage = () => {
-  const pageSize = 7;
+  // const pageSize = 7;
   const { state } = useLocation();
-  const [currentPage, setCurrentPage] = useState(pageSize);
+  // const [currentPage, setCurrentPage] = useState(pageSize);
   const [currentView, setCurrentView] = useState([]);
   const [hasMode, setHasMode] = useState(true);
-  const [reqData, setReqData] = useState([]);
+  const [type, setType] = useState('');
   const [Loading, setLoading] = useState(false);
+  const [isClicked, setIsClicked] = useState([false, false, false]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [backupView, setBackupView] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(state);
+    setCurrentView([]);
     ReqDataWithToken(state);
   }, [state]);
 
   useEffect(() => {}, [Loading]);
 
   const ReqDataWithToken = async (req) => {
+    // setCurrentView([])
     setLoading(true);
-    const res = await axios.get(`/api/recipes/search?${req.type}=${req.value}`);
-
+    let res = null;
+    if (req.value === 'todayBest') {
+      res = await axios.get(`/api/recipes/search?best&page${1}`);
+      setType('best');
+    } else {
+      res = await axios.get(
+        `/api/recipes/search?${req.type}=${req.value}&page=${1}`
+      );
+      setType(req.type);
+    }
+    // console.log('res', res);
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
-      if (res.data !== 'There is no searching result') {
-        setReqData(res.data.recipes);
-        setCurrentView(res.data.recipes.slice(0, pageSize));
+      if (res.data === 'There is no searching result') {
+        setCurrentView([]);
+      } else if (req.type === 'option') {
+        console.log('option', res.data.recipes);
+        setCurrentView(res.data.recipes);
+      } else if (res.data !== 'name') {
+        setCurrentView(res.data.recipes);
+      } else if (req.type === 'category') {
+        setCurrentView(res.data.recipes);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
+    setBackupView(res.data.recipes);
   };
 
   //function for bring the next data from the reuslt
-  const fetchMoreData = () => {
-    if (currentView.length >= reqData.length) {
-      setHasMode(false);
-      return;
+  const fetchMoreData = async () => {
+    console.log('fetch', type, state.value, pageNumber + 1);
+    const nextPage = await axios.get(
+      `/api/recipes/search?${type}=${state.value}&page=${pageNumber + 1}`
+    );
+    try {
+      console.log('next', nextPage, pageNumber);
+
+      if (nextPage.data === 'There is no searching result') {
+        setHasMode(false);
+        return;
+      }
+
+      setTimeout(() => {
+        setCurrentView(currentView.concat(nextPage.data.recipes));
+        setPageNumber((prev) => prev + 1);
+        setBackupView(currentView.concat(nextPage.data.recipes));
+      }, 1000);
+    } catch (error) {
+      console.log(error);
     }
-    //this two function have to be inside of a callback function, so will proejct to render at once.
-    setTimeout(() => {
-      setCurrentView(
-        currentView.concat(reqData.slice(currentPage, currentPage + pageSize))
-      );
-      setCurrentPage((prev) => prev + 7);
-    }, 1000);
   };
 
-  const handleButtonEvent = (list, type) => {
+  const handleSortEvent = (list, type) => {
     const temp = [...list];
+    // console.log(temp[0].updatedAt)
     setCurrentView(temp.sort((a, b) => b[type] - a[type]));
+  };
+
+  const handleCookingEvent = (list, type) => {
+    const temp = [...list];
+    setCurrentView(temp.sort((a, b) => a[type] - b[type]));
   };
 
   const Card = (item) => {
     let eachItem = item.item;
     return (
-      <>
-        <h4>{eachItem.recipeName}</h4>
-        <div className='search-title'>
-          <p
-            style={{ alignItems: 'center', display: 'flex' }}
-            className='Search-userText'>
-            <i className='fa-solid fa-heart Search-heartIcon'></i>
+      <div className='search-title'>
+        <h4 className='search-recipeName'>{eachItem.recipeName}</h4>
+        <div className='search-infoBox'>
+          <p className='search-userText'>
+            <i className='fa-solid fa-heart search-heartIcon'></i>
             {eachItem.likeCount}
           </p>
-          <p>
-            <i
-              className='fa-regular fa-clock MainList-timeIcon'
-              style={{ margin: '0 5px' }}></i>{' '}
-            {eachItem.time}
+          <p className='search-userText'>
+            <i className='fa-regular fa-clock search-timeIcon'></i>
+            {detectTime(eachItem.time)}
           </p>
-          {eachItem.userId ? <p>{eachItem.userId.name}</p> : null}
         </div>
-      </>
+        <div className='search-userInfoBox'>
+          <p className='search-userText'>
+            {eachItem?.userId && eachItem?.userId?.name}
+          </p>
+          <p className='search-userText'>
+            {eachItem?.updatedAt?.split('T')[0] || eachItem?.createdAt}
+          </p>
+        </div>
+      </div>
     );
   };
 
@@ -93,14 +137,16 @@ export const SearchPage = () => {
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{ display: 'flex', flexWrap: 'wrap' }}>
+        style={{ display: 'flex', flexWrap: 'wrap' }}
+      >
         {currentView.map((e, index) => (
           <ImageListItem
             key={index}
             className='search-card'
             onClick={() => {
               navigate(`/recipe/${e._id}`);
-            }}>
+            }}
+          >
             <img
               src={e.recipeImage}
               className='Search-cardImage'
@@ -120,21 +166,39 @@ export const SearchPage = () => {
       <div className='searchPage-container'>
         <div className='button-container'>
           <button
-            className='searchPage-button'
-            onClick={() =>
-              //have to fix the button
-              setCurrentView([...reqData.slice(0, currentPage + pageSize)])
-            }>
+            className={`searchPage-button
+              ${isClicked[0] && 'searchPage-button-clicked'}`}
+            onClick={() => {
+              setCurrentView(backupView);
+              setIsClicked(
+                isClicked.map((data, i) => (i === 0 ? true : false))
+              );
+            }}
+          >
             Latest
           </button>
           <button
-            className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'likeCount')}>
-            Most View
+            className={`searchPage-button
+            ${isClicked[1] && 'searchPage-button-clicked'}`}
+            onClick={() => {
+              handleSortEvent(currentView, 'likeCount');
+              setIsClicked(
+                isClicked.map((data, i) => (i === 1 ? true : false))
+              );
+            }}
+          >
+            Most Liked
           </button>
           <button
-            className='searchPage-button'
-            onClick={() => handleButtonEvent(reqData, 'time')}>
+            className={`searchPage-button
+            ${isClicked[2] && 'searchPage-button-clicked'}`}
+            onClick={() => {
+              handleCookingEvent(currentView, 'time');
+              setIsClicked(
+                isClicked.map((data, i) => (i === 2 ? true : false))
+              );
+            }}
+          >
             Cooking Time
           </button>
         </div>
@@ -145,10 +209,16 @@ export const SearchPage = () => {
         ) : (
           <div className='search-container'>
             <ImageList sx={{ width: '100%' }} cols={3} rowHeight={250}>
-              <ItemRender filteredList={reqData} />
+              <ItemRender filteredList={currentView} />
             </ImageList>
-            {currentView.length !== reqData.length ?? (
-              <h3 className='search-tag'>Loading More...</h3>
+            {console.log('current', currentView)}
+            {currentView.length === 0 && (
+              <h3 className='search-tag'>There are No result!</h3>
+            )}
+            {hasMode === false ? (
+              <h3 className='search-tag'>No more results!</h3>
+            ) : (
+              <h3 className='search-tag'>Loading more results!</h3>
             )}
           </div>
         )}

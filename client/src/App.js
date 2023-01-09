@@ -35,13 +35,13 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path='/login' element={<LoginPage />} />
-      <Route path='/register' element={<RegisterPage />} />
-      <Route path='/login-recovery' element={<LoginRecoveryPage />} />
-      <Route path='/' element={<LandingPage />} exact />
+      <Route path='/login' element={<LoginPage />} exact />
+      <Route path='/register' element={<RegisterPage />} exact />
+      <Route path='/login-recovery' element={<LoginRecoveryPage />} exact />
       <Route path='/search' element={<SearchPage />} exact />
       <Route path='/recipe/:id' element={<RecipeDetailPage />} />
-      <Route path='/404' element={<NotFoundPage />} />
+      <Route path='/404' element={<NotFoundPage />} exact />
+      <Route path='/' element={<LandingPage />} exact />
       <Route path='*' element={<Navigate to='/404' replace />} />
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<UserProfilePage />} exact />

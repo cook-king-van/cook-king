@@ -1,11 +1,13 @@
 const detectTime = (time) => {
-  switch (time) {
-    case time === 120:
-      return '< 2 hrs';
-    case time === 999:
-      return '2 hrs >';
-    default:
-      return `< ${time} min`;
+  if (!time) {
+    return '';
+  }
+  if (time === 120) {
+    return '< 2 hrs';
+  } else if (time === 999) {
+    return '2 hrs >';
+  } else {
+    return `< ${time} min`;
   }
 };
 

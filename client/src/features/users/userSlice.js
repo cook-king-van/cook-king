@@ -151,6 +151,7 @@ export const loginUser = (email, password, isRemember) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   sessionStorage.removeItem('token');
+  localStorage.removeItem('recipe');
   dispatch(userLogout());
 };
 

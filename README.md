@@ -5,6 +5,7 @@ At Cook King, there are recipes from many countries and cultures,
 so anyone can easily try a variety of dishes.
 
 # Demo
+https://cookking.herokuapp.com/
 
 ### Login
 

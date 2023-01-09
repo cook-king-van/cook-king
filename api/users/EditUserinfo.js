@@ -7,17 +7,17 @@ const EditUserinfo = async (req, res) => {
     const nameRet = await User.findOne({
       name: name,
     });
-    if (nameRet) {
+    if (nameRet && nameRet._id.toString() !== userId) {
       return res.status(403).send(`Name already exist`);
     }
-    await User.findByIdAndUpdate(userId, {
+    const user = await User.findByIdAndUpdate(userId, {
       name,
       description,
       profileImage,
     });
     return res.status(200).send(user);
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };

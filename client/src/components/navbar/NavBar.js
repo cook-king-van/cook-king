@@ -30,7 +30,10 @@ const NavBar = ({ searchValue }) => {
 
   useEffect(() => {
     ReqCategories();
-  }, []);
+    if (searchValue) {
+      setValue(searchValue);
+    }
+  }, [searchValue]);
 
   const ReqCategories = async () => {
     try {
@@ -128,10 +131,14 @@ const NavBar = ({ searchValue }) => {
             return (
               <MenuItem
                 key={index}
-                onClick={() =>
+                onClick={() => {
                   navigate(`/search?category=${item.categoriesName}`, {
                     state: { type: 'category', value: item.categoriesName },
-                  })
+                  });
+                  categoryHandleClose()
+                }
+                  
+                  
                 }
                 style={{ color: '#6C5D53' }}>
                 {item.categoriesName.toUpperCase()}
@@ -143,7 +150,7 @@ const NavBar = ({ searchValue }) => {
           <input
             type='text'
             placeholder='Search bar'
-            value={searchValue}
+            value={value}
             className='NavBar-bar'
             onChange={(e) => setValue(e.target.value)}
           />
