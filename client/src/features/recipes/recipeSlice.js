@@ -82,6 +82,17 @@ const recipeSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    updateRecipeLoading(state, action) {
+      state.loading = true;
+    },
+    updateRecipeSuccess(state, action) {
+      state.loading = false;
+      state.currentRecipe = action.payload;
+    },
+    updateRecipeFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     deleteRecipeLoading(state, action) {
       state.loading = true;
       state.error = null;
@@ -124,6 +135,9 @@ export const {
   getAuthorRecipesLoading,
   getAuthorRecipesSuccess,
   getAuthorRecipesFailure,
+  updateRecipeLoading,
+  updateRecipeSuccess,
+  updateRecipeFailure,
   deleteRecipeLoading,
   deleteRecipeSuccess,
   deleteRecipeFailure,
@@ -223,6 +237,25 @@ export const getAuthorRecipes = (userId) => async (dispatch, getState) => {
     );
   }
 };
+
+export const updateRecipe =
+  (recipeId, recipe) => async (dispatch, getState) => {
+    try {
+      dispatch(updateRecipeLoading());
+      const { data } = await api.put(`/api/recipes/${recipeId}`, recipe);
+      console.log('data', data);
+      dispatch(updateRecipeSuccess(data));
+      dispatch(loadUser());
+    } catch (error) {
+      dispatch(
+        updateRecipeFailure(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
 
 export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
   try {
