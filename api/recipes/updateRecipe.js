@@ -127,7 +127,53 @@ const updateRecipe = async (req, res) => {
       size,
       tags,
     } = req.body;
+<<<<<<< HEAD
     await UpdateAll(recipeId, option, tags, categoriesName);
+=======
+    UpdateAll(recipeId, option, tags, categoriesName);
+    if (!recipeName) {
+      return res.status(400).send({ message: 'Please enter recipe name.' });
+    }
+    if (!ingredient) {
+      return res.status(400).send({ message: 'Please add ingredients.' });
+    }
+    if (!time) {
+      return res.status(400).send({ message: 'Please add time.' });
+    }
+    if (!size) {
+      return res
+        .status(400)
+        .send({ message: 'Please add size.', item: 'size' });
+    }
+
+    await Recipe.findByIdAndUpdate(recipeId, {});
+
+    const findCategory = await categories.Categories.findOne({
+      categoriesName: categoriesName,
+    });
+    const findOption = await categories.Option.findOne({
+      sort: option,
+    });
+    const steps = req.body.step.map((e, index) => {
+      return { ...e, order: index + 1 };
+    });
+
+    await MakingTag(tags);
+
+    await categories.Option.findByIdAndUpdate(findOption._id, {
+      $push: {
+        recipeId: recipe._id,
+      },
+    });
+    await categories.Categories.findByIdAndUpdate(findCategory._id, {
+      $push: {
+        recipeList: recipe._id,
+      },
+    });
+
+    await addRecipeIdToTag(tagIds, recipe._id);
+
+>>>>>>> d383049 (hotfix: landingPage css and create recipe action update)
     const recipe = await Recipe.findByIdAndUpdate(recipeId, {
       recipeName,
       recipeImage,

@@ -158,10 +158,9 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
 
     const recipes = { ...recipe, id: userInfo._id };
     const { data } = await api.post('/api/recipes/', recipes);
-    console.log('data', data);
 
     dispatch(createRecipeSuccess());
-    dispatch(getLatestUserInfo(data));
+    dispatch(loadUser());
   } catch (error) {
     const message =
       error.response && error.response.data.message
