@@ -19,7 +19,7 @@ const searchOption = async (option, page, resultPage) => {
   return recipe[0].recipeId;
 };
 const searchName = async (name, page, resultPage, currentpage, remain) => {
-  const FindRecipes = await Recipe.find({
+  const recipes = await Recipe.find({
     // Using regex include name
     recipeName: {
       $regex: name,
@@ -30,39 +30,6 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
     .populate('userId', 'name -_id')
     .skip(resultPage * page)
     .limit(resultPage);
-  const recipes = [...FindRecipes];
-  if (FindRecipes.length < resultPage) {
-    const addRecipeNumber = resultPage - FindRecipes.length;
-    let skipNumber = 0;
-    if (currentpage) {
-      skipNumber = remain + (page - currentpage) * resultPage;
-    } else {
-      currentpage = page;
-      remain = addRecipeNumber;
-    }
-    const TagRecipes = await categories.Tag.find({
-      tagName: {
-        $regex: name,
-        $options: 'i',
-      },
-    })
-      .select('recipeId -_id')
-      .populate({
-        path: 'recipeId',
-        select: ['recipeName', 'likeCount', 'recipeImage', 'time', 'updatedAt'],
-        populate: {
-          path: 'userId',
-          select: 'name -_id',
-        },
-      })
-      .skip(skipNumber)
-      .limit(addRecipeNumber);
-    TagRecipes.forEach((recipe) => {
-      if (recipe.recipeId[0] !== undefined) {
-        recipes.push(recipe.recipeId[0]);
-      }
-    });
-  }
   return recipes;
 };
 
@@ -117,7 +84,7 @@ const searchQuery = async (query, page, resultPage, currentpage, remain) => {
 
 const SearchRecipe = async (req, res) => {
   try {
-    const { currentpage = 0, remain = 0 } = req.body;
+    let { currentpage = 0, remain = 0 } = req.body;
     const query = req.query;
     console.log(query.best);
     const page = req.query.page - 1;
