@@ -3,7 +3,7 @@ import categories from '../../models/categories';
 const MakingTag = async (tags) => {
   const tagIds = await Promise.all(
     tags.map(async (tag) => {
-      const newTag = await Categories.Tag.findOneAndUpdate(
+      const newTag = await categories.Tag.findOneAndUpdate(
         {
           tagName: tag,
         },
@@ -22,7 +22,7 @@ const MakingTag = async (tags) => {
 async function addRecipeIdToTag(tagIds, recipeId) {
   await Promise.all(
     tagIds.map(async (tagId) => {
-      await Categories.Tag.findByIdAndUpdate(tagId, {
+      await categories.Tag.findByIdAndUpdate(tagId, {
         $push: {
           recipeId: recipeId,
         },
@@ -127,10 +127,10 @@ const updateRecipe = async (req, res) => {
 
     await Recipe.findByIdAndUpdate(recipeId, {});
 
-    const findCategory = await Categories.Categories.findOne({
+    const findCategory = await categories.Categories.findOne({
       categoriesName: categoriesName,
     });
-    const findOption = await Categories.Option.findOne({
+    const findOption = await categories.Option.findOne({
       sort: option,
     });
     const steps = req.body.step.map((e, index) => {
@@ -139,12 +139,12 @@ const updateRecipe = async (req, res) => {
 
     await MakingTag(tags);
 
-    await Categories.Option.findByIdAndUpdate(findOption._id, {
+    await categories.Option.findByIdAndUpdate(findOption._id, {
       $push: {
         recipeId: recipe._id,
       },
     });
-    await Categories.Categories.findByIdAndUpdate(findCategory._id, {
+    await categories.Categories.findByIdAndUpdate(findCategory._id, {
       $push: {
         recipeList: recipe._id,
       },
@@ -165,7 +165,7 @@ const updateRecipe = async (req, res) => {
     });
     return res.send(`${user} updated ${recipe.recipeName} recipe`);
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };
