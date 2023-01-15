@@ -128,16 +128,16 @@ const updateRecipe = async (req, res) => {
       tags,
     } = req.body;
     await UpdateAll(recipeId, option, tags, categoriesName);
-    await Recipe.findByIdAndUpdate(recipeId, {
+    const recipe = await Recipe.findByIdAndUpdate(recipeId, {
       recipeName,
       recipeImage,
       ingredient,
       time,
       size,
     });
-    return res.send(`${user} updated ${recipeName} recipe`);
+    return res.send(`${user} updated ${recipe.recipeName} recipe`);
   } catch (e) {
-    console.error(`Exception Error`);
+    console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
   }
 };
