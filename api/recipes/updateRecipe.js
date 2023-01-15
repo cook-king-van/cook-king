@@ -3,7 +3,7 @@ import categories from '../../models/categories';
 const MakingTag = async (tags) => {
   const tagIds = await Promise.all(
     tags.map(async (tag) => {
-      const newTag = await Categories.Tag.findOneAndUpdate(
+      const newTag = await categories.Tag.findOneAndUpdate(
         {
           tagName: tag,
         },
@@ -22,7 +22,7 @@ const MakingTag = async (tags) => {
 async function addRecipeIdToTag(tagIds, recipeId) {
   await Promise.all(
     tagIds.map(async (tagId) => {
-      await Categories.Tag.findByIdAndUpdate(tagId, {
+      await categories.Tag.findByIdAndUpdate(tagId, {
         $push: {
           recipeId: recipeId,
         },
@@ -30,7 +30,16 @@ async function addRecipeIdToTag(tagIds, recipeId) {
     })
   );
 }
-const UpdateAll = async (recipeId, option, tag, category) => {
+const RemoveTag = async (tagIds, recipeId) => {
+  tagIds.forEach(async (tag) => {
+    await Recipe.findByIdAndUpdate(recipeId, {
+      $pull: {
+        tags: tag,
+      },
+    });
+  });
+};
+const UpdateAll = async (recipeId, option, tag, newcate) => {
   const recipe = await Recipe.findById(recipeId);
   const optionId = recipe.option;
   const tagIds = recipe.tags;
@@ -46,52 +55,61 @@ const UpdateAll = async (recipeId, option, tag, category) => {
       },
     });
 
-    const newOption = await categories.Option.findOne({
-      sort: option,
-    });
-
-    await categories.Option.findByIdAndUpdate(newOption._id, {
-      $push: {
-        recipeList: recipeId,
+    const newOption = await categories.Option.findOneAndUpdate(
+      {
+        sort: option,
       },
-    });
+      {
+        sort: option,
+      },
+      {
+        upsert: true,
+      }
+    );
 
     await Recipe.findByIdAndUpdate(recipeId, {
       option: newOption._id,
     });
   }
   // If category name has changed
-  if (findCategory.categoriesName !== category) {
+  if (findCategory.categoriesName !== newcate) {
     await categories.Categories.findByIdAndUpdate(categoryId, {
       $pull: {
         recipeList: recipeId,
       },
     });
 
-    const newCategory = await categories.Categories.findOne({
-      categoriesName: category,
-    });
-    await categories.Categories.findByIdAndUpdate(newCategory._id, {
-      $push: {
-        recipeList: recipeId,
+    const newCategory = await categories.Categories.findOneAndUpdate(
+      {
+        categoriesName: newcate,
       },
-    });
+      {
+        categoriesName: newcate,
+      },
+      {
+        upsert: true,
+      }
+    );
+
     await Recipe.findByIdAndUpdate(recipeId, {
       categoriesId: newCategory._id,
     });
   }
 
   // Removing recipe id from tags
-  if (tag.length) {
-    tagIds.forEach(async (tag) => {
-      await categories.Tag.findOne({
-        $pull: {
-          tagName: tag,
-        },
-      });
+  if (tag && tag.length) {
+    tag.forEach((t) => {
+      if (tagIds.includes(t)) {
+        // already has tag
+        tagIds.remove(t);
+        tag.remove(t);
+      }
     });
-    await MakingTag(tag);
-    await addRecipeIdToTag(tagIds, recipeId);
+    // new tags
+    const newTags = await MakingTag(tag);
+    await addRecipeIdToTag(newTags, recipeId);
+    // pull tags
+    await RemoveTag(tagIds, recipeId);
   }
 };
 
@@ -109,61 +127,15 @@ const updateRecipe = async (req, res) => {
       size,
       tags,
     } = req.body;
-    UpdateAll(recipeId, option, tags, categoriesName);
-    if (!recipeName) {
-      return res.status(400).send({ message: 'Please enter recipe name.' });
-    }
-    if (!ingredient) {
-      return res.status(400).send({ message: 'Please add ingredients.' });
-    }
-    if (!time) {
-      return res.status(400).send({ message: 'Please add time.' });
-    }
-    if (!size) {
-      return res
-        .status(400)
-        .send({ message: 'Please add size.', item: 'size' });
-    }
-
-    await Recipe.findByIdAndUpdate(recipeId, {});
-
-    const findCategory = await Categories.Categories.findOne({
-      categoriesName: categoriesName,
-    });
-    const findOption = await Categories.Option.findOne({
-      sort: option,
-    });
-    const steps = req.body.step.map((e, index) => {
-      return { ...e, order: index + 1 };
-    });
-
-    await MakingTag(tags);
-
-    await Categories.Option.findByIdAndUpdate(findOption._id, {
-      $push: {
-        recipeId: recipe._id,
-      },
-    });
-    await Categories.Categories.findByIdAndUpdate(findCategory._id, {
-      $push: {
-        recipeList: recipe._id,
-      },
-    });
-
-    await addRecipeIdToTag(tagIds, recipe._id);
-
-    const recipe = await Recipe.findByIdAndUpdate(recipeId, {
+    await UpdateAll(recipeId, option, tags, categoriesName);
+    await Recipe.findByIdAndUpdate(recipeId, {
       recipeName,
       recipeImage,
       ingredient,
       time,
-      option,
-      categoriesName,
       size,
-      tags,
-      steps,
     });
-    return res.send(`${user} updated ${recipe.recipeName} recipe`);
+    return res.send(`${user} updated ${recipeName} recipe`);
   } catch (e) {
     console.error(`Exception Error`);
     return res.status(500).send(e.message);
