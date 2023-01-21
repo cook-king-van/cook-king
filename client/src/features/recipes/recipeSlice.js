@@ -240,6 +240,7 @@ export const getAuthorRecipes = (userId) => async (dispatch, getState) => {
 export const updateRecipe =
   (recipeId, recipe) => async (dispatch, getState) => {
     try {
+      console.log('recipe data', recipe);
       dispatch(updateRecipeLoading());
       const { data } = await api.put(`/api/recipes/${recipeId}`, recipe);
       console.log('data', data);

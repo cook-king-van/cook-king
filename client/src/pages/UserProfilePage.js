@@ -295,7 +295,7 @@ const UserProfile = () => {
               {likes.length > 0
                 ? likes.map((like, i) => (
                     <MyCookingCard
-                      key={like._id}
+                      key={like?._id}
                       recipe={like}
                       onClick={(e) => recipeOnClick(e, like._id)}
                     />

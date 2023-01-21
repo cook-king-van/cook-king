@@ -76,14 +76,14 @@ const RecipeDetailHeader = (props) => {
           <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-utensils fa-2x RecipeDetail-utensilsIcon'></i>
             <p className='RecipeDetail-text'>
-              {refineRecipeName(option?.sort)}
+              {refineRecipeName(option?.sort) || 'None'}
             </p>
           </div>
 
           <div className='RecipeDetail-recipeInfoItem'>
             <i className='fa-solid fa-globe fa-2x RecipeDetail-globeIcon'></i>
             <p className='RecipeDetail-text'>
-              {refineRecipeName(categoriesId?.categoriesName)}
+              {refineRecipeName(categoriesId?.categoriesName) || 'None'}
             </p>
           </div>
           <div className='RecipeDetail-recipeInfoItem'>

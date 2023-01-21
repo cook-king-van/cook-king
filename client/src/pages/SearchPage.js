@@ -45,7 +45,7 @@ export const SearchPage = () => {
       );
       setType(req.type);
     }
-    // console.log('res', res);
+    console.log('res', res);
     try {
       //checking the result vlues is existing in the database. if Not, just continue.
       if (res.data === 'There is no searching result') {
@@ -53,7 +53,7 @@ export const SearchPage = () => {
       } else if (req.type === 'option') {
         console.log('option', res.data.recipes);
         setCurrentView(res.data.recipes);
-      } else if (res.data !== 'name') {
+      } else if (!res.type) {
         setCurrentView(res.data.recipes);
       } else if (req.type === 'category') {
         setCurrentView(res.data.recipes);
@@ -137,16 +137,14 @@ export const SearchPage = () => {
         dataLength={currentView.length}
         next={fetchMoreData}
         hasMore={hasMode}
-        style={{ display: 'flex', flexWrap: 'wrap' }}
-      >
+        style={{ display: 'flex', flexWrap: 'wrap' }}>
         {currentView.map((e, index) => (
           <ImageListItem
             key={index}
             className='search-card'
             onClick={() => {
               navigate(`/recipe/${e._id}`);
-            }}
-          >
+            }}>
             <img
               src={e.recipeImage}
               className='Search-cardImage'
@@ -173,8 +171,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 0 ? true : false))
               );
-            }}
-          >
+            }}>
             Latest
           </button>
           <button
@@ -185,8 +182,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 1 ? true : false))
               );
-            }}
-          >
+            }}>
             Most Liked
           </button>
           <button
@@ -197,8 +193,7 @@ export const SearchPage = () => {
               setIsClicked(
                 isClicked.map((data, i) => (i === 2 ? true : false))
               );
-            }}
-          >
+            }}>
             Cooking Time
           </button>
         </div>

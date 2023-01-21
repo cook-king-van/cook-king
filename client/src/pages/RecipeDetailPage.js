@@ -56,6 +56,10 @@ const RecipeDetailPage = () => {
 
   useEffect(() => {
     dispatch(getRecipe(id));
+        // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     const liked = recipeLiked?.find((recipe) => recipe?._id === _id);
     if (liked) {
       setIsLike(true);
@@ -69,7 +73,7 @@ const RecipeDetailPage = () => {
       setIsOwner(false);
     }
     // eslint-disable-next-line
-  }, [id, recipeLiked, _id]);
+  }, [recipeLiked, _id]);
 
   const tabView1OnClick = () => {
     setIsTabView1On(true);

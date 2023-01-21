@@ -12,9 +12,10 @@ const MakingTag = async (tags) => {
         },
         {
           upsert: true,
+          new: true,
         }
       );
-      return newTag._id;
+      return { _id: newTag._id, tagName: newTag.tagName };
     })
   );
   return tagIds;
@@ -39,13 +40,14 @@ const RemoveTag = async (tagIds, recipeId) => {
     });
   });
 };
-const UpdateAll = async (recipeId, option, tag, newcate) => {
+const UpdateAll = async (recipeId, option, tag, newcate, step) => {
   const recipe = await Recipe.findById(recipeId);
   const optionId = recipe.option;
   const tagIds = recipe.tags;
   const categoryId = recipe.categoriesId;
   const findOption = await categories.Option.findById(optionId);
   const findCategory = await categories.Categories.findById(categoryId);
+
   // If option name has changed
   if (findOption.sort !== option) {
     // remove from option list
@@ -64,6 +66,7 @@ const UpdateAll = async (recipeId, option, tag, newcate) => {
       },
       {
         upsert: true,
+        new: true,
       }
     );
 
@@ -88,6 +91,7 @@ const UpdateAll = async (recipeId, option, tag, newcate) => {
       },
       {
         upsert: true,
+        new: true,
       }
     );
 
@@ -107,9 +111,15 @@ const UpdateAll = async (recipeId, option, tag, newcate) => {
     });
     // new tags
     const newTags = await MakingTag(tag);
+    console.log('new tags', newTags);
     await addRecipeIdToTag(newTags, recipeId);
     // pull tags
     await RemoveTag(tagIds, recipeId);
+    // update tag ids and steps to recipe
+    await Recipe.findByIdAndUpdate(recipeId, {
+      tags: newTags,
+      steps: step,
+    });
   }
 };
 
@@ -126,62 +136,21 @@ const updateRecipe = async (req, res) => {
       categoriesName,
       size,
       tags,
+      step,
     } = req.body;
-<<<<<<< HEAD
-    await UpdateAll(recipeId, option, tags, categoriesName);
-=======
-    UpdateAll(recipeId, option, tags, categoriesName);
-    if (!recipeName) {
-      return res.status(400).send({ message: 'Please enter recipe name.' });
-    }
-    if (!ingredient) {
-      return res.status(400).send({ message: 'Please add ingredients.' });
-    }
-    if (!time) {
-      return res.status(400).send({ message: 'Please add time.' });
-    }
-    if (!size) {
-      return res
-        .status(400)
-        .send({ message: 'Please add size.', item: 'size' });
-    }
-
-    await Recipe.findByIdAndUpdate(recipeId, {});
-
-    const findCategory = await categories.Categories.findOne({
-      categoriesName: categoriesName,
-    });
-    const findOption = await categories.Option.findOne({
-      sort: option,
-    });
-    const steps = req.body.step.map((e, index) => {
-      return { ...e, order: index + 1 };
-    });
-
-    await MakingTag(tags);
-
-    await categories.Option.findByIdAndUpdate(findOption._id, {
-      $push: {
-        recipeId: recipe._id,
+    await UpdateAll(recipeId, option, tags, categoriesName, step);
+    const recipe = await Recipe.findByIdAndUpdate(
+      recipeId,
+      {
+        recipeName,
+        recipeImage,
+        ingredient,
+        time,
+        size,
       },
-    });
-    await categories.Categories.findByIdAndUpdate(findCategory._id, {
-      $push: {
-        recipeList: recipe._id,
-      },
-    });
-
-    await addRecipeIdToTag(tagIds, recipe._id);
-
->>>>>>> d383049 (hotfix: landingPage css and create recipe action update)
-    const recipe = await Recipe.findByIdAndUpdate(recipeId, {
-      recipeName,
-      recipeImage,
-      ingredient,
-      time,
-      size,
-    });
-    return res.send(`${user} updated ${recipe.recipeName} recipe`);
+      { new: true }
+    );
+    return res.send(recipe);
   } catch (e) {
     console.error(`Exception Error: ${e.message}`);
     return res.status(500).send(e.message);
