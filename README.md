@@ -49,6 +49,9 @@ Backend Developer - [Younghoon Yu](https://github.com/younghoonyou)
 ## Figma
 ![figma](https://user-images.githubusercontent.com/55225394/208399292-7d8e38f1-81c9-4f6b-af1c-e86ee8badb92.png)
 
+## Schema
+![schema](https://user-images.githubusercontent.com/69233428/212572560-cfc345fc-9eb3-41d8-975f-d0cc33d4c217.png)
+
 ## Jira
 ![jira](https://user-images.githubusercontent.com/55225394/208400058-06e3797e-43f4-4171-a7a0-0fa0631a5e04.png)
 
