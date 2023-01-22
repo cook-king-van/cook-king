@@ -5,8 +5,8 @@ const RecipeDetailTags = ({ tags }) => {
   const navigate = useNavigate();
 
   const handleTagSearch = (tagName) => {
-    navigate(`/search?name=${tagName}`, {
-      state: { type: 'name', value: tagName },
+    navigate(`/search?tag=${tagName}`, {
+      state: { type: 'tag', value: tagName },
     });
   };
 

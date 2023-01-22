@@ -38,6 +38,20 @@ const RemoveTag = async (tagIds, recipeId) => {
         tags: tag,
       },
     });
+    const res = await categories.Tag.findByIdAndUpdate(
+      tag,
+      {
+        $pull: {
+          recipeId: recipeId,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    if (res.recipeId.length === 0) {
+      await categories.Tag.findByIdAndDelete(tag);
+    }
   });
 };
 const UpdateAll = async (recipeId, option, tag, newcate, step) => {
@@ -101,26 +115,29 @@ const UpdateAll = async (recipeId, option, tag, newcate, step) => {
   }
 
   // Removing recipe id from tags
-  if (tag && tag.length) {
-    tag.forEach((t) => {
-      if (tagIds.includes(t)) {
-        // already has tag
-        tagIds.remove(t);
-        tag.remove(t);
-      }
+  for (let i = 0; i < tag.length; i++) {
+    const res = await categories.Tag.findOne({
+      tagName: tag[i],
     });
-    // new tags
-    const newTags = await MakingTag(tag);
-    console.log('new tags', newTags);
-    await addRecipeIdToTag(newTags, recipeId);
-    // pull tags
-    await RemoveTag(tagIds, recipeId);
-    // update tag ids and steps to recipe
-    await Recipe.findByIdAndUpdate(recipeId, {
-      tags: newTags,
-      steps: step,
-    });
+    if (res) {
+      tagIds.remove(res._id);
+      tag.splice(i, 1);
+    }
   }
+  // pull tags
+  await RemoveTag(tagIds, recipeId);
+
+  // new tags
+  const newTags = await MakingTag(tag);
+  console.log('new tags', newTags);
+  await addRecipeIdToTag(newTags, recipeId);
+  // update tag ids and steps to recipe
+  await Recipe.findByIdAndUpdate(recipeId, {
+    steps: step,
+    $push: {
+      tags: newTags,
+    },
+  });
 };
 
 const updateRecipe = async (req, res) => {

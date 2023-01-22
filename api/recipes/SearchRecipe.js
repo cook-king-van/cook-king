@@ -33,6 +33,28 @@ const searchName = async (name, page, resultPage, currentpage, remain) => {
   return recipes;
 };
 
+const searchTag = async (name, page, resultPage, currentpage, remain) => {
+  const tags = await categories.Tag.find({
+    // Using regex include name
+    tagName: {
+      $regex: name,
+      $options: 'i',
+    },
+  })
+    .populate({
+      path: 'recipeId',
+      select: 'recipeName recipeImage likeCount userId time updatedAt',
+      populate: {
+        path: 'userId',
+        select: 'name -_id',
+      },
+    })
+    .select('-__v, -tagName')
+    .skip(resultPage * page)
+    .limit(resultPage);
+  return tags[0].recipeId;
+};
+
 const searchCategory = async (category, page, resultPage) => {
   const recipe = await categories.Categories.findOne({
     categoriesName: category,
@@ -68,6 +90,7 @@ const searchBest = async (page, resultPage) => {
 
 const searchQuery = async (query, page, resultPage, currentpage, remain) => {
   const name = query.name;
+  const tag = query.tag;
   const option = query.option;
   const category = query.category;
   const best = query.best;
@@ -77,7 +100,9 @@ const searchQuery = async (query, page, resultPage, currentpage, remain) => {
     return await searchOption(option, page, resultPage);
   } else if (category) {
     return await searchCategory(category, page, resultPage);
-  } else if(best !== undefined){
+  } else if (tag) {
+    return await searchTag(tag, page, resultPage);
+  } else if (best !== undefined) {
     return await searchBest(page, resultPage);
   }
 };
